@@ -11,7 +11,7 @@ class GoogleMapsAsset extends AssetBundle {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $jsOptions = ['position' => View::POS_HEAD];
-    public $css = ["css/GMap/GMap.css"];
+    public $css = ["css/gmap/gmap.css"];
     public $depends = ["app\assets\AppAsset", "yii\web\JqueryAsset"];
     
     public function init() {
@@ -22,12 +22,12 @@ class GoogleMapsAsset extends AssetBundle {
 
         $this->js = [
             "https://maps.googleapis.com/maps/api/js?key=$apiKey&libraries=places&v=3.exp",
-            "js/GMap/GMap.js",
-            "js/GMap/CustomOverlay.js",
-            "js/GMap/Timeline.js",
-            "js/GMap/dependencies/SlidingMarker.min.js",
-            "js/GMap/dependencies/markerAnimate.js",
-            "js/GMap/dependencies/MarkerClusterer.min.js"
+            "js/gmap/gmap.js",
+            "js/gmap/custom-overlay.js",
+            "js/gmap/timeline.js",
+            "js/gmap/dependencies/sliding-marker.min.js",
+            "js/gmap/dependencies/marker-animate.js",
+            "js/gmap/dependencies/marker-clusterer.min.js"
         ];
     }
 

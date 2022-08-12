@@ -8,7 +8,6 @@ use app\assets\AppAsset;
 use app\components\Utils\DebugUtils;
 use app\components\Utils\StringUtils;
 use app\models\Menu;
-use webvimark\modules\UserManagement\models\User;
 use yii\web\View;
 
 AppAsset::register($this);
@@ -78,7 +77,7 @@ $this->registerJs("
         <!-- Header -->
         <div class="nav-header">
             <a href="/" class="brand-logo">
-                <img src="/img/logo_inv.png" alt="Logo" style="height: 4.5rem">
+                <img src="/img/logo_siaop.png" alt="Logo" style="height: 4.5rem">
             </a>
             <div class="nav-control">
                 <div class="hamburger">

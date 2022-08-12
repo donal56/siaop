@@ -12,7 +12,7 @@
         public $jsOptions = ['position' => \yii\web\View::POS_HEAD];
         public $css = [];
         public $js = [
-            "js/GoogleCharts/loader.js"
+            "js/google-charts/loader.js"
         ];
 
         public $depends = [];

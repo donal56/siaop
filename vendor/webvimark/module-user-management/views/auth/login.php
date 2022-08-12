@@ -31,9 +31,10 @@ JQueryUIAsset::register($this);
                             <div class="auth-form">
                                 <div class="text-center mb-3">
                                     <a href="/"><img src="/img/logo.png" alt=""></a>
+                                    <h1>SIAOP</h1>
+                                    <h4 class="text-center mb-4">Sistema Integral de Administración de Operaciones</h4>
                                 </div>
-
-                                <h4 class="text-center mb-4">Iniciar sesión</h4>
+                                <br>
 
                                 <?php $form = ActiveForm::begin([
                                     'options' => ['autocomplete' => 'off'],
@@ -107,6 +108,10 @@ $css = <<<CSS
 CSS;
 
 $this->registerCss($css);
+
+$this->registerJsFile("@web/js/init.js", [
+    'depends' => [\yii\web\JqueryAsset::class]
+]);
 
 $js = <<<JS
     $('#changelog').accordion({

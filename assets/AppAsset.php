@@ -21,7 +21,8 @@ class AppAsset extends AssetBundle {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-		'css/style.css',
+        'css/layout.css',
+        'css/bootstrap/bootstrap.min.css',
 
 		'vendor/owl-carousel/owl.carousel.css',
 		'vendor/jquery-nice-select/css/nice-select.css'
@@ -30,6 +31,10 @@ class AppAsset extends AssetBundle {
     public $js = [
         'js/init.js',
         'js/utils.js',
+        'js/bootstrap/bootstrap.bundle.min.js',
+        'js/popper/popper.min.js',
+        'js/perfect-scrollbar/perfect-scrollbar.min.js',
+        'js/metismenu/metismenu.min.js',
 		
 		'vendor/jquery-nice-select/js/jquery.nice-select.min.js',
 		'vendor/peity/jquery.peity.min.js',
@@ -37,7 +42,6 @@ class AppAsset extends AssetBundle {
     ];
 
     public $depends = [
-        'yii\web\YiiAsset',
-        'yii\bootstrap5\BootstrapAsset'      
+        'yii\web\YiiAsset'     
     ];
 }

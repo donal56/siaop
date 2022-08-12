@@ -5,11 +5,6 @@
 /vagrant
 /widgets
 /web/assets
-/web/img/fichas
-/web/img/parametros
-/web/img/mobiliarios
-/web/img/servicios
-/web/importaciones
 /db/Respaldos
 .bowerrc
 codeception.yml
