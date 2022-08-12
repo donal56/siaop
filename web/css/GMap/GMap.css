@@ -1,0 +1,16 @@
+div#gooMap{
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 60vh;
+}
+
+div#gooMap .mapBody{
+	color: black;
+}
+
+div#gooMap .mapBody h6{
+	border-bottom: 1px solid lightgray;
+}
+
+

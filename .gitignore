@@ -1,0 +1,60 @@
+#template framework files
+/mail
+/runtime
+/tests
+/vagrant
+/widgets
+/web/assets
+/web/img/fichas
+/web/img/parametros
+/web/img/mobiliarios
+/web/img/servicios
+/web/importaciones
+/db/Respaldos
+.bowerrc
+codeception.yml
+composer.lock
+docker-compose.yml
+requirements.php
+Vagrantfile
+yii
+yii.bat
+
+# phpstorm project files
+.idea
+
+# netbeans project files
+nbproject
+
+# zend studio for eclipse project files
+.buildpath
+.project
+.settings
+
+# windows thumbnail cache
+Thumbs.db
+
+# composer vendor dir
+/vendor
+
+# composer itself is not needed
+composer.phar
+
+# Mac DS_Store Files
+.DS_Store
+
+# phpunit itself is not needed
+phpunit.phar
+# local phpunit config
+/phpunit.xml
+
+tests/_output/*
+tests/_support/_generated
+
+#vagrant folder
+/.vagrant
+
+#configuración del proyecto
+/config/db.php
+/config/mailer.php
+/config/params.php
