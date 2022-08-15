@@ -407,7 +407,6 @@ let Jobick = function () {
 $(function () {
     initTemplate();
     $(window).on('resize', initTemplate);
-
     $('[data-bs-toggle="popover"]').popover();
     Jobick.init();
 });

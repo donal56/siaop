@@ -16,7 +16,7 @@ use yii\widgets\Pjax;
  * @var webvimark\modules\UserManagement\models\rbacDB\search\PermissionSearch $searchModel
  * @var yii\web\View $this
  */
-$this->title = UserManagementModule::t('back', 'Permissions');
+$this->title = 'Permiso';
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
@@ -29,14 +29,14 @@ $this->params['breadcrumbs'][] = $this->title;
 			<div class="col-sm-6">
 				<p>
 					<?= GhostHtml::a(
-						'<span class="glyphicon glyphicon-plus-sign"></span> ' . UserManagementModule::t('back', 'Create'),
+						'<span class="glyphicon glyphicon-plus-sign"></span> Crear permiso',
 						['create'],
 						['class' => 'btn btn-success']
 					) ?>
 				</p>
 			</div>
 
-			<div class="col-sm-6 text-right">
+			<div class="col-sm-6 text-right mt-5 mb-3">
 				<?= GridPageSize::widget(['pjaxId'=>'permission-grid-pjax']) ?>
 			</div>
 		</div>
@@ -64,6 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 				[
 					'attribute'=>'description',
+                    'label' => 'Descripción',
 					'value'=>function($model){
 							if ( $model->name == Yii::$app->getModule('user-management')->commonPermissionName )
 							{
@@ -80,13 +81,14 @@ $this->params['breadcrumbs'][] = $this->title;
 						},
 					'format'=>'raw',
 				],
-				'name',
+				'name:text:Código',
 				[
 					'attribute'=>'group_code',
+                    'label' => 'Grupo de permisos',
 					'filter'=>ArrayHelper::map(AuthItemGroup::find()->asArray()->all(), 'code', 'name'),
 					'value'=>function(Permission $model){
-							return $model->group_code ? $model->group->name : '';
-						},
+                        return $model->group_code ? $model->group->name : '';
+                    },
 				],
 				['class' => 'yii\grid\CheckboxColumn', 'options'=>['style'=>'width:10px'] ],
 				[

@@ -2,22 +2,16 @@
 
 namespace app\controllers;
 
+use app\models\Parametro;
 use Yii;
-use app\models\Companias;
-use app\models\OrdenesServicioSearch;
-use app\models\OrdenesServicio;
 use app\models\Parametros;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\web\Response;
-use yii\web\UnauthorizedHttpException;
 use webvimark\components\BaseController;
-use webvimark\modules\UserManagement\models\User;
 use webvimark\modules\UserManagement\models\forms\LoginForm;
-use yii\helpers\StringHelper;
 
-class SiteController extends BaseController
-{
+class SiteController extends BaseController {
+
     public $freeAccessActions = ['swlogin','logout', 'download', 'index'];
 
     /**
@@ -37,7 +31,6 @@ class SiteController extends BaseController
      * @return string
      */
     public function actionIndex() {
-		
         if(Yii::$app->user->isGuest) {
             return $this->redirect("/user-management/auth/login");
         }
@@ -79,8 +72,8 @@ class SiteController extends BaseController
                 'id' => $user->id, 
                 'nombre' => $user->use_nombre, 
                 'tipo' => $user->use_fktipo,
-                'rol' => $user->getRolName(),
-                'parametros' => Parametros::recuperarParametrosDeLaEmpresa(null, true),
+                'rol' => "",
+                'parametros' => Parametro::recuperarParametrosDeLaEmpresa(null, true),
             ]);
         }
         else{
@@ -118,16 +111,13 @@ class SiteController extends BaseController
     */
     public function actionMigrate($file) {
         if(Yii::$app->user->isSuperAdmin && date("Y-m-d") === "2021-03-15") {
-
             $path = Yii::getAlias("@app/db/Migraciones/" . $file . ".php");
             echo "Ejecutando " . $path . "<br><br>";
-            
             require($path);
         }
         else {
             echo "Para realizar esta acción debe ser superadmin, ajustar la fecha actual en la acción del controlador y configurar los parametros de la migración.";
         }
-
         die();
     }
 
@@ -135,6 +125,7 @@ class SiteController extends BaseController
      * Libera la cache de la aplicación
      */
     public function actionFlush() {
+
         if(!Yii::$app->user->isSuperAdmin) return;
 
         echo "Limpiando cache del servidor...";

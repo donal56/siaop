@@ -14,9 +14,11 @@ use yii\helpers\Html;
 	'validateOnBlur' => false,
 ]) ?>
 
-	<?= $form->field($model, 'description')->textInput(['maxlength' => 255, 'autofocus'=>$model->isNewRecord ? true:false]) ?>
+	<?= $form->field($model, 'description')
+        ->textInput(['maxlength' => 255, 'autofocus'=>$model->isNewRecord ? true:false])
+        ->label("Descripción") ?>
 
-	<?= $form->field($model, 'name')->textInput(['maxlength' => 64]) ?>
+	<?= $form->field($model, 'name')->textInput(['maxlength' => 64])->label("Código") ?>
 
 
 	<div class="form-group">

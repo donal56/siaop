@@ -15,8 +15,8 @@ use webvimark\modules\UserManagement\UserManagementModule;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
-$this->title = UserManagementModule::t('back', 'Permissions for role:') . ' '. $role->description;
-$this->params['breadcrumbs'][] = ['label' => UserManagementModule::t('back', 'Roles'), 'url' => ['index']];
+$this->title = 'Permisos para el rol: '. $role->description;
+$this->params['breadcrumbs'][] = ['label' => 'Roles', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -29,8 +29,8 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php endif; ?>
 
 <p>
-	<?= GhostHtml::a(UserManagementModule::t('back', 'Edit'), ['update', 'id' => $role->name], ['class' => 'btn btn-sm btn-primary']) ?>
-	<?= GhostHtml::a(UserManagementModule::t('back', 'Create'), ['create'], ['class' => 'btn btn-sm btn-success']) ?>
+	<?= GhostHtml::a('Editar', ['update', 'id' => $role->name], ['class' => 'btn btn-sm btn-primary']) ?>
+	<?= GhostHtml::a('Crear', ['create'], ['class' => 'btn btn-sm btn-success']) ?>
 </p>
 
 <div class="row">
@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<strong>
-					<span class="glyphicon glyphicon-th"></span> <?= UserManagementModule::t('back', 'Child roles') ?>
+					<span class="glyphicon glyphicon-th"></span> Role hijos
 				</strong>
 			</div>
 			<div class="panel-body">
@@ -62,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 				<hr/>
 				<?= Html::submitButton(
-					'<span class="glyphicon glyphicon-ok"></span> ' . UserManagementModule::t('back', 'Save'),
+					'<span class="glyphicon glyphicon-ok"></span> Guardar',
 					['class'=>'btn btn-primary btn-sm']
 				) ?>
 
@@ -75,7 +75,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<strong>
-					<span class="glyphicon glyphicon-th"></span> <?= UserManagementModule::t('back', 'Permissions') ?>
+					<span class="glyphicon glyphicon-th"></span> Permisos
 				</strong>
 			</div>
 			<div class="panel-body">
@@ -112,7 +112,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 				<hr/>
 				<?= Html::submitButton(
-					'<span class="glyphicon glyphicon-ok"></span> ' . UserManagementModule::t('back', 'Save'),
+					'<span class="glyphicon glyphicon-ok"></span> Guardar',
 					['class'=>'btn btn-primary btn-sm']
 				) ?>
 

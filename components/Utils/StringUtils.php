@@ -1,16 +1,77 @@
 <?php 
 namespace app\components\Utils;
 
-use Yii;
-use DateTime;
-use app\components\FirebaseManager;
-use yii\helpers\ArrayHelper;
-use yii\helpers\StringHelper;
-use yii\log\Logger;
-use yii\web\UploadedFile;
-
 class StringUtils {
-	
+
+    public static function pluralize($word) {
+     
+        if(strpos($word, ' ') !== false) {
+            $words = explode(' ', $word); 
+            array_walk($words, function(&$word) {
+                $word = StringUtils::pluralize($word);
+            });
+            return implode(' ', $words);
+        }
+
+        $blackList = [
+            "estatus"
+        ];
+
+        if(isset($blackList[strtolower($word)])) return $word;
+        if(self::endsWith($word, 'd') || self::endsWith($word, 'n') || self::endsWith($word, 'r')) return $word . "es";
+        return $word . "s";
+    }
+
+
+    public static function singularize($word) {
+
+        if(strpos($word, ' ') !== false) {
+            $words = explode(' ', $word); 
+            array_walk($words, function(&$word) {
+                $word = StringUtils::singularize($word);
+            });
+            return implode(' ', $words);
+        }
+
+        $blackList = [
+            "estatus"
+        ];
+
+        if(isset($blackList[strtolower($word)])) return $word;
+
+        if(self::endsWith($word, 'des') || self::endsWith($word, 'nes') || self::endsWith($word, 'res')) {
+            return substr($word, 0, -2);
+        }
+        else if(self::endsWith($word, 's')) {
+            return substr($word, 0, -1);
+        }
+        else {
+            return $word;
+        }
+    }
+
+    public static function capitalizeWord($word) {
+        return ucfirst(strtolower($word));
+    }
+
+    public static function capitalizeWords($words) {
+        $parts = explode(" ", $words);
+        array_walk($parts, function(&$item) {
+            $item = ucfirst($item);
+        });
+        return implode(" ", $parts);
+    }
+
+	/**
+     * Retorna verdadero si la cadena inicia con cierta subcadena
+     * @param string haystack - cadena a comparar
+     * @param string needle - subcadena a comparar
+     * @return bool - resultado
+     */
+    public static function startsWith($haystack, $needle) {
+        return strpos($haystack, $needle) == 0;
+    }
+
 	/**
      * Retorna verdadero si la cadena termina con cierta subcadena
      * @param string haystack - cadena a comparar

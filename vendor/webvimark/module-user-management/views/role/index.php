@@ -27,14 +27,14 @@ $this->params['breadcrumbs'][] = $this->title;
 			<div class="col-sm-6">
 				<p>
 					<?= GhostHtml::a(
-						'<span class="glyphicon glyphicon-plus-sign"></span> ' . UserManagementModule::t('back', 'Create'),
+						'<span class="glyphicon glyphicon-plus-sign"></span> Crear rol',
 						['create'],
 						['class' => 'btn btn-success']
 					) ?>
 				</p>
 			</div>
 
-			<div class="col-sm-6 text-right">
+			<div class="col-sm-6 text-right mt-5 mb-3">
 				<?= GridPageSize::widget(['pjaxId'=>'role-grid-pjax']) ?>
 			</div>
 		</div>
@@ -62,12 +62,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
 				[
 					'attribute'=>'description',
+                    'label' => 'Descripción',
 					'value'=>function(Role $model){
 							return Html::a($model->description, ['view', 'id'=>$model->name], ['data-pjax'=>0]);
 						},
 					'format'=>'raw',
 				],
-				'name',
+				[
+                    'attribute' => 'name',
+                    'label' => 'Código'
+                ],
 				['class' => 'yii\grid\CheckboxColumn', 'options'=>['style'=>'width:10px'] ],
 				[
 					'class' => 'yii\grid\ActionColumn',

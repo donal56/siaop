@@ -15,7 +15,7 @@ use yii\grid\GridView;
  * @var webvimark\modules\UserManagement\models\rbacDB\search\AuthItemGroupSearch $searchModel
  */
 
-$this->title = UserManagementModule::t('back', 'Permission groups');
+$this->title = 'Grupo de permisos';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="auth-item-group-index">
@@ -31,14 +31,14 @@ $this->params['breadcrumbs'][] = $this->title;
 				<div class="col-sm-6">
 					<p>
 						<?= GhostHtml::a(
-							'<span class="glyphicon glyphicon-plus-sign"></span> ' . UserManagementModule::t('back', 'Create'),
+							'<span class="glyphicon glyphicon-plus-sign"></span> Crear grupo de permisos',
 							['create'],
 							['class' => 'btn btn-success']
 						) ?>
 					</p>
 				</div>
 
-				<div class="col-sm-6 text-right">
+				<div class="col-sm-6 text-right mt-5 mb-3">
 					<?= GridPageSize::widget(['pjaxId'=>'auth-item-group-grid-pjax']) ?>
 				</div>
 			</div>
@@ -67,12 +67,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
 					[
 						'attribute'=>'name',
+                        'label' => 'Nombre',
 						'value'=>function($model){
 								return Html::a($model->name, ['update', 'id'=>$model->code], ['data-pjax'=>0]);
 							},
 						'format'=>'raw',
 					],
-					'code',
+					'code:text:Código',
 
 					['class' => 'yii\grid\CheckboxColumn', 'options'=>['style'=>'width:10px'] ],
 					[

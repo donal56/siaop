@@ -23,12 +23,14 @@ $this->title = 'Usuarios';
 
     <div class="panel panel-default">
         <div class="panel-body">
-            <div class="row m-3">
-                <?php
-                    if (User::hasPermission('createUsers')) {
-                        echo Html::a('<span class="glyphicon glyphicon-plus-sign"></span> Crear usuario', ['/user-management/user/create'], ['class' => 'btn btn-success mr-4']);
-                    }
-                ?>
+            <div class="row m-3"> 
+                <div class="col-sm-3">
+                    <?php
+                        if (User::hasPermission('createUsers')) {
+                            echo Html::a('<span class="glyphicon glyphicon-plus-sign"></span> Crear usuario', ['/user-management/user/create'], ['class' => 'btn btn-success mr-4']);
+                        }
+                    ?>
+                </div>
             </div>
 
             <?= GridView::widget([
@@ -83,7 +85,7 @@ $this->title = 'Usuarios';
                             return GhostHtml::a(
                                 "Cambiar <br> contraseña",
                                 ['change-password', 'id' => $model->id],
-                                ['class' => 'btn btn-sm btn-default', 'data-pjax' => 0]
+                                ['class' => 'btn btn-sm btn-info', 'data-pjax' => 0]
                             );
                         },
                         'format' => 'raw',

@@ -149,7 +149,14 @@ $config = [
                 'api/token/registrar' => 'api/token-registrar',
                 'api/notificaciones/enviar' => 'api/notificaciones-enviar',
             ],
-        ],        
+        ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+            'itemTable' => 'permisos',
+            'itemChildTable' => 'permisos_hijos',  
+            'assignmentTable' => 'asignaciones_permisos',
+            'ruleTable' => 'reglas',
+        ],     
     ],
     'modules' => [
 		'user-management' => [

@@ -7,8 +7,8 @@ use webvimark\modules\UserManagement\UserManagementModule;
  * @var webvimark\modules\UserManagement\models\rbacDB\AuthItemGroup $model
  */
 
-$this->title = UserManagementModule::t('back', 'Creating permission group');
-$this->params['breadcrumbs'][] = ['label' => UserManagementModule::t('back', 'Permission groups'), 'url' => ['index']];
+$this->title = 'Crear grupo de permisos';
+$this->params['breadcrumbs'][] = ['label' => 'Grupo de permisos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="auth-item-group-create">

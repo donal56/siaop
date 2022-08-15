@@ -13,52 +13,40 @@
 
             $menu = [
                 [
+                    'etiqueta' => 'Catálogos',
+                    'icono' => 'bi bi-box-seam',
+                    'submenu' => self::getSubItems([
+                        'unidades-medida' => 'Unidades de medida',
+                        'actividades' => 'Actividades'
+                    ])
+                ], [
                     'etiqueta' => 'Seguridad',
-                    'icono' => 'flaticon-025-setttings',
-                    'submenu' => []
+                    'icono' => 'bi bi-shield-lock',
+                    'submenu' => self::getSubItems([
+                        'user-management/user' => 'Usuarios',
+                        'user-management/role' => 'Roles',
+                        'user-management/auth-item-group' => 'Grupos de permisos',
+                        'user-management/permission' => 'Permisos',
+                        'user-management/user-visit-log' => 'Registro de visitas'
+                    ])
                 ]
             ];
 
-            if(User::canRoute('user-management/user/index')) {
-                $menu[0]['submenu'][] = [
-                    'etiqueta' => 'Usuarios',
-                    'icono' => 'fas fa-users-cog',
-                    'url' => '/user-management/user'
-                ];
-            }
-            
-            if(User::canRoute('user-management/user-visit-log/index')) {
-                $menu[0]['submenu'][] = [
-                    'etiqueta' => 'Registro de visitas',
-                    'icono' => 'fas fa-signal',
-                    'url' => '/user-management/user-visit-log'
-                ];
-            }
-            
-            if(User::canRoute('user-management/role')) {
-                $menu[0]['submenu'][] = [
-                    'etiqueta' => 'Roles',
-                    'icono' => 'fas fa-user-tag',
-                    'url' => '/user-management/role'
-                ];
-            }
-            
-            if(User::canRoute('user-management/auth-item-group')) {
-                $menu[0]['submenu'][] = [
-                    'etiqueta' => 'Grupos de permisos',
-                    'icono' => 'fas fa-check-double',
-                    'url' => '/user-management/auth-item-group'
-                ];
-            }
-            
-            if(User::canRoute('user-management/permission')) {
-                $menu[0]['submenu'][] = [
-                    'etiqueta' => 'Permisos',
-                    'icono' => 'fas fa-check',
-                    'url' => '/user-management/permission'
-                ];
+            return array_filter($menu, fn($menuItem, $ix) => count($menuItem['submenu']) > 0, ARRAY_FILTER_USE_BOTH);
+        }
+
+        private static function getSubItems(array $items) {
+            $menu = [];
+
+            foreach ($items as $url => $name) {
+                if(User::canRoute($url)) {
+                    $menu[] = [
+                        'etiqueta' => $name,
+                        'url' => "/$url"
+                    ];
+                }
             }
 
-            return array_filter($menu, fn($menuItem, $ix) => count($menuItem['submenu']) > 0, ARRAY_FILTER_USE_BOTH);
+            return $menu;
         }
     }

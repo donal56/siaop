@@ -19,20 +19,24 @@ use yii\bootstrap5\ActiveForm;
 
 	]); ?>
 
-	<?= $form->field($model, 'name')->textInput(['maxlength' => 255, 'autofocus'=>$model->isNewRecord ? true:false]) ?>
+	<?= $form->field($model, 'name')
+            ->textInput(['maxlength' => 255, 'autofocus'=>$model->isNewRecord ? true:false])
+            ->label("Nombre") ?>
 
-	<?= $form->field($model, 'code')->textInput(['maxlength' => 64]) ?>
+	<?= $form->field($model, 'code')
+            ->textInput(['maxlength' => 64])
+            ->label("Código") ?>
 
 	<div class="form-group">
 		<div class="col-sm-offset-3 col-sm-9">
 			<?php if ( $model->isNewRecord ): ?>
 				<?= Html::submitButton(
-					'<span class="glyphicon glyphicon-plus-sign"></span> ' . UserManagementModule::t('back', 'Create'),
+					'<span class="glyphicon glyphicon-plus-sign"></span> Crear',
 					['class' => 'btn btn-success']
 				) ?>
 			<?php else: ?>
 				<?= Html::submitButton(
-					'<span class="glyphicon glyphicon-ok"></span> ' . UserManagementModule::t('back', 'Save'),
+					'<span class="glyphicon glyphicon-ok"></span> Guardar',
 					['class' => 'btn btn-primary']
 				) ?>
 			<?php endif; ?>

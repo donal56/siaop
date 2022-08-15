@@ -22,7 +22,7 @@ use wbraganca\dynamicform\DynamicFormWidget;
         $form = ActiveForm::begin([
             'id'=>'user',
             'fieldConfig' => [
-                'template' => "<div class= 'form-group col-sm-4 col-xs-8'>{label}\n{input}\n{hint}\n{error}</div>",
+                'template' => "<div class= 'form-group col-sm-4 col-xs-8 my-3'>{label}\n{input}\n{hint}\n{error}</div>",
                 'options' => ['class' => 'row']
             ]
         ]);
@@ -72,7 +72,7 @@ use wbraganca\dynamicform\DynamicFormWidget;
                 echo Html::submitButton('<span class="glyphicon glyphicon-ok"></span> Guardar', ['class' => 'btn btn-primary']);
             }
         ?>
-        <?= Html::a('Regresar', ['/user-management/user/index'], ['class' => 'btn btn-default']) ?>
+        <?= Html::a('Regresar', ['/user-management/user/index'], ['class' => 'btn btn-light']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

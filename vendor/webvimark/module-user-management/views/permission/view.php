@@ -14,8 +14,8 @@ use webvimark\modules\UserManagement\UserManagementModule;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
-$this->title = UserManagementModule::t('back', 'Settings for permission') . ': ' . $item->description;
-$this->params['breadcrumbs'][] = ['label' => UserManagementModule::t('back', 'Permissions'), 'url' => ['index']];
+$this->title = 'Ajustes para el permiso: ' . $item->description;
+$this->params['breadcrumbs'][] = ['label' => 'Permisos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -29,8 +29,8 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php endif; ?>
 
 <p>
-	<?= GhostHtml::a(UserManagementModule::t('back', 'Edit'), ['update', 'id' => $item->name], ['class' => 'btn btn-sm btn-primary']) ?>
-	<?= GhostHtml::a(UserManagementModule::t('back', 'Create'), ['create'], ['class' => 'btn btn-sm btn-success']) ?>
+	<?= GhostHtml::a('Editar', ['update', 'id' => $item->name], ['class' => 'btn btn-sm btn-primary']) ?>
+	<?= GhostHtml::a('Crear', ['create'], ['class' => 'btn btn-sm btn-success']) ?>
 </p>
 
 <div class="row">
@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<strong>
-					<span class="glyphicon glyphicon-th"></span> <?= UserManagementModule::t('back', 'Child permissions') ?>
+					<span class="glyphicon glyphicon-th"></span> Permisos hijos
 				</strong>
 			</div>
 			<div class="panel-body">
@@ -77,7 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 				<hr/>
 				<?= Html::submitButton(
-					'<span class="glyphicon glyphicon-ok"></span> ' . UserManagementModule::t('back', 'Save'),
+					'<span class="glyphicon glyphicon-ok"></span> Guardar',
 					['class'=>'btn btn-primary btn-sm']
 				) ?>
 
@@ -93,17 +93,17 @@ $this->params['breadcrumbs'][] = $this->title;
 					<span class="glyphicon glyphicon-th"></span> Routes
 
 					<?= Html::a(
-						UserManagementModule::t('back', 'Refresh routes (and delete unused)'),
+						'Refrescar rutas y borrar no usadas',
 						['refresh-routes', 'id'=>$item->name, 'deleteUnused'=>1],
 						[
 							'class' => 'btn btn-default btn-sm pull-right',
 							'style'=>'margin-top:-5px; text-transform:none;',
-							'data-confirm'=>UserManagementModule::t('back', 'Routes that are not exists in this application will be deleted. Do not recommended for application with "advanced" structure, because frontend and backend have they own set of routes.'),
+							'data-confirm'=> 'Esta seguro de continuar?'
 						]
 					) ?>
 
 					<?= Html::a(
-						UserManagementModule::t('back', 'Refresh routes'),
+						'Refrescar rutas',
 						['refresh-routes', 'id'=>$item->name],
 						[
 							'class' => 'btn btn-default btn-sm pull-right',
@@ -122,21 +122,21 @@ $this->params['breadcrumbs'][] = $this->title;
 				<div class="row">
 					<div class="col-sm-3">
 						<?= Html::submitButton(
-							'<span class="glyphicon glyphicon-ok"></span> ' . UserManagementModule::t('back', 'Save'),
+							'<span class="glyphicon glyphicon-ok"></span> Guardar',
 							['class'=>'btn btn-primary btn-sm']
 						) ?>
 					</div>
 
 					<div class="col-sm-6">
-						<input id="search-in-routes" autofocus="on" type="text" class="form-control input-sm" placeholder="<?= UserManagementModule::t('back', 'Search route'); ?>">
+						<input id="search-in-routes" autofocus="on" type="text" class="form-control input-sm" placeholder="Buscar ruta">
 					</div>
 
 					<div class="col-sm-3 text-right">
 						<span id="show-only-selected-routes" class="btn btn-default btn-sm">
-							<i class="fa fa-minus"></i> <?= UserManagementModule::t('back', 'Show only selected'); ?>
+							<i class="fa fa-minus"></i> Mostrar solo los seleccionados
 						</span>
 						<span id="show-all-routes" class="btn btn-default btn-sm hide">
-							<i class="fa fa-plus"></i> <?= UserManagementModule::t('back', 'Show all'); ?>
+							<i class="fa fa-plus"></i> Mostrar todos
 						</span>
 
 					</div>
@@ -164,7 +164,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 				<hr/>
 				<?= Html::submitButton(
-					'<span class="glyphicon glyphicon-ok"></span> ' . UserManagementModule::t('back', 'Save'),
+					'<span class="glyphicon glyphicon-ok"></span> Guardar',
 					['class'=>'btn btn-primary btn-sm']
 				) ?>
 

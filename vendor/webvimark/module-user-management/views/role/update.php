@@ -6,7 +6,7 @@
 
 use webvimark\modules\UserManagement\UserManagementModule;
 
-$this->title = UserManagementModule::t('back', 'Editing role: ') . ' ' . $model->name;
+$this->title = 'Actualizar rol: ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => UserManagementModule::t('back', 'Roles'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 

@@ -6,8 +6,8 @@
 
 use webvimark\modules\UserManagement\UserManagementModule;
 
-$this->title = UserManagementModule::t('back', 'Editing permission: ') . ' ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => UserManagementModule::t('back', 'Permissions'), 'url' => ['index']];
+$this->title = 'Editar permiso: ' . $model->name;
+$this->params['breadcrumbs'][] = ['label' => 'Permisos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>

@@ -4,10 +4,12 @@
  * @var $model webvimark\modules\UserManagement\models\forms\LoginForm
  */
 
+use app\assets\AppAsset;
+use app\assets\JQueryUIAsset;
 use yii\bootstrap5\ActiveForm;
 use yii\helpers\Html;
-use app\assets\JQueryUIAsset;
 
+AppAsset::register($this);
 JQueryUIAsset::register($this);
 ?>
 

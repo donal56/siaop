@@ -1,12 +1,7 @@
 <?php 
 namespace app\components\Utils;
 
-use Yii;
-use DateTime;
 use app\components\FirebaseManager;
-use yii\helpers\ArrayHelper;
-use yii\helpers\StringHelper;
-use yii\log\Logger;
 use yii\web\UploadedFile;
 
 class FirebaseFileUtils {

@@ -140,7 +140,7 @@ CREATE TABLE parametros (
     nombre VARCHAR(255) NOT NULL,
     tipo VARCHAR(10) NOT NULL,
     valor_predeterminado VARCHAR(512) NULL DEFAULT NULL,
-    valor_predeterminado_multiEmpresa VARCHAR(512),
+    valor_predeterminado_multiempresa VARCHAR(512),
     unico TINYINT(1) NOT NULL,
     privado TINYINT(1) NOT NULL,
     requerido TINYINT(1) NOT NULL,

@@ -22,7 +22,6 @@ class AppAsset extends AssetBundle {
     public $baseUrl = '@web';
     public $css = [
         'css/layout.css',
-        'css/bootstrap/bootstrap.min.css',
 
 		'vendor/owl-carousel/owl.carousel.css',
 		'vendor/jquery-nice-select/css/nice-select.css'

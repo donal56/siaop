@@ -1,15 +1,20 @@
 <?php 
 namespace app\components\Utils;
 
-use Yii;
-use DateTime;
-use app\components\FirebaseManager;
-use yii\helpers\ArrayHelper;
-use yii\helpers\StringHelper;
-use yii\log\Logger;
-use yii\web\UploadedFile;
-
 class ArrayUtils {
+
+    /**
+     * Busca un elemento en un arreglo y retorna la primera coincidencia, de lo contrario [[null]]
+     * La función de búsqueda toma el valor recorrido dentro del arreglo
+     */
+    public static function find(array $arr, \Closure $callable) {
+        foreach($arr as $el) {
+            $success = call_user_func($callable, $el);
+            if($success) {
+                return $el;
+            }
+        }
+    }
 
 	/**
      * Recupera la primera llave de un arreglo
@@ -20,6 +25,30 @@ class ArrayUtils {
         }
     }
 
+    /**
+     * Recupera el primer valor de un arreglo
+     */
+    public static function getFirstValue(array $arr) {
+        foreach ($arr as $key => $value) { 
+            return $value; 
+        }
+    }
+
+    /**
+     * Recupera la última llave de un arreglo
+     */
+    public static function getLastKey(array $arr) {
+        $keys = array_keys($arr);
+        return count($keys) > 0 ? end($keys) : null;
+    }
+
+    /**
+     * Recupera el último valor de un arreglo
+     */
+    public static function getLastValue(array $arr) {
+        return count($arr) > 0 ? end($arr) : null;
+    }
+    
 	/**
      * Implementación de array_values() a profundidad
      */

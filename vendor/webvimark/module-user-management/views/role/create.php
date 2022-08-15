@@ -7,7 +7,7 @@
  */
 use webvimark\modules\UserManagement\UserManagementModule;
 
-$this->title = UserManagementModule::t('back', 'Role creation');
+$this->title = 'Crear rol';
 $this->params['breadcrumbs'][] = ['label' => UserManagementModule::t('back', 'Roles'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

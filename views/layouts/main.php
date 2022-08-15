@@ -116,7 +116,7 @@ $this->registerJs("
                                             <li>
                                                 <div class="timeline-panel">
                                                     <div class="media me-2">
-                                                        <img alt="image" width="50" src="img/avatar.jpg">
+                                                        <?= Html::img(["/img/avatar.jpg"], ['width' => 50]) ?>
                                                     </div>
                                                     <div class="media-body">
                                                         <h6 class="mb-1">Notificación</h6>
@@ -134,7 +134,7 @@ $this->registerJs("
 
                             <li class="nav-item dropdown header-profile">
                                 <a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
-                                    <img src="img/avatar.jpg" width="20" alt="" />
+                                    <?= Html::img(["/img/avatar.jpg"], ['width' => 20]) ?>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
                                     <a href="/" class="dropdown-item ai-icon">
