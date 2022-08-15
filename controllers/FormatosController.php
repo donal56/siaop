@@ -44,7 +44,7 @@ class FormatosController extends BaseController {
 
     /**
      * Displays a single Formato model.
-     * @param string $id_formato
+     * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -101,7 +101,7 @@ class FormatosController extends BaseController {
     /**
      * Updates an existing Formato model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param string $id_formato
+     * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -147,7 +147,7 @@ class FormatosController extends BaseController {
     /**
      * Deletes an existing Formato model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param string $id_formato
+     * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -159,7 +159,7 @@ class FormatosController extends BaseController {
     /**
      * Finds the Formato model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param string $id_formato
+     * @param integer $id
      * @return Formato the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */

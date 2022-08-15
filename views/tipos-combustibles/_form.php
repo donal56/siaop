@@ -22,13 +22,15 @@ use yii\widgets\ActiveForm;
                 <?php  endif; ?>
 
                 <div class="row my-3">
-                       <?= $form->field($model, 'tipo_combustible', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                       <?= $form->field($model, 'tipo_combustible', ['options' => ['class' => 'form-group col-sm-4']])
+                              ->textInput(['maxlength' => true, 'class' => 'form-control']) ?>
 
-                       <?= $form->field($model, 'descripcion', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                       <?= $form->field($model, 'descripcion', ['options' => ['class' => 'form-group col-sm-4']])
+                              ->textInput(['maxlength' => true, 'class' => 'form-control']) ?>
 
                 </div>
                    <div class= "row my-3">
-                       <?= $form->field($model, 'activo', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                       <?= $form->field($model, 'activo', ['options' => ['class' => 'form-group col-sm-4 form-check custom-checkbox checkbox-info']])->checkbox(['class' => 'form-check-input', 'labelOptions' => ['style' => 'line-height: 23px']]) ?>
 
                    </div>
                 <br>

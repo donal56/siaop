@@ -51,6 +51,6 @@ class TipoEstatus extends \yii\db\ActiveRecord {
     }
 
     public function beforeSave($insert) {
-                                return parent::beforeSave($insert);
+        return parent::beforeSave($insert);
     }
 }

@@ -16,7 +16,8 @@ class FormatoSearch extends Formato {
      */
     public function rules() {
         return [
-            [['id_formato', 'id_empresa', 'id_tipo_formato', 'titulo', 'fecha_creacion', 'codigo', 'revision', 'subtitulo', 'activo', 'fecha_version', 'usuario_version'], 'safe'],
+            [['id_formato', 'id_empresa', 'id_tipo_formato', 'activo', 'usuario_version'], 'integer'],
+            [['titulo', 'fecha_creacion', 'codigo', 'revision', 'subtitulo', 'fecha_version'], 'safe'],
         ];
     }
 

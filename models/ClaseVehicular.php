@@ -88,9 +88,9 @@ class ClaseVehicular extends \yii\db\ActiveRecord {
     }
 
     public function beforeSave($insert) {
-                $this->fecha_version = date('Y-m-d H:i:s');
-                        $this->usuario_version = Yii::$app->user->identity->id;
-                        $this->id_empresa = Yii::$app->user->identity->id_empresa;
-                return parent::beforeSave($insert);
+        $this->fecha_version = date('Y-m-d H:i:s');
+        $this->usuario_version = Yii::$app->user->identity->id;
+        $this->id_empresa = Yii::$app->user->identity->id_empresa;
+        return parent::beforeSave($insert);
     }
 }

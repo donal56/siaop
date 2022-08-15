@@ -47,7 +47,7 @@ class Formato extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['id_tipo_formato', 'activo'], 'integer'],
-            [['titulo', 'fecha_creacion', 'activo'], 'required'],
+            [['titulo', 'activo'], 'required'],
             [['fecha_creacion'], 'safe'],
             [['titulo', 'subtitulo'], 'string', 'max' => 255],
             [['codigo', 'revision'], 'string', 'max' => 50],
@@ -110,9 +110,14 @@ class Formato extends \yii\db\ActiveRecord {
     }
 
     public function beforeSave($insert) {
-                $this->fecha_version = date('Y-m-d H:i:s');
-                        $this->usuario_version = Yii::$app->user->identity->id;
-                        $this->id_empresa = Yii::$app->user->identity->id_empresa;
-                return parent::beforeSave($insert);
+
+        if($insert) {
+            $this->fecha_creacion = date('Y-m-d H:i:s');
+        }
+
+        $this->fecha_version = date('Y-m-d H:i:s');
+        $this->usuario_version = Yii::$app->user->identity->id;
+        $this->id_empresa = Yii::$app->user->identity->id_empresa;
+        return parent::beforeSave($insert);
     }
 }

@@ -22,45 +22,59 @@ use yii\widgets\ActiveForm;
                 <?php  endif; ?>
 
                 <div class="row my-3">
-                       <?= $form->field($model, 'id_marca', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                       <?= $form->field($model, 'id_marca', ['options' => ['class' => 'form-group col-sm-4']])
+                              ->dropDownList(\app\models\Marca::generateDropdownData(), ['prompt' => '--Seleccione uno--', 'class' => 'form-control']) ?>
 
-                       <?= $form->field($model, 'id_tipo_unidad_vehicular', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                       <?= $form->field($model, 'id_tipo_unidad_vehicular', ['options' => ['class' => 'form-group col-sm-4']])
+                              ->dropDownList(\app\models\TipoUnidadVehicular::generateDropdownData(), ['prompt' => '--Seleccione uno--', 'class' => 'form-control']) ?>
 
-                       <?= $form->field($model, 'modelo', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                       <?= $form->field($model, 'modelo', ['options' => ['class' => 'form-group col-sm-4']])
+                              ->textInput(['maxlength' => true, 'class' => 'form-control']) ?>
 
-                       <?= $form->field($model, 'placa', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                       <?= $form->field($model, 'placa', ['options' => ['class' => 'form-group col-sm-4']])
+                              ->textInput(['maxlength' => true, 'class' => 'form-control']) ?>
 
-                       <?= $form->field($model, 'id_clase_vehicular', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                       <?= $form->field($model, 'id_clase_vehicular', ['options' => ['class' => 'form-group col-sm-4']])
+                              ->dropDownList(\app\models\ClaseVehicular::generateDropdownData(), ['prompt' => '--Seleccione uno--', 'class' => 'form-control']) ?>
 
-                       <?= $form->field($model, 'id_tipo_combustible', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                       <?= $form->field($model, 'id_tipo_combustible', ['options' => ['class' => 'form-group col-sm-4']])
+                              ->dropDownList(\app\models\TipoCombustible::generateDropdownData(), ['prompt' => '--Seleccione uno--', 'class' => 'form-control']) ?>
 
-                       <?= $form->field($model, 'vigencia_poliza', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                       <?= $form->field($model, 'vigencia_poliza', ['options' => ['class' => 'form-group col-sm-4']])->textInput(['class' => 'form-control']) ?>
 
-                       <?= $form->field($model, 'vigencia_trp', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                       <?= $form->field($model, 'vigencia_trp', ['options' => ['class' => 'form-group col-sm-4']])->textInput(['class' => 'form-control']) ?>
 
-                       <?= $form->field($model, 'vigencia_trme', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                       <?= $form->field($model, 'vigencia_trme', ['options' => ['class' => 'form-group col-sm-4']])->textInput(['class' => 'form-control']) ?>
 
-                       <?= $form->field($model, 'rendimiento_combustible', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                       <?= $form->field($model, 'rendimiento_combustible', ['options' => ['class' => 'form-group col-sm-4']])->textInput(['class' => 'form-control']) ?>
 
-                       <?= $form->field($model, 'motor', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                       <?= $form->field($model, 'motor', ['options' => ['class' => 'form-group col-sm-4']])
+                              ->textInput(['maxlength' => true, 'class' => 'form-control']) ?>
 
-                       <?= $form->field($model, 'tarjeta_circulacion', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                       <?= $form->field($model, 'tarjeta_circulacion', ['options' => ['class' => 'form-group col-sm-4']])
+                              ->textInput(['maxlength' => true, 'class' => 'form-control']) ?>
 
-                       <?= $form->field($model, 'numero_identificacion_vehicular', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                       <?= $form->field($model, 'numero_identificacion_vehicular', ['options' => ['class' => 'form-group col-sm-4']])
+                              ->textInput(['maxlength' => true, 'class' => 'form-control']) ?>
 
-                       <?= $form->field($model, 'poliza', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                       <?= $form->field($model, 'poliza', ['options' => ['class' => 'form-group col-sm-4']])
+                              ->textInput(['maxlength' => true, 'class' => 'form-control']) ?>
 
-                       <?= $form->field($model, 'permiso_ruta_sct', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                       <?= $form->field($model, 'permiso_ruta_sct', ['options' => ['class' => 'form-group col-sm-4']])
+                              ->textInput(['maxlength' => true, 'class' => 'form-control']) ?>
 
-                       <?= $form->field($model, 'numero_economica', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                       <?= $form->field($model, 'numero_economica', ['options' => ['class' => 'form-group col-sm-4']])
+                              ->textInput(['maxlength' => true, 'class' => 'form-control']) ?>
 
-                       <?= $form->field($model, 'permiso_trp', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                       <?= $form->field($model, 'permiso_trp', ['options' => ['class' => 'form-group col-sm-4']])
+                              ->textInput(['maxlength' => true, 'class' => 'form-control']) ?>
 
-                       <?= $form->field($model, 'permiso_trme', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                       <?= $form->field($model, 'permiso_trme', ['options' => ['class' => 'form-group col-sm-4']])
+                              ->textInput(['maxlength' => true, 'class' => 'form-control']) ?>
 
                 </div>
                    <div class= "row my-3">
-                       <?= $form->field($model, 'activo', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                       <?= $form->field($model, 'activo', ['options' => ['class' => 'form-group col-sm-4 form-check custom-checkbox checkbox-info']])->checkbox(['class' => 'form-check-input', 'labelOptions' => ['style' => 'line-height: 23px']]) ?>
 
                    </div>
                 <br>

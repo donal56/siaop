@@ -16,7 +16,8 @@ class TipoFormatoSearch extends TipoFormato {
      */
     public function rules() {
         return [
-            [['id_tipo_formato', 'id_empresa', 'tipo_formato', 'activo', 'fecha_version', 'usuario_version'], 'safe'],
+            [['id_tipo_formato', 'id_empresa', 'activo', 'usuario_version'], 'integer'],
+            [['tipo_formato', 'fecha_version'], 'safe'],
         ];
     }
 

@@ -16,7 +16,8 @@ class PozoSearch extends Pozo {
      */
     public function rules() {
         return [
-            [['id_pozo', 'id_empresa', 'pozo', 'ubicacion_descripcion', 'ubicacion_x', 'ubicacion_y', 'activo', 'fecha_version', 'usuario_version'], 'safe'],
+            [['id_pozo', 'id_empresa', 'activo', 'usuario_version'], 'integer'],
+            [['pozo', 'ubicacion_descripcion', 'ubicacion_x', 'ubicacion_y', 'fecha_version'], 'safe'],
         ];
     }
 

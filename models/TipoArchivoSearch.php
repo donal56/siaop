@@ -16,7 +16,8 @@ class TipoArchivoSearch extends TipoArchivo {
      */
     public function rules() {
         return [
-            [['id_tipo_archivo', 'id_empresa', 'tipo_archivo', 'activo', 'fecha_version', 'usuario_version'], 'safe'],
+            [['id_tipo_archivo', 'id_empresa', 'activo', 'usuario_version'], 'integer'],
+            [['tipo_archivo', 'fecha_version'], 'safe'],
         ];
     }
 

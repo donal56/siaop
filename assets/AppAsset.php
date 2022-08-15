@@ -28,12 +28,12 @@ class AppAsset extends AssetBundle {
     ];
 	
     public $js = [
-        'js/init.js',
-        'js/utils.js',
         'js/bootstrap/bootstrap.bundle.min.js',
         'js/popper/popper.min.js',
         'js/perfect-scrollbar/perfect-scrollbar.min.js',
         'js/metismenu/metismenu.min.js',
+        'js/init.js',
+        'js/utils.js',
 		
 		'vendor/jquery-nice-select/js/jquery.nice-select.min.js',
 		'vendor/peity/jquery.peity.min.js',

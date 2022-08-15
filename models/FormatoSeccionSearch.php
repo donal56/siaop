@@ -16,7 +16,8 @@ class FormatoSeccionSearch extends FormatoSeccion {
      */
     public function rules() {
         return [
-            [['id_formato_seccion', 'id_formato', 'orden', 'formato_seccion', 'fecha_version', 'usuario_version'], 'safe'],
+            [['id_formato_seccion', 'id_formato', 'orden', 'usuario_version'], 'integer'],
+            [['formato_seccion', 'fecha_version'], 'safe'],
         ];
     }
 

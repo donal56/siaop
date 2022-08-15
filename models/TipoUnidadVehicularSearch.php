@@ -16,7 +16,8 @@ class TipoUnidadVehicularSearch extends TipoUnidadVehicular {
      */
     public function rules() {
         return [
-            [['id_tipo_unidad_vehicular', 'id_empresa', 'tipo_unidad_vehicular', 'descripcion', 'activo', 'fecha_version', 'usuario_version'], 'safe'],
+            [['id_tipo_unidad_vehicular', 'id_empresa', 'activo', 'usuario_version'], 'integer'],
+            [['tipo_unidad_vehicular', 'descripcion', 'fecha_version'], 'safe'],
         ];
     }
 

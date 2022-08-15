@@ -16,7 +16,8 @@ class MarcaSearch extends Marca {
      */
     public function rules() {
         return [
-            [['id_marca', 'id_empresa', 'marca', 'descripcion', 'activo', 'fecha_version', 'usuario_version'], 'safe'],
+            [['id_marca', 'id_empresa', 'activo', 'usuario_version'], 'integer'],
+            [['marca', 'descripcion', 'fecha_version'], 'safe'],
         ];
     }
 

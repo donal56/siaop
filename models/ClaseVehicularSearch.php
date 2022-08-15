@@ -16,7 +16,8 @@ class ClaseVehicularSearch extends ClaseVehicular {
      */
     public function rules() {
         return [
-            [['id_clase_vehicular', 'id_empresa', 'clase_vehicular', 'descripcion', 'activo', 'fecha_version', 'usuario_version'], 'safe'],
+            [['id_clase_vehicular', 'id_empresa', 'activo', 'usuario_version'], 'integer'],
+            [['clase_vehicular', 'descripcion', 'fecha_version'], 'safe'],
         ];
     }
 

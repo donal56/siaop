@@ -16,7 +16,8 @@ class RubricaSearch extends Rubrica {
      */
     public function rules() {
         return [
-            [['id_rubrica', 'id_formato_seccion', 'orden', 'rubrica', 'fecha_version', 'usuario_version'], 'safe'],
+            [['id_rubrica', 'id_formato_seccion', 'orden', 'usuario_version'], 'integer'],
+            [['rubrica', 'fecha_version'], 'safe'],
         ];
     }
 

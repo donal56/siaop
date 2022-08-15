@@ -16,7 +16,9 @@ class UnidadVehicularSearch extends UnidadVehicular {
      */
     public function rules() {
         return [
-            [['id_unidad_vehicular', 'id_empresa', 'id_marca', 'id_tipo_unidad_vehicular', 'id_clase_vehicular', 'id_tipo_combustible', 'modelo', 'placa', 'motor', 'tarjeta_circulacion', 'numero_identificacion_vehicular', 'poliza', 'vigencia_poliza', 'permiso_ruta_sct', 'numero_economica', 'permiso_trp', 'vigencia_trp', 'permiso_trme', 'vigencia_trme', 'rendimiento_combustible', 'activo', 'fecha_version', 'usuario_version'], 'safe'],
+            [['id_unidad_vehicular', 'id_empresa', 'id_marca', 'id_tipo_unidad_vehicular', 'id_clase_vehicular', 'id_tipo_combustible', 'activo', 'usuario_version'], 'integer'],
+            [['modelo', 'placa', 'motor', 'tarjeta_circulacion', 'numero_identificacion_vehicular', 'poliza', 'vigencia_poliza', 'permiso_ruta_sct', 'numero_economica', 'permiso_trp', 'vigencia_trp', 'permiso_trme', 'vigencia_trme', 'fecha_version'], 'safe'],
+            [['rendimiento_combustible'], 'number'],
         ];
     }
 

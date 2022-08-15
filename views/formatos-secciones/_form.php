@@ -22,11 +22,13 @@ use yii\widgets\ActiveForm;
                 <?php  endif; ?>
 
                 <div class="row my-3">
-                       <?= $form->field($model, 'id_formato', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                       <?= $form->field($model, 'id_formato', ['options' => ['class' => 'form-group col-sm-4']])
+                              ->dropDownList(\app\models\Formato::generateDropdownData(), ['prompt' => '--Seleccione uno--', 'class' => 'form-control']) ?>
 
-                       <?= $form->field($model, 'orden', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                       <?= $form->field($model, 'orden', ['options' => ['class' => 'form-group col-sm-4']])->textInput(['class' => 'form-control']) ?>
 
-                       <?= $form->field($model, 'formato_seccion', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                       <?= $form->field($model, 'formato_seccion', ['options' => ['class' => 'form-group col-sm-4']])
+                              ->textInput(['maxlength' => true, 'class' => 'form-control']) ?>
 
                 </div>
                 <br>

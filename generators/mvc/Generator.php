@@ -169,7 +169,13 @@ class Generator extends \yii\gii\Generator {
 
                 $data["nameField"] = function() use($db) {
                     $table = $db->getSchema()->getTableSchema($this->tableName);
-                    return ArrayHelper::getColumn($table->columns, 'name', false);
+
+                    if($table == null) {
+                        return [];
+                    }
+                    else {
+                        return ArrayHelper::getColumn($table->columns, 'name', false);
+                    }
                 };
 
                 $title = StringUtils::capitalizeWords(str_replace("_", " ", $this->tableName));
@@ -428,7 +434,7 @@ class Generator extends \yii\gii\Generator {
         }
         $column = $tableSchema->columns[$attribute];
 
-        if ($column->phpType === 'boolean' || $column->type == "tinyint") {
+        if ($column->phpType === 'boolean' || $column->type == "tinyint" || $column->name == "activo") {
             return "\$form->field(\$model, '$attribute', " . self::CHECKBOX_FIELDGROUP_CONFIG . ")->checkbox([" . 
                     self::CHECKBOX_FIELD_CONFIG . "])";
         }

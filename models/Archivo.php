@@ -93,8 +93,8 @@ class Archivo extends \yii\db\ActiveRecord {
     }
 
     public function beforeSave($insert) {
-                $this->fecha_version = date('Y-m-d H:i:s');
-                        $this->usuario_version = Yii::$app->user->identity->id;
-                        return parent::beforeSave($insert);
+        $this->fecha_version = date('Y-m-d H:i:s');
+        $this->usuario_version = Yii::$app->user->identity->id;
+        return parent::beforeSave($insert);
     }
 }
