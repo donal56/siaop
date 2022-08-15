@@ -132,4 +132,13 @@ class SiteController extends BaseController {
         Yii::$app->cache->flush();
         Yii::$app->fileCache->flush();
     }
+
+    /**
+     * Vista de parametros
+     *
+     * @return string
+     */
+    public function actionParametros() {
+        return $this->render("parametros");
+    }
 }

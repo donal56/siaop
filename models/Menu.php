@@ -16,8 +16,18 @@
                     'etiqueta' => 'Catálogos',
                     'icono' => 'bi bi-box-seam',
                     'submenu' => self::getSubItems([
+                        'actividades' => 'Actividades',
+                        'clases-vehiculares' => 'Clases Vehiculares',
+                        'clientes' => 'Clientes',
+                        'formatos' => 'Formatos',
+                        'marcas' => 'Marcas',
+                        'pozos' => 'Pozos',
                         'unidades-medida' => 'Unidades de medida',
-                        'actividades' => 'Actividades'
+                        'tipos-archivos' => 'Tipos de archivos',
+                        'tipos-combustibles' => 'Tipos de combustibles',
+                        'tipos-formatos' => 'Tipos de formatos',
+                        'tipos-unidades-vehiculares' => 'Tipos de unidades vehiculares',
+                        'unidades-vehiculares' => 'Unidades vehiculares',
                     ])
                 ], [
                     'etiqueta' => 'Seguridad',
@@ -27,7 +37,8 @@
                         'user-management/role' => 'Roles',
                         'user-management/auth-item-group' => 'Grupos de permisos',
                         'user-management/permission' => 'Permisos',
-                        'user-management/user-visit-log' => 'Registro de visitas'
+                        'user-management/user-visit-log' => 'Registro de visitas',
+                        'site/parametros' => 'Parámetros'
                     ])
                 ]
             ];

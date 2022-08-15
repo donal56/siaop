@@ -165,7 +165,7 @@ class Generator extends \yii\gii\Generator {
                 },
             ];
 
-            if(isset($this->tableName)) {
+            if(!empty($this->tableName)) {
 
                 $data["nameField"] = function() use($db) {
                     $table = $db->getSchema()->getTableSchema($this->tableName);
