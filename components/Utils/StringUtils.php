@@ -17,7 +17,7 @@ class StringUtils {
             "estatus"
         ];
 
-        if(isset($blackList[strtolower($word)])) return $word;
+        if(in_array(strtolower($word), $blackList)) return $word;
         if(self::endsWith($word, 'd') || self::endsWith($word, 'n') || self::endsWith($word, 'r')) return $word . "es";
         return $word . "s";
     }
@@ -37,7 +37,7 @@ class StringUtils {
             "estatus"
         ];
 
-        if(isset($blackList[strtolower($word)])) return $word;
+        if(in_array(strtolower($word), $blackList)) return $word;
 
         if(self::endsWith($word, 'des') || self::endsWith($word, 'nes') || self::endsWith($word, 'res')) {
             return substr($word, 0, -2);
@@ -69,7 +69,7 @@ class StringUtils {
      * @return bool - resultado
      */
     public static function startsWith($haystack, $needle) {
-        return strpos($haystack, $needle) == 0;
+        return strpos($haystack, $needle) === 0;
     }
 
 	/**

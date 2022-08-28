@@ -21,8 +21,26 @@ CREATE TABLE archivos (
     fecha_version TIMESTAMP(6) NOT NULL,
     usuario_version INT(11) NOT NULL,
     INDEX ix_archivo_usuario_carga(usuario_carga) USING BTREE,
+    INDEX ix_archivo_usuario_version(usuario_version) USING BTREE,
     UNIQUE INDEX ix_archivo_md5(md5) USING BTREE,
     CONSTRAINT fk_archivo_usuario_carga FOREIGN KEY(usuario_carga) REFERENCES usuarios(id) ON DELETE RESTRICT ON UPDATE RESTRICT
+    CONSTRAINT fk_archivo_usuario_version FOREIGN KEY(usuario_version) REFERENCES usuarios(id) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Estructura de la tabla <archivos_observaciones>
+-- ----------------------------
+DROP TABLE IF EXISTS archivos_observaciones;
+CREATE TABLE archivos_observaciones (
+    id_archivo_observacion INT(11) PRIMARY KEY AUTO_INCREMENT,
+    id_archivo INT(11) NOT NULL,
+    observacion TEXT NOT NULL,
+    fecha_version TIMESTAMP(6) NOT NULL,
+    usuario_version INT(11) NOT NULL,
+    INDEX ix_archivo_observacion_id_archivo(id_archivo) USING BTREE,
+    INDEX ix_archivo_observacion_usuario_version(usuario_version) USING BTREE,
+    CONSTRAINT fk_archivo_observacion_id_archivo FOREIGN KEY(id_archivo) REFERENCES archivos(id_archivo) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    CONSTRAINT fk_archivo_observacion_usuario_version FOREIGN KEY(usuario_version) REFERENCES usuarios(id) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB ROW_FORMAT = Dynamic;
 
 -- ----------------------------

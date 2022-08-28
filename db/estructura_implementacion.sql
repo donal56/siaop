@@ -172,6 +172,7 @@ CREATE TABLE ordenes_servicio (
     id_unidad_vehicular INT(11),
     id_pozo INT(11),
     usuario_jefe_cuadrilla INT(11),
+    usuario_cliente_solicitante INT(11),
     hora_salida TIME,
     distancia_kms INT(11),
     combustible_aproximado_lts NUMERIC(10, 2),
@@ -182,6 +183,10 @@ CREATE TABLE ordenes_servicio (
     origen_y VARCHAR(64) NOT NULL,
     destino_x VARCHAR(64) NOT NULL,
     destino_y VARCHAR(64) NOT NULL,
+    fecha_hora_llegada_real TIMESTAMP(6),
+    fecha_hora_salida_real TIMESTAMP(6),
+    fecha_hora_inicio_trabajo TIMESTAMP(6),
+    fecha_hora_final_trabajo TIMESTAMP(6),
     fecha_captura TIMESTAMP(6) NOT NULL,
     usuario_captura INT(11) NOT NULL,
     origen_version INT(11) NOT NULL,
@@ -195,6 +200,7 @@ CREATE TABLE ordenes_servicio (
     INDEX ix_orden_servicio_id_pozo(id_pozo) USING BTREE,
     INDEX ix_orden_servicio_usuario_captura(usuario_captura) USING BTREE,
     INDEX ix_orden_servicio_usuario_jefe_cuadrilla(usuario_jefe_cuadrilla) USING BTREE,
+    INDEX ix_orden_servicio_usuario_cliente_solicitante(usuario_cliente_solicitante) USING BTREE,
     INDEX ix_orden_servicio_origen_version(origen_version) USING BTREE,
     INDEX ix_orden_servicio_usuario_version(usuario_version) USING BTREE,
     CONSTRAINT fk_orden_servicio_id_empresa FOREIGN KEY(id_empresa) REFERENCES empresas(id_empresa) ON DELETE RESTRICT ON UPDATE RESTRICT,
@@ -205,6 +211,7 @@ CREATE TABLE ordenes_servicio (
     CONSTRAINT fk_orden_servicio_id_pozo FOREIGN KEY(id_pozo) REFERENCES pozos(id_pozo) ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT fk_orden_servicio_usuario_captura FOREIGN KEY(usuario_captura) REFERENCES usuarios(id) ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT fk_orden_servicio_usuario_jefe_cuadrilla FOREIGN KEY(usuario_jefe_cuadrilla) REFERENCES usuarios(id) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    CONSTRAINT fk_orden_servicio_usuario_cliente_solicitante FOREIGN KEY(usuario_cliente_solicitante) REFERENCES usuarios(id) ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT fk_orden_servicio_origen_version FOREIGN KEY(origen_version) REFERENCES origenes(id_origen) ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT fk_orden_servicio_usuario_version FOREIGN KEY(usuario_version) REFERENCES usuarios(id) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB ROW_FORMAT = Dynamic;
@@ -218,6 +225,7 @@ CREATE TABLE ordenes_servicio_actividades (
     id_orden_servicio INT(11) NOT NULL,
     id_actividad INT(11) NOT NULL,
     cantidad NUMERIC(10, 2) NOT NULL DEFAULT 0,
+    realizado TINYINT(1) NOT NULL DEFAULT 0,
     observacion VARCHAR(512),
     fecha_version TIMESTAMP(6) NOT NULL,
     usuario_version INT(11) NOT NULL,
@@ -238,15 +246,20 @@ CREATE TABLE ordenes_servicio_archivos (
     id_orden_servicio INT(11) NOT NULL,
     id_archivo INT(11) NOT NULL,
     id_tipo_archivo INT(11) NOT NULL,
+    validado TINYINT(1) NOT NULL DEFAULT 0,
+    usuario_validacion INT(11),
+    fecha_validacion TIMESTAMP(6),
     fecha_version TIMESTAMP(6) NOT NULL,
     usuario_version INT(11) NOT NULL,
     INDEX ix_orden_servicio_archivo_id_orden_servicio(id_orden_servicio) USING BTREE,
     INDEX ix_orden_servicio_archivo_id_archivo(id_archivo) USING BTREE,
     INDEX ix_orden_servicio_archivo_id_tipo_archivo(id_tipo_archivo) USING BTREE,
+    INDEX ix_orden_servicio_archivo_usuario_validacion(usuario_validacion) USING BTREE,
     INDEX ix_orden_servicio_archivo_usuario_version(usuario_version) USING BTREE,
     CONSTRAINT fk_orden_servicio_archivo_id_orden_servicio FOREIGN KEY(id_orden_servicio) REFERENCES ordenes_servicio(id_orden_servicio) ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT fk_orden_servicio_archivo_id_archivo FOREIGN KEY(id_archivo) REFERENCES archivos(id_archivo) ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT fk_orden_servicio_archivo_id_tipo_archivo FOREIGN KEY(id_tipo_archivo) REFERENCES tipos_archivos(id_tipo_archivo) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    CONSTRAINT fk_orden_servicio_archivo_usuario_validacion FOREIGN KEY(usuario_validacion) REFERENCES usuarios(id) ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT fk_orden_servicio_archivo_usuario_version FOREIGN KEY(usuario_version) REFERENCES usuarios(id) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB ROW_FORMAT = Dynamic;
 
@@ -268,6 +281,23 @@ CREATE TABLE pozos (
     INDEX ix_pozo_usuario_version(usuario_version) USING BTREE,
     CONSTRAINT fk_pozo_id_empresa FOREIGN KEY(id_empresa) REFERENCES empresas(id_empresa) ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT fk_pozo_usuario_version FOREIGN KEY(usuario_version) REFERENCES usuarios(id) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Estructura de la tabla <procesos>
+-- ----------------------------
+DROP TABLE IF EXISTS procesos;
+CREATE TABLE procesos (
+    id_proceso INT(11) PRIMARY KEY AUTO_INCREMENT,
+    id_empresa INT(11) NOT NULL,
+    proceso VARCHAR(255) NOT NULL,
+    activo TINYINT(1) UNSIGNED NOT NULL,
+    fecha_version TIMESTAMP(6) NOT NULL,
+    usuario_version INT(11) NOT NULL,
+    INDEX ix_proceso_id_empresa(id_empresa) USING BTREE,
+    INDEX ix_proceso_usuario_version(usuario_version) USING BTREE,
+    CONSTRAINT fk_proceso_id_empresa FOREIGN KEY(id_empresa) REFERENCES empresas(id_empresa) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    CONSTRAINT fk_proceso_usuario_version FOREIGN KEY(usuario_version) REFERENCES usuarios(id) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -369,13 +399,16 @@ CREATE TABLE rubricas_respuestas (
 DROP TABLE IF EXISTS tipos_archivos;
 CREATE TABLE tipos_archivos (
     id_tipo_archivo INT(11) PRIMARY KEY AUTO_INCREMENT,
+    id_proceso INT(11) NOT NULL,
     id_empresa INT(11) NOT NULL,
     tipo_archivo VARCHAR(255) NOT NULL,
     activo TINYINT(1) UNSIGNED NOT NULL,
     fecha_version TIMESTAMP(6) NOT NULL,
     usuario_version INT(11) NOT NULL,
+    INDEX ix_tipo_archivo_id_proceso(id_proceso) USING BTREE,
     INDEX ix_tipo_archivo_id_empresa(id_empresa) USING BTREE,
     INDEX ix_tipo_archivo_usuario_version(usuario_version) USING BTREE,
+    CONSTRAINT fk_tipo_archivo_id_proceso FOREIGN KEY(id_proceso) REFERENCES procesos(id_proceso) ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT fk_tipo_archivo_id_empresa FOREIGN KEY(id_empresa) REFERENCES empresas(id_empresa) ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT fk_tipo_archivo_usuario_version FOREIGN KEY(usuario_version) REFERENCES usuarios(id) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB ROW_FORMAT = Dynamic;

@@ -13,25 +13,35 @@
 
             $menu = [
                 [
+                    'etiqueta' => 'Ordenes de servicio',
+                    'icono' => 'fa-solid fa-list-check',
+                    'submenu' => self::getSubItems([
+                        'ordenes-servicio' => 'Ordenes de servicio'
+                    ])
+                ], [
+                    'etiqueta' => 'Vehículos',
+                    'icono' => 'fa-solid fa-car-rear',
+                    'submenu' => self::getSubItems([
+                        'clases-vehiculares' => 'Clases vehiculares',
+                        'marcas' => 'Marcas',
+                        'tipos-combustibles' => 'Tipos de combustibles',
+                        'tipos-unidades-vehiculares' => 'Tipos de unidades vehiculares',
+                        'unidades-vehiculares' => 'Unidades vehiculares'
+                    ])
+                ], [
                     'etiqueta' => 'Catálogos',
-                    'icono' => 'bi bi-box-seam',
+                    'icono' => 'fa-solid fa-box',
                     'submenu' => self::getSubItems([
                         'actividades' => 'Actividades',
-                        'clases-vehiculares' => 'Clases Vehiculares',
                         'clientes' => 'Clientes',
-                        'formatos' => 'Formatos',
-                        'marcas' => 'Marcas',
                         'pozos' => 'Pozos',
-                        'unidades-medida' => 'Unidades de medida',
+                        'procesos' => 'Procesos',
                         'tipos-archivos' => 'Tipos de archivos',
-                        'tipos-combustibles' => 'Tipos de combustibles',
-                        'tipos-formatos' => 'Tipos de formatos',
-                        'tipos-unidades-vehiculares' => 'Tipos de unidades vehiculares',
-                        'unidades-vehiculares' => 'Unidades vehiculares',
+                        'unidades-medida' => 'Unidades de medida'
                     ])
                 ], [
                     'etiqueta' => 'Seguridad',
-                    'icono' => 'bi bi-shield-lock',
+                    'icono' => 'fa-solid fa-shield-halved',
                     'submenu' => self::getSubItems([
                         'user-management/user' => 'Usuarios',
                         'user-management/role' => 'Roles',

@@ -5,15 +5,36 @@ class ArrayUtils {
 
     /**
      * Busca un elemento en un arreglo y retorna la primera coincidencia, de lo contrario [[null]]
-     * La función de búsqueda toma el valor recorrido dentro del arreglo
+     * La función de búsqueda toma como parámetro el valor y llave recorrido dentro del arreglo
      */
     public static function find(array $arr, \Closure $callable) {
-        foreach($arr as $el) {
-            $success = call_user_func($callable, $el);
+        foreach($arr as $key => $el) {
+            $success = call_user_func($callable, $el, $key);
             if($success) {
                 return $el;
             }
         }
+    }
+
+    /**
+     * Mapea un arreglo hacia otro arreglo
+     * La función de mapeado toma los siguientes parametros en orden:
+     *  - Valor
+     *  - Llave
+     *  - Contador
+     *  - Arreglo original
+     */
+    public static function map(array $arr, \Closure $callable) {
+        $newArr = [];
+
+        $counter = 0;
+        foreach($arr as $key => $el) {
+            $newArr[] = call_user_func($callable, $el, $key, $counter, $arr);
+            $counter++;
+
+        }
+
+        return $newArr;
     }
 
 	/**
