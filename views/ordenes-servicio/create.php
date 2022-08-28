@@ -3,11 +3,11 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\FormatoSeccion */
+/* @var $model app\models\OrdenServicio */
 
-$this->title = 'Actualizar formato seccion: $model->formato_seccion';
+$this->title = 'Crear orden servicio';
 ?>
-<div class="formato-seccion-update">
+<div class="orden-servicio-create">
     <?= $this->render('_form', [
         'model' => $model,
         'guardado' => $guardado

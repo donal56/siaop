@@ -69,7 +69,8 @@ class ClientesController extends BaseController {
         };
 
         $model = new Cliente();
-
+                $model->activo = 1;
+        
         if ($model->load(Yii::$app->request->post())) {
 
             $transaction = Yii::$app->db->beginTransaction();

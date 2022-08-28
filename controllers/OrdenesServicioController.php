@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\TipoFormato;
-use app\models\TipoFormatoSearch;
+use app\models\OrdenServicio;
+use app\models\OrdenServicioSearch;
 use webvimark\components\BaseController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * TiposFormatosController implements the CRUD actions for TipoFormato model.
+ * OrdenesServicioController implements the CRUD actions for OrdenServicio model.
  */
-class TiposFormatosController extends BaseController {
+class OrdenesServicioController extends BaseController {
     /**
      * {@inheritdoc}
      */
@@ -28,12 +28,12 @@ class TiposFormatosController extends BaseController {
     }
 
     /**
-     * Lists all TipoFormato models.
+     * Lists all OrdenServicio models.
      * @return mixed
      */
     public function actionIndex() {
 
-        $searchModel = new TipoFormatoSearch();
+        $searchModel = new OrdenServicioSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -43,8 +43,8 @@ class TiposFormatosController extends BaseController {
     }
 
     /**
-     * Displays a single TipoFormato model.
-     * @param integer $id
+     * Displays a single OrdenServicio model.
+     * @param string $id_orden_servicio
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -55,7 +55,7 @@ class TiposFormatosController extends BaseController {
     }
 
     /**
-     * Creates a new TipoFormato model.
+     * Creates a new OrdenServicio model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
@@ -68,8 +68,8 @@ class TiposFormatosController extends BaseController {
             ]);
         };
 
-        $model = new TipoFormato();
-
+        $model = new OrdenServicio();
+        
         if ($model->load(Yii::$app->request->post())) {
 
             $transaction = Yii::$app->db->beginTransaction();
@@ -83,10 +83,10 @@ class TiposFormatosController extends BaseController {
                 $transaction->commit();
                 
                 if($createAnother == 0) {
-                    return $this->redirect(['view', 'id' => $model->id_tipo_formato]);
+                    return $this->redirect(['view', 'id' => $model->id_orden_servicio]);
                 }
                 else {
-                    return $returnToView(new TipoFormato(), $model->tipo_formato);
+                    return $returnToView(new OrdenServicio(), $model->id_orden_servicio);
                 }
             } 
             catch(\Exception $e) {
@@ -99,9 +99,9 @@ class TiposFormatosController extends BaseController {
     }
 
     /**
-     * Updates an existing TipoFormato model.
+     * Updates an existing OrdenServicio model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * @param string $id_orden_servicio
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -129,10 +129,10 @@ class TiposFormatosController extends BaseController {
                 $transaction->commit();
                 
                 if($createAnother == 0) {
-                    return $this->redirect(['view', 'id' => $model->id_tipo_formato]);
+                    return $this->redirect(['view', 'id' => $model->id_orden_servicio]);
                 }
                 else {
-                    return $returnToView(false, new TipoFormato(), $model->tipo_formato);
+                    return $returnToView(false, new OrdenServicio(), $model->id_orden_servicio);
                 }
             } 
             catch(\Exception $e) {
@@ -145,9 +145,9 @@ class TiposFormatosController extends BaseController {
     }
 
     /**
-     * Deletes an existing TipoFormato model.
+     * Deletes an existing OrdenServicio model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * @param string $id_orden_servicio
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -157,14 +157,14 @@ class TiposFormatosController extends BaseController {
     }
 
     /**
-     * Finds the TipoFormato model based on its primary key value.
+     * Finds the OrdenServicio model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return TipoFormato the loaded model
+     * @param string $id_orden_servicio
+     * @return OrdenServicio the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id) {
-        if (($model = TipoFormato::findOne($id)) !== null) {
+        if (($model = OrdenServicio::findOne($id)) !== null) {
             return $model;
         }
         throw new NotFoundHttpException('La página no existe o no esta autorizado para verla');

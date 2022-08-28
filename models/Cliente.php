@@ -23,11 +23,6 @@ use webvimark\modules\UserManagement\models\User;
  */
 class Cliente extends \yii\db\ActiveRecord {
 
-    public function __construct($config = []) {
-        $this->activo = 1;
-        parent::__construct($config);
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -54,8 +49,8 @@ class Cliente extends \yii\db\ActiveRecord {
         return [
             'id_cliente' => 'ID',
             'id_empresa' => 'Empresa',
-            'razon_social' => 'Razon social',
-            'rfc' => 'Rfc',
+            'razon_social' => 'Razón social',
+            'rfc' => 'RFC',
             'activo' => 'Activo',
             'fecha_version' => 'Última fecha de modificación',
             'usuario_version' => 'Último usuario de modificación',
@@ -83,9 +78,9 @@ class Cliente extends \yii\db\ActiveRecord {
     public static function generateDropdownData() {
         return ArrayHelper::map(
             Cliente::find()->orderBy(['razon_social' => SORT_ASC])->all(), 
-            'id_cliente', 
-            'razon_social'
-        );
+                'id_cliente', 
+                'razon_social'
+            );
     }
 
     public function beforeSave($insert) {

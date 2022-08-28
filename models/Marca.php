@@ -23,11 +23,6 @@ use webvimark\modules\UserManagement\models\User;
  */
 class Marca extends \yii\db\ActiveRecord {
 
-    public function __construct($config = []) {
-        $this->activo = 1;
-        parent::__construct($config);
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -55,7 +50,7 @@ class Marca extends \yii\db\ActiveRecord {
             'id_marca' => 'ID',
             'id_empresa' => 'Empresa',
             'marca' => 'Marca',
-            'descripcion' => 'Descripcion',
+            'descripcion' => 'Descripción',
             'activo' => 'Activo',
             'fecha_version' => 'Última fecha de modificación',
             'usuario_version' => 'Último usuario de modificación',
@@ -83,9 +78,9 @@ class Marca extends \yii\db\ActiveRecord {
     public static function generateDropdownData() {
         return ArrayHelper::map(
             Marca::find()->orderBy(['marca' => SORT_ASC])->all(), 
-            'id_marca', 
-            'marca'
-        );
+                'id_marca', 
+                'marca'
+            );
     }
 
     public function beforeSave($insert) {

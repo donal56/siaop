@@ -49,7 +49,7 @@ class FormatoSeccion extends \yii\db\ActiveRecord {
             'id_formato_seccion' => 'ID',
             'id_formato' => 'Formato',
             'orden' => 'Orden',
-            'formato_seccion' => 'Formato seccion',
+            'formato_seccion' => 'Sección',
             'fecha_version' => 'Última fecha de modificación',
             'usuario_version' => 'Último usuario de modificación',
         ];

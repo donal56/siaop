@@ -18,11 +18,11 @@ $this->title = $model->tipo_unidad_vehicular;
             <br>
             <div class= "btn-page">
                 <?php 
-                    if(User::hasPermission('modificarTipo Unidad Vehicular')) { 
+                    if(User::hasPermission('modificarTipoUnidadVehicular')) { 
                         echo Html::button(Html::a('Actualizar', ['update', 'id' => $model->id_tipo_unidad_vehicular]), ['class' => 'btn btn-primary']) . " ";
                     }
                     
-                    if (User::hasPermission('eliminarTipo Unidad Vehicular')) { 
+                    if (User::hasPermission('eliminarTipoUnidadVehicular')) { 
                         echo Html::button(Html::a('Eliminar', ['delete', 'id' => $model->id_tipo_unidad_vehicular], [
                             'data' => [
                                 'confirm' => '¿Esta seguro de eliminar este registro?',
@@ -31,8 +31,8 @@ $this->title = $model->tipo_unidad_vehicular;
                         ]), ['class' => 'btn btn-danger']) . " ";
                     } 
 
-                    if(User::hasPermission('agregarTipo Unidad Vehicular')) { 
-                        echo Html::button(Html::a('Crear Tipo Unidad Vehicular', ['create']), ['class' => 'btn btn-success']) . ' ';
+                    if(User::hasPermission('agregarTipoUnidadVehicular')) { 
+                        echo Html::button(Html::a('Crear tipo unidad vehicular', ['create']), ['class' => 'btn btn-success']) . ' ';
                     }
 
                     echo Html::button(Html::a('Regresar', ['/tipos-unidades-vehiculares']), ['class' => 'btn btn-light']);

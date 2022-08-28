@@ -32,7 +32,7 @@ $this->title = $model->actividad;
                     } 
 
                     if(User::hasPermission('agregarActividad')) { 
-                        echo Html::button(Html::a('Crear Actividad', ['create']), ['class' => 'btn btn-success']) . ' ';
+                        echo Html::button(Html::a('Crear actividad', ['create']), ['class' => 'btn btn-success']) . ' ';
                     }
 
                     echo Html::button(Html::a('Regresar', ['/actividades']), ['class' => 'btn btn-light']);
@@ -43,7 +43,7 @@ $this->title = $model->actividad;
             <?= DetailView::widget([
                 'model' => $model,
                 'attributes' => [
-                   'id_unidad_medida',
+                   'unidadMedida.unidad_medida',
                    'actividad',
                    [
                       'attribute' => 'activo',

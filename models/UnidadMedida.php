@@ -23,11 +23,6 @@ use webvimark\modules\UserManagement\models\User;
  */
 class UnidadMedida extends \yii\db\ActiveRecord {
 
-    public function __construct($config = []) {
-        $this->activo = 1;
-        parent::__construct($config);
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -54,7 +49,7 @@ class UnidadMedida extends \yii\db\ActiveRecord {
         return [
             'id_unidad_medida' => 'ID',
             'id_empresa' => 'Empresa',
-            'unidad_medida' => 'Unidad medida',
+            'unidad_medida' => 'Unidad de medida',
             'nombre_corto' => 'Nombre corto',
             'activo' => 'Activo',
             'fecha_version' => 'Última fecha de modificación',
@@ -83,9 +78,9 @@ class UnidadMedida extends \yii\db\ActiveRecord {
     public static function generateDropdownData() {
         return ArrayHelper::map(
             UnidadMedida::find()->orderBy(['unidad_medida' => SORT_ASC])->all(), 
-            'id_unidad_medida', 
-            'unidad_medida'
-        );
+                'id_unidad_medida', 
+                'unidad_medida'
+            );
     }
 
     public function beforeSave($insert) {

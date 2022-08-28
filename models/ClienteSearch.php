@@ -37,7 +37,11 @@ class ClienteSearch extends Cliente {
      * @return ActiveDataProvider
      */
     public function search($params) {
-        $query = Cliente::find();
+        $query = Cliente::find()
+            ->joinWith([
+              "empresa",
+              "usuarioVersion",
+            ]);
 
         // add conditions that should always apply here
 

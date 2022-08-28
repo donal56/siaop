@@ -5,12 +5,12 @@ use yii\widgets\DetailView;
 use webvimark\modules\UserManagement\models\User;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\TipoFormato */
+/* @var $model app\models\Proceso */
 
-$this->title = $model->tipo_formato;
+$this->title = $model->proceso;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="tipo-formato-view">
+<div class="proceso-view">
 
     <div class="card">
         <div class="card-header d-block">
@@ -18,12 +18,12 @@ $this->title = $model->tipo_formato;
             <br>
             <div class= "btn-page">
                 <?php 
-                    if(User::hasPermission('modificarTipo Formato')) { 
-                        echo Html::button(Html::a('Actualizar', ['update', 'id' => $model->id_tipo_formato]), ['class' => 'btn btn-primary']) . " ";
+                    if(User::hasPermission('modificarProceso')) { 
+                        echo Html::button(Html::a('Actualizar', ['update', 'id' => $model->id_proceso]), ['class' => 'btn btn-primary']) . " ";
                     }
                     
-                    if (User::hasPermission('eliminarTipo Formato')) { 
-                        echo Html::button(Html::a('Eliminar', ['delete', 'id' => $model->id_tipo_formato], [
+                    if (User::hasPermission('eliminarProceso')) { 
+                        echo Html::button(Html::a('Eliminar', ['delete', 'id' => $model->id_proceso], [
                             'data' => [
                                 'confirm' => '¿Esta seguro de eliminar este registro?',
                                 'method' => 'post',
@@ -31,11 +31,11 @@ $this->title = $model->tipo_formato;
                         ]), ['class' => 'btn btn-danger']) . " ";
                     } 
 
-                    if(User::hasPermission('agregarTipo Formato')) { 
-                        echo Html::button(Html::a('Crear Tipo Formato', ['create']), ['class' => 'btn btn-success']) . ' ';
+                    if(User::hasPermission('agregarProceso')) { 
+                        echo Html::button(Html::a('Crear proceso', ['create']), ['class' => 'btn btn-success']) . ' ';
                     }
 
-                    echo Html::button(Html::a('Regresar', ['/tipos-formatos']), ['class' => 'btn btn-light']);
+                    echo Html::button(Html::a('Regresar', ['/procesos']), ['class' => 'btn btn-light']);
                 ?>
                 </div>
         </div>
@@ -43,7 +43,7 @@ $this->title = $model->tipo_formato;
             <?= DetailView::widget([
                 'model' => $model,
                 'attributes' => [
-                   'tipo_formato',
+                   'proceso',
                    [
                       'attribute' => 'activo',
                       'value' => fn($model) => $model->activo == 1 ? 'Sí' : 'No'

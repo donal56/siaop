@@ -69,7 +69,8 @@ class ActividadesController extends BaseController {
         };
 
         $model = new Actividad();
-
+                $model->activo = 1;
+        
         if ($model->load(Yii::$app->request->post())) {
 
             $transaction = Yii::$app->db->beginTransaction();

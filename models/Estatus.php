@@ -44,7 +44,7 @@ class Estatus extends \yii\db\ActiveRecord {
         return [
             'id_estatus' => 'Estatus',
             'estatus' => 'Estatus',
-            'id_tipo_estatus' => 'Tipo estatus',
+            'id_tipo_estatus' => 'Tipo de estatus',
         ];
     }
 

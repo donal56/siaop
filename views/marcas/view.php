@@ -32,7 +32,7 @@ $this->title = $model->marca;
                     } 
 
                     if(User::hasPermission('agregarMarca')) { 
-                        echo Html::button(Html::a('Crear Marca', ['create']), ['class' => 'btn btn-success']) . ' ';
+                        echo Html::button(Html::a('Crear marca', ['create']), ['class' => 'btn btn-success']) . ' ';
                     }
 
                     echo Html::button(Html::a('Regresar', ['/marcas']), ['class' => 'btn btn-light']);

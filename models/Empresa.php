@@ -51,7 +51,7 @@ class Empresa extends \yii\db\ActiveRecord {
         return [
             'id_empresa' => 'ID',
             'empresa' => 'Empresa',
-            'descripcion' => 'Descripcion',
+            'descripcion' => 'Descripción',
             'activo' => 'Activo',
             'fecha_version' => 'Última fecha de modificación',
             'usuario_version' => 'Último usuario de modificación',

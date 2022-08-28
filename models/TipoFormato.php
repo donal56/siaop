@@ -52,7 +52,7 @@ class TipoFormato extends \yii\db\ActiveRecord {
         return [
             'id_tipo_formato' => 'ID',
             'id_empresa' => 'Empresa',
-            'tipo_formato' => 'Tipo formato',
+            'tipo_formato' => 'Tipo de formato',
             'activo' => 'Activo',
             'fecha_version' => 'Última fecha de modificación',
             'usuario_version' => 'Último usuario de modificación',

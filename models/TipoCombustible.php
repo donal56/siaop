@@ -23,11 +23,6 @@ use webvimark\modules\UserManagement\models\User;
  */
 class TipoCombustible extends \yii\db\ActiveRecord {
 
-    public function __construct($config = []) {
-        $this->activo = 1;
-        parent::__construct($config);
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -54,8 +49,8 @@ class TipoCombustible extends \yii\db\ActiveRecord {
         return [
             'id_tipo_combustible' => 'ID',
             'id_empresa' => 'Empresa',
-            'tipo_combustible' => 'Tipo combustible',
-            'descripcion' => 'Descripcion',
+            'tipo_combustible' => 'Tipo de combustible',
+            'descripcion' => 'Descripción',
             'activo' => 'Activo',
             'fecha_version' => 'Última fecha de modificación',
             'usuario_version' => 'Último usuario de modificación',
@@ -83,9 +78,9 @@ class TipoCombustible extends \yii\db\ActiveRecord {
     public static function generateDropdownData() {
         return ArrayHelper::map(
             TipoCombustible::find()->orderBy(['tipo_combustible' => SORT_ASC])->all(), 
-            'id_tipo_combustible', 
-            'tipo_combustible'
-        );
+                'id_tipo_combustible', 
+                'tipo_combustible'
+            );
     }
 
     public function beforeSave($insert) {

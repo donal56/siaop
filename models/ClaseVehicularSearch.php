@@ -37,7 +37,11 @@ class ClaseVehicularSearch extends ClaseVehicular {
      * @return ActiveDataProvider
      */
     public function search($params) {
-        $query = ClaseVehicular::find();
+        $query = ClaseVehicular::find()
+            ->joinWith([
+              "empresa",
+              "usuarioVersion",
+            ]);
 
         // add conditions that should always apply here
 

@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-use Yii;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -25,10 +24,8 @@ class TipoEstatus extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['id_tipo_estatus', 'tipo_estatus'], 'required'],
-            [['id_tipo_estatus'], 'integer'],
+            [['tipo_estatus'], 'required'],
             [['tipo_estatus'], 'string', 'max' => 255],
-            [['id_tipo_estatus'], 'unique'],
         ];
     }
 
@@ -37,14 +34,14 @@ class TipoEstatus extends \yii\db\ActiveRecord {
      */
     public function attributeLabels() {
         return [
-            'id_tipo_estatus' => 'Tipo estatus',
-            'tipo_estatus' => 'Tipo estatus',
+            'id_tipo_estatus' => 'ID',
+            'tipo_estatus' => 'Tipo de estatus',
         ];
     }
 
     public static function generateDropdownData() {
         return ArrayHelper::map(
-            TipoEstatu::find()->orderBy(['tipo_estatus' => SORT_ASC])->all(), 
+            TipoEstatus::find()->orderBy(['tipo_estatus' => SORT_ASC])->all(), 
             'id_tipo_estatus', 
             'tipo_estatus'
         );

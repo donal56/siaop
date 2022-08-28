@@ -25,11 +25,6 @@ use webvimark\modules\UserManagement\models\User;
  */
 class Actividad extends \yii\db\ActiveRecord {
 
-    public function __construct($config = []) {
-        $this->activo = 1;
-        parent::__construct($config);
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -55,7 +50,7 @@ class Actividad extends \yii\db\ActiveRecord {
     public function attributeLabels() {
         return [
             'id_actividad' => 'ID',
-            'id_unidad_medida' => 'Unidad medida',
+            'id_unidad_medida' => 'Unidad de medida',
             'id_empresa' => 'Empresa',
             'actividad' => 'Actividad',
             'activo' => 'Activo',
@@ -94,9 +89,9 @@ class Actividad extends \yii\db\ActiveRecord {
     public static function generateDropdownData() {
         return ArrayHelper::map(
             Actividad::find()->orderBy(['actividad' => SORT_ASC])->all(), 
-            'id_actividad', 
-            'actividad'
-        );
+                'id_actividad', 
+                'actividad'
+            );
     }
 
     public function beforeSave($insert) {

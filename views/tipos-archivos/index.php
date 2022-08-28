@@ -2,7 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\widgets\Pjax;
+use yii\widgets\Pjax;use webvimark\modules\UserManagement\models\User;
+
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\TipoArchivoSearch */
@@ -15,17 +16,25 @@ $this->title = 'Tipos archivos';
         <div class="card-header d-block">
             <h4 class= "card-title"><?= Html::encode($this->title) ?></h4>
             <br>
-            <div class= "btn-page">
-                <?= Html::button(Html::a('Crear tipo archivo' . '<span class="btn-icon-end"><i class="fa fa-plus"></i></span>', ['create']), ['class' => 'btn btn-success']) ?>
-            </p>
+            <?php 
+                if(User::hasPermission('agregarTipoArchivo')) { 
+                    echo '<div class= "btn-page">';
+                        echo Html::button(Html::a('Crear tipo archivo' . '<span class="btn-icon-end"><i class="fa fa-plus"></i></span>', ['create']), ['class' => 'btn btn-success']);
+                    echo '</div>';
+                }
+            ?>
         </div>
         <div class="card-body">
             <?php Pjax::begin(); ?>
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
-               'columns' => [
+                'columns' => [
                     ['class' => 'yii\grid\SerialColumn'],
+                    [
+                        'attribute' => 'id_proceso',
+                        'value' => fn($model) => $model->proceso->proceso,
+                        'filter' => app\models\Proceso::generateDropdownData()                   ],
                     [
                         'attribute' => 'tipo_archivo',
                         'format' => 'text',
@@ -33,7 +42,7 @@ $this->title = 'Tipos archivos';
                              'class' => 'form-control',
                              'placeholder' => '🔎︎',
                        ],
-                  ],
+                   ],
                     [
                         'attribute' => 'activo',
                         'format' => fn($val) => $val == 1 ? "Sí" : "No",
@@ -41,7 +50,7 @@ $this->title = 'Tipos archivos';
                              'class' => 'form-control',
                              'placeholder' => '🔎︎',
                        ],
-                  ],
+                   ],
                     ['class' => 'yii\grid\ActionColumn'],
                 ],
                 'tableOptions' => [

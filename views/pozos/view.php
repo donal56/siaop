@@ -32,7 +32,7 @@ $this->title = $model->pozo;
                     } 
 
                     if(User::hasPermission('agregarPozo')) { 
-                        echo Html::button(Html::a('Crear Pozo', ['create']), ['class' => 'btn btn-success']) . ' ';
+                        echo Html::button(Html::a('Crear pozo', ['create']), ['class' => 'btn btn-success']) . ' ';
                     }
 
                     echo Html::button(Html::a('Regresar', ['/pozos']), ['class' => 'btn btn-light']);

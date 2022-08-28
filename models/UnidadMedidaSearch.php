@@ -37,7 +37,11 @@ class UnidadMedidaSearch extends UnidadMedida {
      * @return ActiveDataProvider
      */
     public function search($params) {
-        $query = UnidadMedida::find();
+        $query = UnidadMedida::find()
+            ->joinWith([
+              "empresa",
+              "usuarioVersion",
+            ]);
 
         // add conditions that should always apply here
 

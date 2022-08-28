@@ -18,11 +18,11 @@ $this->title = $model->unidad_medida;
             <br>
             <div class= "btn-page">
                 <?php 
-                    if(User::hasPermission('modificarUnidad Medida')) { 
+                    if(User::hasPermission('modificarUnidadMedida')) { 
                         echo Html::button(Html::a('Actualizar', ['update', 'id' => $model->id_unidad_medida]), ['class' => 'btn btn-primary']) . " ";
                     }
                     
-                    if (User::hasPermission('eliminarUnidad Medida')) { 
+                    if (User::hasPermission('eliminarUnidadMedida')) { 
                         echo Html::button(Html::a('Eliminar', ['delete', 'id' => $model->id_unidad_medida], [
                             'data' => [
                                 'confirm' => '¿Esta seguro de eliminar este registro?',
@@ -31,8 +31,8 @@ $this->title = $model->unidad_medida;
                         ]), ['class' => 'btn btn-danger']) . " ";
                     } 
 
-                    if(User::hasPermission('agregarUnidad Medida')) { 
-                        echo Html::button(Html::a('Crear Unidad Medida', ['create']), ['class' => 'btn btn-success']) . ' ';
+                    if(User::hasPermission('agregarUnidadMedida')) { 
+                        echo Html::button(Html::a('Crear unidad medida', ['create']), ['class' => 'btn btn-success']) . ' ';
                     }
 
                     echo Html::button(Html::a('Regresar', ['/unidades-medida']), ['class' => 'btn btn-light']);

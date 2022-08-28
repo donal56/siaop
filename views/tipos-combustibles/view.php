@@ -18,11 +18,11 @@ $this->title = $model->tipo_combustible;
             <br>
             <div class= "btn-page">
                 <?php 
-                    if(User::hasPermission('modificarTipo Combustible')) { 
+                    if(User::hasPermission('modificarTipoCombustible')) { 
                         echo Html::button(Html::a('Actualizar', ['update', 'id' => $model->id_tipo_combustible]), ['class' => 'btn btn-primary']) . " ";
                     }
                     
-                    if (User::hasPermission('eliminarTipo Combustible')) { 
+                    if (User::hasPermission('eliminarTipoCombustible')) { 
                         echo Html::button(Html::a('Eliminar', ['delete', 'id' => $model->id_tipo_combustible], [
                             'data' => [
                                 'confirm' => '¿Esta seguro de eliminar este registro?',
@@ -31,8 +31,8 @@ $this->title = $model->tipo_combustible;
                         ]), ['class' => 'btn btn-danger']) . " ";
                     } 
 
-                    if(User::hasPermission('agregarTipo Combustible')) { 
-                        echo Html::button(Html::a('Crear Tipo Combustible', ['create']), ['class' => 'btn btn-success']) . ' ';
+                    if(User::hasPermission('agregarTipoCombustible')) { 
+                        echo Html::button(Html::a('Crear tipo combustible', ['create']), ['class' => 'btn btn-success']) . ' ';
                     }
 
                     echo Html::button(Html::a('Regresar', ['/tipos-combustibles']), ['class' => 'btn btn-light']);

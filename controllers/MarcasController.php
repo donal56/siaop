@@ -69,7 +69,8 @@ class MarcasController extends BaseController {
         };
 
         $model = new Marca();
-
+                $model->activo = 1;
+        
         if ($model->load(Yii::$app->request->post())) {
 
             $transaction = Yii::$app->db->beginTransaction();

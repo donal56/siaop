@@ -18,11 +18,11 @@ $this->title = $model->placa;
             <br>
             <div class= "btn-page">
                 <?php 
-                    if(User::hasPermission('modificarUnidad Vehicular')) { 
+                    if(User::hasPermission('modificarUnidadVehicular')) { 
                         echo Html::button(Html::a('Actualizar', ['update', 'id' => $model->id_unidad_vehicular]), ['class' => 'btn btn-primary']) . " ";
                     }
                     
-                    if (User::hasPermission('eliminarUnidad Vehicular')) { 
+                    if (User::hasPermission('eliminarUnidadVehicular')) { 
                         echo Html::button(Html::a('Eliminar', ['delete', 'id' => $model->id_unidad_vehicular], [
                             'data' => [
                                 'confirm' => '¿Esta seguro de eliminar este registro?',
@@ -31,8 +31,8 @@ $this->title = $model->placa;
                         ]), ['class' => 'btn btn-danger']) . " ";
                     } 
 
-                    if(User::hasPermission('agregarUnidad Vehicular')) { 
-                        echo Html::button(Html::a('Crear Unidad Vehicular', ['create']), ['class' => 'btn btn-success']) . ' ';
+                    if(User::hasPermission('agregarUnidadVehicular')) { 
+                        echo Html::button(Html::a('Crear unidad vehicular', ['create']), ['class' => 'btn btn-success']) . ' ';
                     }
 
                     echo Html::button(Html::a('Regresar', ['/unidades-vehiculares']), ['class' => 'btn btn-light']);
@@ -43,10 +43,10 @@ $this->title = $model->placa;
             <?= DetailView::widget([
                 'model' => $model,
                 'attributes' => [
-                   'id_marca',
-                   'id_tipo_unidad_vehicular',
-                   'id_clase_vehicular',
-                   'id_tipo_combustible',
+                   'marca.marca',
+                   'tipoUnidadVehicular.tipo_unidad_vehicular',
+                   'claseVehicular.clase_vehicular',
+                   'tipoCombustible.tipo_combustible',
                    'modelo',
                    'placa',
                    'motor',

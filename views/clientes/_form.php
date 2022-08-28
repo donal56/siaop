@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use webvimark\modules\UserManagement\models\User;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Cliente */
@@ -38,9 +39,11 @@ use yii\widgets\ActiveForm;
                     <?= Html::button('Guardar', ['class' => 'btn btn-success',
                         'onclick' => 'saveSimpleForm("cliente-form", false)'
                     ]) ?>
-                    <?= Html::button('Guardar y crear otro', ['class' => 'btn btn-primary',
-                        'onclick' => 'saveSimpleForm("cliente-form", true)'
-                    ]) ?>
+                    <?php 
+                        if(User::hasPermission('agregarCliente')) { 
+                            Html::button('Guardar y crear otro', ['class' => 'btn btn-primary', 'onclick' => 'saveSimpleForm("cliente-form", true)']) . ' ';
+                        }
+                    ?>
                     <?= Html::button(Html::a('Regresar', ['index']), ['class' => 'btn btn-light']) ?>
                 </div>
             <?php ActiveForm::end(); ?>

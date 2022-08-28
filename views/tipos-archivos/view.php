@@ -18,11 +18,11 @@ $this->title = $model->tipo_archivo;
             <br>
             <div class= "btn-page">
                 <?php 
-                    if(User::hasPermission('modificarTipo Archivo')) { 
+                    if(User::hasPermission('modificarTipoArchivo')) { 
                         echo Html::button(Html::a('Actualizar', ['update', 'id' => $model->id_tipo_archivo]), ['class' => 'btn btn-primary']) . " ";
                     }
                     
-                    if (User::hasPermission('eliminarTipo Archivo')) { 
+                    if (User::hasPermission('eliminarTipoArchivo')) { 
                         echo Html::button(Html::a('Eliminar', ['delete', 'id' => $model->id_tipo_archivo], [
                             'data' => [
                                 'confirm' => '¿Esta seguro de eliminar este registro?',
@@ -31,8 +31,8 @@ $this->title = $model->tipo_archivo;
                         ]), ['class' => 'btn btn-danger']) . " ";
                     } 
 
-                    if(User::hasPermission('agregarTipo Archivo')) { 
-                        echo Html::button(Html::a('Crear Tipo Archivo', ['create']), ['class' => 'btn btn-success']) . ' ';
+                    if(User::hasPermission('agregarTipoArchivo')) { 
+                        echo Html::button(Html::a('Crear tipo archivo', ['create']), ['class' => 'btn btn-success']) . ' ';
                     }
 
                     echo Html::button(Html::a('Regresar', ['/tipos-archivos']), ['class' => 'btn btn-light']);
@@ -43,6 +43,7 @@ $this->title = $model->tipo_archivo;
             <?= DetailView::widget([
                 'model' => $model,
                 'attributes' => [
+                   'proceso.proceso',
                    'tipo_archivo',
                    [
                       'attribute' => 'activo',

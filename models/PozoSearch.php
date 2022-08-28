@@ -37,7 +37,11 @@ class PozoSearch extends Pozo {
      * @return ActiveDataProvider
      */
     public function search($params) {
-        $query = Pozo::find();
+        $query = Pozo::find()
+            ->joinWith([
+              "empresa",
+              "usuarioVersion",
+            ]);
 
         // add conditions that should always apply here
 

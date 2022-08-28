@@ -69,7 +69,8 @@ class TiposArchivosController extends BaseController {
         };
 
         $model = new TipoArchivo();
-
+                $model->activo = 1;
+        
         if ($model->load(Yii::$app->request->post())) {
 
             $transaction = Yii::$app->db->beginTransaction();

@@ -37,7 +37,11 @@ class TipoUnidadVehicularSearch extends TipoUnidadVehicular {
      * @return ActiveDataProvider
      */
     public function search($params) {
-        $query = TipoUnidadVehicular::find();
+        $query = TipoUnidadVehicular::find()
+            ->joinWith([
+              "empresa",
+              "usuarioVersion",
+            ]);
 
         // add conditions that should always apply here
 

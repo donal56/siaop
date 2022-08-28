@@ -16,7 +16,7 @@ class TipoArchivoSearch extends TipoArchivo {
      */
     public function rules() {
         return [
-            [['id_tipo_archivo', 'id_empresa', 'activo', 'usuario_version'], 'integer'],
+            [['id_tipo_archivo', 'id_proceso', 'id_empresa', 'activo', 'usuario_version'], 'integer'],
             [['tipo_archivo', 'fecha_version'], 'safe'],
         ];
     }
@@ -37,7 +37,12 @@ class TipoArchivoSearch extends TipoArchivo {
      * @return ActiveDataProvider
      */
     public function search($params) {
-        $query = TipoArchivo::find();
+        $query = TipoArchivo::find()
+            ->joinWith([
+              "empresa",
+              "proceso",
+              "usuarioVersion",
+            ]);
 
         // add conditions that should always apply here
 
@@ -56,6 +61,7 @@ class TipoArchivoSearch extends TipoArchivo {
         // grid filtering conditions
         $query->andFilterWhere([
             'id_tipo_archivo' => $this->id_tipo_archivo,
+            'id_proceso' => $this->id_proceso,
             'id_empresa' => $this->id_empresa,
             'activo' => $this->activo,
             'fecha_version' => $this->fecha_version,

@@ -47,11 +47,6 @@ use webvimark\modules\UserManagement\models\User;
  */
 class UnidadVehicular extends \yii\db\ActiveRecord {
 
-    public function __construct($config = []) {
-        $this->activo = 1;
-        parent::__construct($config);
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -86,23 +81,23 @@ class UnidadVehicular extends \yii\db\ActiveRecord {
             'id_unidad_vehicular' => 'ID',
             'id_empresa' => 'Empresa',
             'id_marca' => 'Marca',
-            'id_tipo_unidad_vehicular' => 'Tipo unidad vehicular',
+            'id_tipo_unidad_vehicular' => 'Tipo de unidad vehicular',
             'id_clase_vehicular' => 'Clase vehicular',
-            'id_tipo_combustible' => 'Tipo combustible',
+            'id_tipo_combustible' => 'Tipo de combustible',
             'modelo' => 'Modelo',
             'placa' => 'Placa',
             'motor' => 'Motor',
-            'tarjeta_circulacion' => 'Tarjeta circulacion',
-            'numero_identificacion_vehicular' => 'Numero identificacion vehicular',
+            'tarjeta_circulacion' => 'Tarjeta de circulacion',
+            'numero_identificacion_vehicular' => 'Numero de identificacion de vehicular',
             'poliza' => 'Poliza',
-            'vigencia_poliza' => 'Vigencia poliza',
-            'permiso_ruta_sct' => 'Permiso ruta sct',
-            'numero_economica' => 'Numero economica',
-            'permiso_trp' => 'Permiso trp',
-            'vigencia_trp' => 'Vigencia trp',
-            'permiso_trme' => 'Permiso trme',
-            'vigencia_trme' => 'Vigencia trme',
-            'rendimiento_combustible' => 'Rendimiento combustible',
+            'vigencia_poliza' => 'Vigencia de poliza',
+            'permiso_ruta_sct' => 'Permiso de ruta de SCT',
+            'numero_economica' => 'Numero económica',
+            'permiso_trp' => 'Permiso de TRP',
+            'vigencia_trp' => 'Vigencia de TRP',
+            'permiso_trme' => 'Permiso de TRME',
+            'vigencia_trme' => 'Vigencia de TRME',
+            'rendimiento_combustible' => 'Rendimiento de combustible',
             'activo' => 'Activo',
             'fecha_version' => 'Última fecha de modificación',
             'usuario_version' => 'Último usuario de modificación',
@@ -166,9 +161,9 @@ class UnidadVehicular extends \yii\db\ActiveRecord {
     public static function generateDropdownData() {
         return ArrayHelper::map(
             UnidadVehicular::find()->orderBy(['placa' => SORT_ASC])->all(), 
-            'id_unidad_vehicular', 
-            'placa'
-        );
+                'id_unidad_vehicular', 
+                'placa'
+            );
     }
 
     public function beforeSave($insert) {

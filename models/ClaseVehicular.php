@@ -23,11 +23,6 @@ use webvimark\modules\UserManagement\models\User;
  */
 class ClaseVehicular extends \yii\db\ActiveRecord {
 
-    public function __construct($config = []) {
-        $this->activo = 1;
-        parent::__construct($config);
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -54,7 +49,7 @@ class ClaseVehicular extends \yii\db\ActiveRecord {
             'id_clase_vehicular' => 'ID',
             'id_empresa' => 'Empresa',
             'clase_vehicular' => 'Clase vehicular',
-            'descripcion' => 'Descripcion',
+            'descripcion' => 'Descripción',
             'activo' => 'Activo',
             'fecha_version' => 'Última fecha de modificación',
             'usuario_version' => 'Último usuario de modificación',
@@ -82,9 +77,9 @@ class ClaseVehicular extends \yii\db\ActiveRecord {
     public static function generateDropdownData() {
         return ArrayHelper::map(
             ClaseVehicular::find()->orderBy(['clase_vehicular' => SORT_ASC])->all(), 
-            'id_clase_vehicular', 
-            'clase_vehicular'
-        );
+                'id_clase_vehicular', 
+                'clase_vehicular'
+            );
     }
 
     public function beforeSave($insert) {

@@ -3,11 +3,11 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Formato */
+/* @var $model app\models\Proceso */
 
-$this->title = 'Actualizar formato: $model->titulo';
+$this->title = "Actualizar proceso: " . $model->proceso;
 ?>
-<div class="formato-update">
+<div class="proceso-update">
     <?= $this->render('_form', [
         'model' => $model,
         'guardado' => $guardado

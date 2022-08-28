@@ -69,7 +69,8 @@ class TiposCombustiblesController extends BaseController {
         };
 
         $model = new TipoCombustible();
-
+                $model->activo = 1;
+        
         if ($model->load(Yii::$app->request->post())) {
 
             $transaction = Yii::$app->db->beginTransaction();

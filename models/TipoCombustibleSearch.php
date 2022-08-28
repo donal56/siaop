@@ -37,7 +37,11 @@ class TipoCombustibleSearch extends TipoCombustible {
      * @return ActiveDataProvider
      */
     public function search($params) {
-        $query = TipoCombustible::find();
+        $query = TipoCombustible::find()
+            ->joinWith([
+              "empresa",
+              "usuarioVersion",
+            ]);
 
         // add conditions that should always apply here
 

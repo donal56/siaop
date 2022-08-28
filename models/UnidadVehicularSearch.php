@@ -38,7 +38,15 @@ class UnidadVehicularSearch extends UnidadVehicular {
      * @return ActiveDataProvider
      */
     public function search($params) {
-        $query = UnidadVehicular::find();
+        $query = UnidadVehicular::find()
+            ->joinWith([
+              "claseVehicular",
+              "empresa",
+              "tipoCombustible",
+              "marca",
+              "tipoUnidadVehicular",
+              "usuarioVersion",
+            ]);
 
         // add conditions that should always apply here
 

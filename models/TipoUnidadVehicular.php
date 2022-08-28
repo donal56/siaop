@@ -23,11 +23,6 @@ use webvimark\modules\UserManagement\models\User;
  */
 class TipoUnidadVehicular extends \yii\db\ActiveRecord {
 
-    public function __construct($config = []) {
-        $this->activo = 1;
-        parent::__construct($config);
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -54,8 +49,8 @@ class TipoUnidadVehicular extends \yii\db\ActiveRecord {
         return [
             'id_tipo_unidad_vehicular' => 'ID',
             'id_empresa' => 'Empresa',
-            'tipo_unidad_vehicular' => 'Tipo unidad vehicular',
-            'descripcion' => 'Descripcion',
+            'tipo_unidad_vehicular' => 'Tipo de unidad vehicular',
+            'descripcion' => 'Descripción',
             'activo' => 'Activo',
             'fecha_version' => 'Última fecha de modificación',
             'usuario_version' => 'Último usuario de modificación',
@@ -83,9 +78,9 @@ class TipoUnidadVehicular extends \yii\db\ActiveRecord {
     public static function generateDropdownData() {
         return ArrayHelper::map(
             TipoUnidadVehicular::find()->orderBy(['tipo_unidad_vehicular' => SORT_ASC])->all(), 
-            'id_tipo_unidad_vehicular', 
-            'tipo_unidad_vehicular'
-        );
+                'id_tipo_unidad_vehicular', 
+                'tipo_unidad_vehicular'
+            );
     }
 
     public function beforeSave($insert) {

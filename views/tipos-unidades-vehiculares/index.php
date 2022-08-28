@@ -2,7 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\widgets\Pjax;
+use yii\widgets\Pjax;use webvimark\modules\UserManagement\models\User;
+
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\TipoUnidadVehicularSearch */
@@ -15,16 +16,20 @@ $this->title = 'Tipos unidades vehiculares';
         <div class="card-header d-block">
             <h4 class= "card-title"><?= Html::encode($this->title) ?></h4>
             <br>
-            <div class= "btn-page">
-                <?= Html::button(Html::a('Crear tipo unidad vehicular' . '<span class="btn-icon-end"><i class="fa fa-plus"></i></span>', ['create']), ['class' => 'btn btn-success']) ?>
-            </p>
+            <?php 
+                if(User::hasPermission('agregarTipoUnidadVehicular')) { 
+                    echo '<div class= "btn-page">';
+                        echo Html::button(Html::a('Crear tipo unidad vehicular' . '<span class="btn-icon-end"><i class="fa fa-plus"></i></span>', ['create']), ['class' => 'btn btn-success']);
+                    echo '</div>';
+                }
+            ?>
         </div>
         <div class="card-body">
             <?php Pjax::begin(); ?>
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
-               'columns' => [
+                'columns' => [
                     ['class' => 'yii\grid\SerialColumn'],
                     [
                         'attribute' => 'tipo_unidad_vehicular',
@@ -33,7 +38,7 @@ $this->title = 'Tipos unidades vehiculares';
                              'class' => 'form-control',
                              'placeholder' => '🔎︎',
                        ],
-                  ],
+                   ],
                     [
                         'attribute' => 'descripcion',
                         'format' => 'text',
@@ -41,7 +46,7 @@ $this->title = 'Tipos unidades vehiculares';
                              'class' => 'form-control',
                              'placeholder' => '🔎︎',
                        ],
-                  ],
+                   ],
                     [
                         'attribute' => 'activo',
                         'format' => fn($val) => $val == 1 ? "Sí" : "No",
@@ -49,7 +54,7 @@ $this->title = 'Tipos unidades vehiculares';
                              'class' => 'form-control',
                              'placeholder' => '🔎︎',
                        ],
-                  ],
+                   ],
                     ['class' => 'yii\grid\ActionColumn'],
                 ],
                 'tableOptions' => [

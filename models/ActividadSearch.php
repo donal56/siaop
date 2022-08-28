@@ -37,7 +37,12 @@ class ActividadSearch extends Actividad {
      * @return ActiveDataProvider
      */
     public function search($params) {
-        $query = Actividad::find();
+        $query = Actividad::find()
+            ->joinWith([
+              "empresa",
+              "unidadMedida",
+              "usuarioVersion",
+            ]);
 
         // add conditions that should always apply here
 

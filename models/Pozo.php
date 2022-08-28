@@ -25,11 +25,6 @@ use webvimark\modules\UserManagement\models\User;
  */
 class Pozo extends \yii\db\ActiveRecord {
 
-    public function __construct($config = []) {
-        $this->activo = 1;
-        parent::__construct($config);
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -57,9 +52,9 @@ class Pozo extends \yii\db\ActiveRecord {
             'id_pozo' => 'ID',
             'id_empresa' => 'Empresa',
             'pozo' => 'Pozo',
-            'ubicacion_descripcion' => 'Ubicacion descripcion',
-            'ubicacion_x' => 'Ubicacion x',
-            'ubicacion_y' => 'Ubicacion y',
+            'ubicacion_descripcion' => 'Descripción de la ubicación',
+            'ubicacion_x' => 'Ubicación en X',
+            'ubicacion_y' => 'Ubicación en Y',
             'activo' => 'Activo',
             'fecha_version' => 'Última fecha de modificación',
             'usuario_version' => 'Último usuario de modificación',
@@ -87,9 +82,9 @@ class Pozo extends \yii\db\ActiveRecord {
     public static function generateDropdownData() {
         return ArrayHelper::map(
             Pozo::find()->orderBy(['pozo' => SORT_ASC])->all(), 
-            'id_pozo', 
-            'pozo'
-        );
+                'id_pozo', 
+                'pozo'
+            );
     }
 
     public function beforeSave($insert) {

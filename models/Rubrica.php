@@ -47,9 +47,9 @@ class Rubrica extends \yii\db\ActiveRecord {
     public function attributeLabels() {
         return [
             'id_rubrica' => 'ID',
-            'id_formato_seccion' => 'Formato seccion',
+            'id_formato_seccion' => 'Sección',
             'orden' => 'Orden',
-            'rubrica' => 'Rubrica',
+            'rubrica' => 'Rúbrica',
             'fecha_version' => 'Última fecha de modificación',
             'usuario_version' => 'Último usuario de modificación',
         ];

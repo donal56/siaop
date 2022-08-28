@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use webvimark\modules\UserManagement\models\User;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\TipoArchivo */
@@ -22,6 +23,9 @@ use yii\widgets\ActiveForm;
                 <?php  endif; ?>
 
                 <div class="row my-3">
+                       <?= $form->field($model, 'id_proceso', ['options' => ['class' => 'form-group col-sm-4']])
+                              ->dropDownList(\app\models\Proceso::generateDropdownData(), ['prompt' => '--Seleccione uno--', 'class' => 'form-control']) ?>
+
                        <?= $form->field($model, 'tipo_archivo', ['options' => ['class' => 'form-group col-sm-4']])
                               ->textInput(['maxlength' => true, 'class' => 'form-control']) ?>
 
@@ -35,9 +39,11 @@ use yii\widgets\ActiveForm;
                     <?= Html::button('Guardar', ['class' => 'btn btn-success',
                         'onclick' => 'saveSimpleForm("tipo-archivo-form", false)'
                     ]) ?>
-                    <?= Html::button('Guardar y crear otro', ['class' => 'btn btn-primary',
-                        'onclick' => 'saveSimpleForm("tipo-archivo-form", true)'
-                    ]) ?>
+                    <?php 
+                        if(User::hasPermission('agregarTipoArchivo')) { 
+                            Html::button('Guardar y crear otro', ['class' => 'btn btn-primary', 'onclick' => 'saveSimpleForm("tipo-archivo-form", true)']) . ' ';
+                        }
+                    ?>
                     <?= Html::button(Html::a('Regresar', ['index']), ['class' => 'btn btn-light']) ?>
                 </div>
             <?php ActiveForm::end(); ?>

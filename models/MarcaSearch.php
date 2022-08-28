@@ -37,7 +37,11 @@ class MarcaSearch extends Marca {
      * @return ActiveDataProvider
      */
     public function search($params) {
-        $query = Marca::find();
+        $query = Marca::find()
+            ->joinWith([
+              "empresa",
+              "usuarioVersion",
+            ]);
 
         // add conditions that should always apply here
 

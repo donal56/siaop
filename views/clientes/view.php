@@ -32,7 +32,7 @@ $this->title = $model->razon_social;
                     } 
 
                     if(User::hasPermission('agregarCliente')) { 
-                        echo Html::button(Html::a('Crear Cliente', ['create']), ['class' => 'btn btn-success']) . ' ';
+                        echo Html::button(Html::a('Crear cliente', ['create']), ['class' => 'btn btn-success']) . ' ';
                     }
 
                     echo Html::button(Html::a('Regresar', ['/clientes']), ['class' => 'btn btn-light']);

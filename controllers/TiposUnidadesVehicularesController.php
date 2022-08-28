@@ -69,7 +69,8 @@ class TiposUnidadesVehicularesController extends BaseController {
         };
 
         $model = new TipoUnidadVehicular();
-
+                $model->activo = 1;
+        
         if ($model->load(Yii::$app->request->post())) {
 
             $transaction = Yii::$app->db->beginTransaction();

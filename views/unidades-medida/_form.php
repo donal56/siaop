@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use webvimark\modules\UserManagement\models\User;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\UnidadMedida */
@@ -38,9 +39,11 @@ use yii\widgets\ActiveForm;
                     <?= Html::button('Guardar', ['class' => 'btn btn-success',
                         'onclick' => 'saveSimpleForm("unidad-medida-form", false)'
                     ]) ?>
-                    <?= Html::button('Guardar y crear otro', ['class' => 'btn btn-primary',
-                        'onclick' => 'saveSimpleForm("unidad-medida-form", true)'
-                    ]) ?>
+                    <?php 
+                        if(User::hasPermission('agregarUnidadMedida')) { 
+                            Html::button('Guardar y crear otro', ['class' => 'btn btn-primary', 'onclick' => 'saveSimpleForm("unidad-medida-form", true)']) . ' ';
+                        }
+                    ?>
                     <?= Html::button(Html::a('Regresar', ['index']), ['class' => 'btn btn-light']) ?>
                 </div>
             <?php ActiveForm::end(); ?>

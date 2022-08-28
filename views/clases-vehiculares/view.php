@@ -18,11 +18,11 @@ $this->title = $model->clase_vehicular;
             <br>
             <div class= "btn-page">
                 <?php 
-                    if(User::hasPermission('modificarClase Vehicular')) { 
+                    if(User::hasPermission('modificarClaseVehicular')) { 
                         echo Html::button(Html::a('Actualizar', ['update', 'id' => $model->id_clase_vehicular]), ['class' => 'btn btn-primary']) . " ";
                     }
                     
-                    if (User::hasPermission('eliminarClase Vehicular')) { 
+                    if (User::hasPermission('eliminarClaseVehicular')) { 
                         echo Html::button(Html::a('Eliminar', ['delete', 'id' => $model->id_clase_vehicular], [
                             'data' => [
                                 'confirm' => '¿Esta seguro de eliminar este registro?',
@@ -31,8 +31,8 @@ $this->title = $model->clase_vehicular;
                         ]), ['class' => 'btn btn-danger']) . " ";
                     } 
 
-                    if(User::hasPermission('agregarClase Vehicular')) { 
-                        echo Html::button(Html::a('Crear Clase Vehicular', ['create']), ['class' => 'btn btn-success']) . ' ';
+                    if(User::hasPermission('agregarClaseVehicular')) { 
+                        echo Html::button(Html::a('Crear clase vehicular', ['create']), ['class' => 'btn btn-success']) . ' ';
                     }
 
                     echo Html::button(Html::a('Regresar', ['/clases-vehiculares']), ['class' => 'btn btn-light']);
