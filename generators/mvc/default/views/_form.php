@@ -8,11 +8,14 @@ use yii\helpers\StringHelper;
 
 /* @var $model \yii\db\ActiveRecord */
 
+$permissionName = str_replace(' ', '', ucfirst(Inflector::camel2words(StringHelper::basename($generator->modelClass))));
+
 echo "<?php\n";
 ?>
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use webvimark\modules\UserManagement\models\User;
 
 /* @var $this yii\web\View */
 /* @var $model <?= ltrim($generator->modelClass, '\\') ?> */
@@ -51,9 +54,11 @@ use yii\widgets\ActiveForm;
                     <?= "<?= " ?>Html::button(<?= $generator->generateString('Guardar') ?>, ['class' => 'btn btn-success',
                         'onclick' => 'saveSimpleForm("<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>-form", false)'
                     ]) ?>
-                    <?= "<?= " ?>Html::button(<?= $generator->generateString('Guardar y crear otro') ?>, ['class' => 'btn btn-primary',
-                        'onclick' => 'saveSimpleForm("<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>-form", true)'
-                    ]) ?>
+                    <?="<?php \n" ?>
+                        if(User::hasPermission('agregar<?= $permissionName ?>')) { 
+                            Html::button(<?= $generator->generateString('Guardar y crear otro') ?>, ['class' => 'btn btn-primary', 'onclick' => 'saveSimpleForm("<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>-form", true)']) . ' ';
+                        }
+                    ?>
                     <?= "<?= " ?>Html::button(Html::a(<?= $generator->generateString('Regresar') ?>, ['index']), ['class' => 'btn btn-light']) ?>
                 </div>
             <?= "<?php " ?>ActiveForm::end(); ?>

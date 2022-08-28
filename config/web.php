@@ -5,6 +5,9 @@ use webvimark\modules\UserManagement\models\UserVisitLog;
 
 date_default_timezone_set('America/Mexico_City');
 
+/**
+ * Crear estos tres archivos para una instalacion limpia
+ */
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 $mailer = require __DIR__ . '/mailer.php';
@@ -198,8 +201,11 @@ if ($params['mode'] == 'develop') {
             'mvc' => [ 
                 'class' => 'app\generators\mvc\Generator',
                 'templates' => [
-                    'MVC' => '@app/generators/mvc/default'
+                    'mvc' => '@app/generators/mvc/default'
                 ]
+            ],
+            'modelsMassive' => [ 
+                'class' => 'app\generators\modelsMassive\Generator',
             ]
         ],
     ];

@@ -8,7 +8,6 @@ use yii\helpers\StringHelper;
 
 $modelClassName = Inflector::camel2words(StringHelper::basename($generator->modelClass));
 $nameAttributeTemplate = '$model->' . $nameAttribute;
-$title = $generator->generateString('Actualizar ' . strtolower($modelClassName) . ': $model->' . $nameField);
 
 echo "<?php\n";
 ?>
@@ -18,7 +17,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model <?= ltrim($generator->modelClass, '\\') ?> */
 
-$this->title = <?= $title ?>;
+$this->title = "<?= 'Actualizar ' . strtolower($modelClassName) . ': '?>" . $model-><?= $nameField ?>;
 ?>
 <div class="<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>-update">
     <?= '<?= ' ?>$this->render('_form', [

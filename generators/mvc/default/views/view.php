@@ -1,10 +1,13 @@
 <?php
 
+use app\components\Utils\ArrayUtils;
 use yii\helpers\Inflector;
 use yii\helpers\StringHelper;
 
 /* @var $this yii\web\View */
 /* @var $generator yii\gii\generators\crud\Generator */
+
+$permissionName = str_replace(' ', '', ucfirst(Inflector::camel2words(StringHelper::basename($generator->modelClass))));
 
 echo "<?php\n";
 ?>
@@ -27,11 +30,11 @@ $this->title = $model-><?= $generator->nameField ?>;
             <br>
             <div class= "btn-page">
                 <?="<?php \n" ?>
-                    if(User::hasPermission('modificar<?= ucfirst(Inflector::camel2words(StringHelper::basename($generator->modelClass))) ?>')) { 
+                    if(User::hasPermission('modificar<?= $permissionName ?>')) { 
                         echo Html::button(Html::a('Actualizar', ['update', 'id' => $model-><?= $nameAttribute ?>]), ['class' => 'btn btn-primary']) . " ";
                     }
                     
-                    if (User::hasPermission('eliminar<?= ucfirst(Inflector::camel2words(StringHelper::basename($generator->modelClass))) ?>')) { 
+                    if (User::hasPermission('eliminar<?= $permissionName ?>')) { 
                         echo Html::button(Html::a('Eliminar', ['delete', 'id' => $model-><?= $nameAttribute ?>], [
                             'data' => [
                                 'confirm' => '¿Esta seguro de eliminar este registro?',
@@ -40,8 +43,8 @@ $this->title = $model-><?= $generator->nameField ?>;
                         ]), ['class' => 'btn btn-danger']) . " ";
                     } 
 
-                    if(User::hasPermission('agregar<?= ucfirst(Inflector::camel2words(StringHelper::basename($generator->modelClass))) ?>')) { 
-                        echo Html::button(Html::a('Crear <?= Inflector::camel2words(StringHelper::basename($generator->modelClass)) ?>', ['create']), ['class' => 'btn btn-success']) . ' ';
+                    if(User::hasPermission('agregar<?= $permissionName ?>')) { 
+                        echo Html::button(Html::a('Crear <?= strtolower(Inflector::camel2words(StringHelper::basename($generator->modelClass))) ?>', ['create']), ['class' => 'btn btn-success']) . ' ';
                     }
 
                     echo Html::button(Html::a('Regresar', ['/<?= str_replace("_", "-", $generator->tableName) ?>']), ['class' => 'btn btn-light']);
@@ -76,6 +79,25 @@ $this->title = $model-><?= $generator->nameField ?>;
         }
         else if($column->name == 'usuario_version') {
             echo "                   'usuarioVersion.username',\n";
+        }
+        else if(in_array($column->name, $foreignKeys)) {
+            $relation = ArrayUtils::find($relations, fn($relation) => $relation[3] == $column->name);
+
+            if($relation == null) {
+                echo "<br>";
+                echo "<br>";
+                echo $column->name;
+                echo "<br>";
+                echo "<pre>";
+                print_r($relations);
+                echo "</pre>";
+                die();
+            }
+
+
+
+            $columnName =  lcfirst($relation[1]) . "." . str_replace("id_", "", $column->name);
+            echo "                   '" . $columnName . "',\n";
         }
         else {
             echo "                   '" . $column->name . "',\n";

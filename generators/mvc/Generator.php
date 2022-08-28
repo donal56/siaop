@@ -1,9 +1,4 @@
 <?php
-/**
- * @link http://www.yiiframework.com/
- * @copyright Copyright (c) 2008 Yii Software LLC
- * @license http://www.yiiframework.com/license/
- */
 
 namespace app\generators\mvc;
 
@@ -291,8 +286,6 @@ class Generator extends \yii\gii\Generator {
      */
     public function generate() {
         
-        $files = [];
-
         /**
          * Datos automáticos
          */
@@ -310,31 +303,12 @@ class Generator extends \yii\gii\Generator {
         $tableSchema = $db->getTableSchema($this->tableName);
         $pks = $tableSchema->primaryKey;
         $columns = $tableSchema->columns;
-
+        $tableRelations = isset($relations[$this->tableName]) ? $relations[$this->tableName] : [];
+        
         /**
          * Modelo
          */
-        foreach ($this->getTableNames() as $tableName) {
-            $modelClassName = $this->generateClassName($tableName);
-            $tableRelations = isset($relations[$tableName]) ? $relations[$tableName] : [];
-            $tableSchema = $db->getTableSchema($tableName);
-            $params = [
-                'tableName' => $tableName,
-                'className' => $modelClassName,
-                'tableSchema' => $tableSchema,
-                'properties' => $this->generateProperties($tableSchema),
-                'labels' => $this->generateLabels($tableSchema),
-                'rules' => $this->generateRules($tableSchema),
-                'relations' => $tableRelations,
-                'pks' => $pks,
-                'columnNames' => $tableSchema->getColumnNames(),
-                'relationsClassHints' => $this->generateRelationsClassHints($tableRelations, $this->generateQuery),
-            ];
-            $files[] = new CodeFile(
-                Yii::getAlias('@' . str_replace('\\', '/', $this->ns)) . '/' . $modelClassName . '.php',
-                $this->render('model.php', $params)
-            );
-        }
+        $files = [$this->generateModel($db, $this->tableName, $pks, $relations)];
 
         /**
          * Conrolador
@@ -346,9 +320,16 @@ class Generator extends \yii\gii\Generator {
             'urlParams' => $this->generateUrlParams($pks),
             'actionParams' => $this->generateActionParams($pks),
             'actionParamComments' => $this->generateActionParamComments($pks),
-            'searchConditions' => $this->generateSearchConditions($tableSchema)
+            'searchConditions' => $this->generateSearchConditions($tableSchema),
+            'properties' => $this->generateProperties($tableSchema),
+            'foreignKeys' => $this->getForeignKeys($tableSchema),
+            'relations' => $tableRelations
         ];
         $files[] = new CodeFile($controllerFile, $this->render('controller.php', $params));
+
+        /**
+         * Modelo de búsqueda
+         */
 
         if (!empty($this->searchModelClass)) {
             $searchModel = Yii::getAlias('@' . str_replace('\\', '/', ltrim($this->searchModelClass, '\\') . '.php'));
@@ -384,7 +365,9 @@ class Generator extends \yii\gii\Generator {
             'safeAttributes' => $safeAttributesSet,
             'columns' => $columns,
             'urlParams' => $this->generateUrlParams($pks),
-            'nameAttribute' => $pks[0]
+            'nameAttribute' => $pks[0],
+            'foreignKeys' => $this->getForeignKeys($tableSchema),
+            'relations' => $tableRelations
         ];
         foreach (scandir($templatePath) as $file) {
             if (is_file($templatePath . '/' . $file) && pathinfo($file, PATHINFO_EXTENSION) === 'php') {
@@ -777,7 +760,7 @@ class Generator extends \yii\gii\Generator {
             } 
             elseif(StringUtils::startsWith($column->name, 'id_')) {
                 $label = str_replace("id_", "", $column->name);
-                $label = StringUtils::capitalizeWord(str_replace("_", " ", $label));
+                $label = StringUtils::capitalizeWord(str_replace("_", " de ", $label));
                 $labels[$column->name] = $label;
             } 
             else {
@@ -1243,34 +1226,19 @@ class Generator extends \yii\gii\Generator {
      * @param bool $multiple whether this is a has-many relation
      * @return string the relation name
      */
-    protected function generateRelationName($relations, $table, $key, $multiple) {
+    protected function generateRelationName($relations, $table, $columnName, $multiple) {
 
-        if($key == "usuario_version") {
-            $tableName = "usuario_version";
-        }
-        else {
-            $relation = ArrayUtils::find($table->foreignKeys, fn($el) => ArrayUtils::getLastKey($el) == $key);
-
-            if($relation == null) {
-                if($multiple) {
-                    //return StringUtils::pluralize($key);
-                    return null;
-                }
-                else {
-                    return $key;
-                }
-            }
-            else {
-                $tableName = $relation[0];
-            }
-        }
+        $relationName = StringUtils::startsWith($columnName, "id_") ? substr($columnName, 3) : $columnName;
+        $relationName = StringUtils::pluralize(str_replace("_", " ", $relationName));
 
         if($multiple) {
-            return $this->generateControllerNameFromSnakeCase($tableName);
+            $relationName = $this->generateControllerNameFromSnakeCase($relationName);
         }
         else {
-            return $this->generateModelNameFromSnakeCase($tableName);
+            $relationName = $this->generateModelNameFromSnakeCase($relationName);
         }
+
+        return $relationName;
     }
 
      /**
@@ -1434,5 +1402,42 @@ class Generator extends \yii\gii\Generator {
                 StringUtils::capitalizeWords(
                     str_replace("_", " ", $tableName)
         ));
+    }
+
+    /**
+     * Nuevo método a implementar reemplazando anteriores técnicas
+     * Retorna un arreglo con las columnas de la tabla que forman parte de una relación foranea
+     */
+    public function getForeignKeys($tableSchema) {
+        $fks = array_values($tableSchema->foreignKeys);
+        array_walk($fks, function(&$relation) {
+            $relation = ArrayUtils::getLastKey($relation);
+        });
+        return $fks;
+    }
+
+    public function generateModel($db, $tableName) {
+        
+        $tableSchema = $db->getTableSchema($tableName);
+        $pks = $tableSchema->primaryKey;
+        $relations = $this->generateRelations();
+        $modelClassName = $this->generateClassName($tableName);
+        $tableRelations = isset($relations[$tableName]) ? $relations[$tableName] : [];
+        $params = [
+            'tableName' => $tableName,
+            'className' => $modelClassName,
+            'tableSchema' => $tableSchema,
+            'properties' => $this->generateProperties($tableSchema),
+            'labels' => $this->generateLabels($tableSchema),
+            'rules' => $this->generateRules($tableSchema),
+            'relations' => $tableRelations,
+            'pks' => $pks,
+            'columnNames' => $tableSchema->getColumnNames(),
+            'relationsClassHints' => $this->generateRelationsClassHints($tableRelations, $this->generateQuery),
+        ];
+        return new CodeFile(
+            Yii::getAlias('@' . str_replace('\\', '/', $this->ns)) . '/' . $modelClassName . '.php',
+            $this->render('model.php', $params)
+        );
     }
 }

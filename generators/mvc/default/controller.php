@@ -19,6 +19,8 @@ if ($modelClass === $searchModelClass) {
 /* @var $class ActiveRecordInterface */
 $class = $generator->modelClass;
 
+$hasActivo = in_array('activo', array_keys($properties));
+
 echo "<?php\n";
 ?>
 
@@ -95,6 +97,9 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
         };
 
         $model = new <?= $modelClass ?>();
+        <?php if($hasActivo): ?>
+        $model->activo = 1;
+        <?php endif; ?>
 
         if ($model->load(Yii::$app->request->post())) {
 

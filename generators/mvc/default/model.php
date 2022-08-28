@@ -37,9 +37,7 @@ use webvimark\modules\UserManagement\models\User;
 /**
  * This is the model class for table "<?= $generator->generateTableName($tableName) ?>".
  *
-<?php $hasActivo = false; ?>
 <?php foreach ($properties as $property => $data): ?>
-<?php $hasActivo = $hasActivo || $property == 'activo'; ?>
  * @property <?= "{$data['type']} \${$property}"  . ($data['comment'] ? ' ' . strtr($data['comment'], ["\n" => ' ']) : '') . "\n" ?>
 <?php endforeach; ?>
 <?php if (!empty($relations)): ?>
@@ -51,13 +49,6 @@ use webvimark\modules\UserManagement\models\User;
  */
 class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . " {\n" ?>
 
-<?php if($hasActivo): ?>
-    public function __construct($config = []) {
-        $this->activo = 1;
-        parent::__construct($config);
-    }
-
-<?php endif; ?>
     /**
      * {@inheritdoc}
      */
@@ -105,22 +96,26 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
 
     public static function generateDropdownData() {
         return ArrayHelper::map(
-            <?= $className ?>::find()->orderBy(['<?= $generator->nameField ?>' => SORT_ASC])->all(), 
-            '<?= $pks[0] ?>', 
-            '<?= $generator->nameField ?>'
-        );
+            <?= $className ?>::find()<?= in_array('activo', array_keys($properties)) ? "->where(['activo' => 1])" : "" ?>->orderBy(['<?= $generator->nameField ?>' => SORT_ASC])->all(), 
+                '<?= $pks[0] ?>', 
+                '<?= $generator->nameField ?>'
+            );
     }
 
     public function beforeSave($insert) {
-        <?php if(isset($properties['fecha_version'])): ?>
-        $this->fecha_version = date('Y-m-d H:i:s');
-        <?php endif; ?>
-        <?php if(isset($properties['usuario_version'])): ?>
-        $this->usuario_version = Yii::$app->user->identity->id;
-        <?php endif; ?>
-        <?php if(isset($properties['id_empresa'])): ?>
-        $this->id_empresa = Yii::$app->user->identity->id_empresa;
-        <?php endif; ?>
+<?php 
+    if(isset($properties['fecha_version'])) {
+        echo "        \$this->fecha_version = date('Y-m-d H:i:s');\n";
+    }
+
+    if(isset($properties['usuario_version'])) {
+        echo "        \$this->usuario_version = Yii::\$app->user->identity->id;\n";
+    }
+
+    if(isset($properties['id_empresa'])) {
+        echo "        \$this->id_empresa = Yii::\$app->user->identity->id_empresa;\n";
+    } 
+?>
         return parent::beforeSave($insert);
     }
 }

@@ -3,6 +3,7 @@
  * This is the template for generating CRUD search class of the specified model.
  */
 
+use app\components\Utils\ArrayUtils;
 use yii\helpers\StringHelper;
 
 
@@ -57,7 +58,15 @@ class <?= $searchModelClass ?> extends <?= isset($modelAlias) ? $modelAlias : $m
      * @return ActiveDataProvider
      */
     public function search($params) {
-        $query = <?= isset($modelAlias) ? $modelAlias : $modelClass ?>::find();
+        $query = <?= isset($modelAlias) ? $modelAlias : $modelClass ?>::find()
+            ->joinWith([
+<?php
+    $relationNames = ArrayUtils::map($relations, fn($relation, $relationName) => lcfirst($relationName));
+    foreach ($relationNames as $relationName) {
+        echo "              \"" . $relationName . "\",\n";
+    }
+?>
+            ]);
 
         // add conditions that should always apply here
 
