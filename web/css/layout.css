@@ -59,8 +59,8 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700");
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,500,700");
 @import url("https://fonts.googleapis.com/css?family=Nunito:400,600,700");
-@import url("./../icons/font-awesome/css/all.min.css");
-@import url("./../icons/bootstrap-icons/font/bootstrap-icons.css");
+@import url("./../icons/fontawesome-free-6.1.2-web/css/fontawesome.min.css");
+@import url("./../icons/fontawesome-free-6.1.2-web/css/solid.min.css");
 @import url(./../vendor/animate/animate.min.css);
 @import url(./../vendor/aos/css/aos.min.css);
 @import url(./perfect-scrollbar/perfect-scrollbar.css);
@@ -2685,7 +2685,7 @@ textarea.form-control-lg {
     background-repeat: no-repeat;
     background-position: right 0.75rem center;
     background-size: 16px 12px;
-    border: 1px solid #f5f5f5;
+    border: 1px solid #c5b8b8;
     border-radius: 0.75rem;
     appearance: none;
 }
@@ -3153,11 +3153,6 @@ textarea.form-control.is-valid {
 .form-select.is-valid:focus {
     border-color: #68e365;
     box-shadow: 0 0 0 0.25rem rgba(104, 227, 101, 0.25);
-}
-
-.was-validated .form-check-input:valid,
-.form-check-input.is-valid {
-    border-color: #68e365;
 }
 
 .was-validated .form-check-input:valid:checked,
@@ -8455,6 +8450,9 @@ fieldset:disabled .btn {
 
 .rounded-circle {
     border-radius: 50% !important;
+    background-color: white;
+    color: var(--primary);
+    font-weight: bold;
 }
 
 .rounded-pill {
@@ -12968,7 +12966,7 @@ label {
     text-align: left;
     position: absolute;
     top: 0;
-    background-color: var(--nav-headbg);
+    background-color: var(--primary);
     transition: all .2s ease;
     z-index: 5;
 }
@@ -13239,7 +13237,7 @@ label {
     z-index: 1;
     position: relative;
     padding: 0rem;
-    background: var(--headerbg);
+    background: var(--primary);
     z-index: 3;
     padding-left: 20.563rem;
     padding-top: 0rem;
@@ -25675,7 +25673,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
 
 [data-headerbg="color_4"][data-theme-version="dark"],
 [data-headerbg="color_4"] {
-    --headerbg: #4d06a5;
+    --headerbg: var(--primary);
 }
 
 [data-headerbg="color_4"][data-theme-version="dark"] .search-area .input-group-text,
@@ -27018,19 +27016,19 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
 }
 
 [data-primary="color_2"] {
-    --primary: #6610f2;
-    --secondary: #145650;
+    --primary: #0D53A2;
+    --secondary: #0e75e9;
     --primary-hover: #510bc4;
     --primary-dark: #290564;
-    --rgba-primary-1: rgba(102, 16, 242, 0.1);
-    --rgba-primary-2: rgba(102, 16, 242, 0.2);
-    --rgba-primary-3: rgba(102, 16, 242, 0.3);
-    --rgba-primary-4: rgba(102, 16, 242, 0.4);
-    --rgba-primary-5: rgba(102, 16, 242, 0.5);
-    --rgba-primary-6: rgba(102, 16, 242, 0.6);
-    --rgba-primary-7: rgba(102, 16, 242, 0.7);
-    --rgba-primary-8: rgba(102, 16, 242, 0.8);
-    --rgba-primary-9: rgba(102, 16, 242, 0.9);
+    --rgba-primary-1: rgba(13, 83, 162, 0.1);
+    --rgba-primary-2: rgba(13, 83, 162, 0.2);
+    --rgba-primary-3: rgba(13, 83, 162, 0.3);
+    --rgba-primary-4: rgba(13, 83, 162, 0.4);
+    --rgba-primary-5: rgba(13, 83, 162, 0.5);
+    --rgba-primary-6: rgba(13, 83, 162, 0.6);
+    --rgba-primary-7: rgba(13, 83, 162, 0.7);
+    --rgba-primary-8: rgba(13, 83, 162, 0.8);
+    --rgba-primary-9: rgba(13, 83, 162, 0.9);
 }
 
 [data-primary="color_3"] {
@@ -30922,7 +30920,6 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
 
 .form-control.is-valid {
     border-color: #68e365 !important;
-    border-right: 0rem !important;
 }
 
 .form-control.is-valid:focus {
@@ -34425,7 +34422,7 @@ button:focus {
 .btn-light:active,
 .btn-light:focus,
 .btn-light:hover {
-    background: white;
+    background: #f9f0f0;
     color: #6e6e6e;
     border-color: white;
 }
