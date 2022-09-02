@@ -82,7 +82,7 @@ DROP TABLE IF EXISTS dispositivos;
 CREATE TABLE dispositivos (
     id_dispositivo INT(11) PRIMARY KEY AUTO_INCREMENT,
     usuario INT(11) NOT NULL,
-    token VARCHAR(100) NOT NULL,
+    token VARCHAR(300) NOT NULL,
     activo TINYINT(1) NOT NULL DEFAULT 1,
     INDEX ix_dispositivo_usuario(usuario) USING BTREE,
     UNIQUE INDEX ix_dispositivo_token(token) USING BTREE,

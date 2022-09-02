@@ -37,7 +37,7 @@ class Dispositivo extends \yii\db\ActiveRecord {
         return [
             [['usuario', 'token'], 'required'],
             [['usuario', 'activo'], 'integer'],
-            [['token'], 'string', 'max' => 100],
+            [['token'], 'string', 'max' => 300],
             [['token'], 'unique'],
             [['usuario'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['usuario' => 'id']],
         ];
