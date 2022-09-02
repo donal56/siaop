@@ -180,7 +180,10 @@ class ApiController extends BaseController {
 
         $apiUrl     =   'https://fcm.googleapis.com/fcm/send';
         $apiKey     =   Yii::$app->params['firebaseApiKey'];
-        $headers    =   ['Authorization: key=' . $apiKey, 'Content-Type: application/json'];
+        $headers    =   [
+            'Authorization:key=' . $apiKey,
+            'Content-Type:application/json'
+        ];
 
         $titulo  = Html::decode(Yii::$app->request->post('titulo'));
         $mensaje = Html::decode(Yii::$app->request->post('mensaje'));
@@ -205,15 +208,7 @@ class ApiController extends BaseController {
                 'icon' => 'myIcon', 
                 'sound' => 'mySound'
             ], 
-            'data' => [
-                "message" => [
-                    'title' => $titulo, 
-                    'body' => $mensaje, 
-                    'icon' => 'myIcon', 
-                    'sound' => 'mySound'
-                ], 
-                "moredata" => 'dd'
-            ]
+            'time_to_live' => 600
         ];
 
         $dispositivo = Dispositivo::findOne(['usuario' => $destinatario]);
@@ -224,11 +219,6 @@ class ApiController extends BaseController {
             return $this->end($dispositivo);
         }
         
-        if(empty($dispositivo->token)) {
-            $dispositivo->addError('token', 'Token no válido');
-            return $this->end($dispositivo);
-        }
-
         $notification['to'] = $apiKey;
 
         $request = curl_init();
@@ -236,7 +226,7 @@ class ApiController extends BaseController {
         curl_setopt($request, CURLOPT_POST, true);
         curl_setopt($request, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);
+        //curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($request, CURLOPT_POSTFIELDS, json_encode($notification));
         
         $content = curl_exec($request);
