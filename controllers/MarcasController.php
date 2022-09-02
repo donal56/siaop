@@ -68,8 +68,7 @@ class MarcasController extends BaseController {
             ]);
         };
 
-        $model = new Marca();
-                $model->activo = 1;
+        $model = new Marca(['activo' => 1]);
         
         if ($model->load(Yii::$app->request->post())) {
 
@@ -87,7 +86,7 @@ class MarcasController extends BaseController {
                     return $this->redirect(['view', 'id' => $model->id_marca]);
                 }
                 else {
-                    return $returnToView(new Marca(), $model->marca);
+                    return $returnToView(new Marca(['activo' => 1]), $model->marca);
                 }
             } 
             catch(\Exception $e) {
@@ -133,7 +132,7 @@ class MarcasController extends BaseController {
                     return $this->redirect(['view', 'id' => $model->id_marca]);
                 }
                 else {
-                    return $returnToView(false, new Marca(), $model->marca);
+                    return $returnToView(false, new Marca(['activo' => 1]), $model->marca);
                 }
             } 
             catch(\Exception $e) {

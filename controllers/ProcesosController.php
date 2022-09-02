@@ -68,8 +68,7 @@ class ProcesosController extends BaseController {
             ]);
         };
 
-        $model = new Proceso();
-                $model->activo = 1;
+        $model = new Proceso(['activo' => 1]);
         
         if ($model->load(Yii::$app->request->post())) {
 
@@ -87,7 +86,7 @@ class ProcesosController extends BaseController {
                     return $this->redirect(['view', 'id' => $model->id_proceso]);
                 }
                 else {
-                    return $returnToView(new Proceso(), $model->proceso);
+                    return $returnToView(new Proceso(['activo' => 1]), $model->proceso);
                 }
             } 
             catch(\Exception $e) {
@@ -133,7 +132,7 @@ class ProcesosController extends BaseController {
                     return $this->redirect(['view', 'id' => $model->id_proceso]);
                 }
                 else {
-                    return $returnToView(false, new Proceso(), $model->proceso);
+                    return $returnToView(false, new Proceso(['activo' => 1]), $model->proceso);
                 }
             } 
             catch(\Exception $e) {

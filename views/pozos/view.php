@@ -1,14 +1,18 @@
 <?php
 
+use app\assets\GoogleMapsAsset;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use webvimark\modules\UserManagement\models\User;
+use yii\web\YiiAsset;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Pozo */
 
 $this->title = $model->pozo;
-\yii\web\YiiAsset::register($this);
+YiiAsset::register($this);
+GoogleMapsAsset::register($this);
+
 ?>
 <div class="pozo-view">
 
@@ -65,4 +69,23 @@ $this->title = $model->pozo;
             ]) ?>
         </div>
     </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div id="gooMap"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<?php
+
+$js = <<<JS
+    const gmap = new GMap();
+    gmap.setCenter({$model->ubicacion_x}, {$model->ubicacion_y}, 18);
+    gmap.addMarker({$model->ubicacion_x}, {$model->ubicacion_y}, '{$model->pozo}', '', true);
+JS;
+
+$this->registerJs($js, $this::POS_END, 'gooMap');

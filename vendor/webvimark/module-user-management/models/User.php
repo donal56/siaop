@@ -56,6 +56,13 @@ class User extends UserIdentity {
     public $repeat_password;
 
     /**
+     * Retorna el nombre completo
+     */
+    function getNombreCompleto() {
+        return trim($this->nombre . " " . $this->apellido_paterno . " " . ($this->apellido_materno == null ? "" : $this->apellido_materno));
+    }
+
+    /**
      * Store result in singleton to prevent multiple db requests with multiple calls
      *
      * @param bool $fromSingleton

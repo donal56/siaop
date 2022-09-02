@@ -7,6 +7,12 @@ INSERT INTO empresas VALUES (1, 'Global Water', '', 1, CURRENT_TIMESTAMP, 1);
 
 INSERT INTO usuarios VALUES (1, 'superadmin', 'uK_MurTu_J8lfwmoOYcuSdUelnbt-Lhl', '$2y$13$pteNp/lmyNMtMN.B9jZy6el6plclbtcBrLsVcWxFS/CrUi4gkXfTe', NULL, 1, 1, UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), 1, 1, NULL, NULL, 'donal_56@hotmail.com', 1, 'Carlos Donaldo', 'Ramón', 'Gómez', NULL, NULL, NULL, NULL, NULL, 1);
 
+INSERT INTO tipos_ordenes_servicio(id_tipo_orden_servicio, tipo_orden_servicio, activo, fecha_version, usuario_version) VALUES (1, 'Terrestre', 1, UNIX_TIMESTAMP(), 1);
+
+INSERT INTO tipos_estatus(id_tipo_estatus, tipo_estatus) VALUES (1, 'Ordenes de servicio');
+
+INSERT INTO estatus(id_estatus, estatus, id_tipo_estatus) VALUES (1, 'Registrado', 1);
+
 /** RBAC **/
 INSERT INTO grupos_permisos(code, name, created_at, updated_at) VALUES ('Actividades', 'Actividades', UNIX_TIMESTAMP(), UNIX_TIMESTAMP());
 INSERT INTO grupos_permisos(code, name, created_at, updated_at) VALUES ('ClasesVehiculares', 'Clases vehiculares', UNIX_TIMESTAMP(), UNIX_TIMESTAMP());
@@ -18,6 +24,9 @@ INSERT INTO grupos_permisos(code, name, created_at, updated_at) VALUES ('TiposCo
 INSERT INTO grupos_permisos(code, name, created_at, updated_at) VALUES ('TiposUnidadesVehiculares', 'Tipos de unidades vehiculares', UNIX_TIMESTAMP(), UNIX_TIMESTAMP());
 INSERT INTO grupos_permisos(code, name, created_at, updated_at) VALUES ('UnidadesMedida', 'Unidades de medida', UNIX_TIMESTAMP(), UNIX_TIMESTAMP());
 INSERT INTO grupos_permisos(code, name, created_at, updated_at) VALUES ('UnidadesVehiculares', 'Unidades vehiculares', UNIX_TIMESTAMP(), UNIX_TIMESTAMP());
+INSERT INTO grupos_permisos(code, name, created_at, updated_at) VALUES ('OrdenesServicio', 'Ordenes de servicios', UNIX_TIMESTAMP(), UNIX_TIMESTAMP());
+INSERT INTO grupos_permisos(code, name, created_at, updated_at) VALUES ('procesos', 'Procesos', UNIX_TIMESTAMP(), UNIX_TIMESTAMP());
+
 
 -- Refrescar rutas
 INSERT INTO permisos(name, type, description, rule_name, data, created_at, updated_at, group_code) VALUES ('agregarActividad', 2, 'Agregar actividad', NULL, NULL, UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), 'Actividades');
@@ -128,9 +137,11 @@ INSERT INTO permisos_hijos(parent, child) VALUES ('consultarProceso', '/procesos
 INSERT INTO permisos_hijos(parent, child) VALUES ('modificarProceso', '/procesos/update');
 INSERT INTO permisos_hijos(parent, child) VALUES ('consultarProceso', '/procesos/view');
 INSERT INTO permisos_hijos(parent, child) VALUES ('agregarOrdenServicio', '/ordenes-servicio/create');
+INSERT INTO permisos_hijos(parent, child) VALUES ('agregarOrdenServicio', '/pozos/json');
 INSERT INTO permisos_hijos(parent, child) VALUES ('eliminarOrdenServicio', '/ordenes-servicio/delete');
 INSERT INTO permisos_hijos(parent, child) VALUES ('consultarOrdenServicio', '/ordenes-servicio/index');
 INSERT INTO permisos_hijos(parent, child) VALUES ('modificarOrdenServicio', '/ordenes-servicio/update');
+INSERT INTO permisos_hijos(parent, child) VALUES ('modificarOrdenServicio', '/pozos/json');
 INSERT INTO permisos_hijos(parent, child) VALUES ('consultarOrdenServicio', '/ordenes-servicio/view');
 
 SET FOREIGN_KEY_CHECKS = 1;

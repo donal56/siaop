@@ -41,7 +41,7 @@ use webvimark\modules\UserManagement\models\User;
                     ]) ?>
                     <?php 
                         if(User::hasPermission('agregarTipoUnidadVehicular')) { 
-                            Html::button('Guardar y crear otro', ['class' => 'btn btn-primary', 'onclick' => 'saveSimpleForm("tipo-unidad-vehicular-form", true)']) . ' ';
+                            echo Html::button('Guardar y crear otro', ['class' => 'btn btn-primary', 'onclick' => 'saveSimpleForm("tipo-unidad-vehicular-form", true)']) . ' ';
                         }
                     ?>
                     <?= Html::button(Html::a('Regresar', ['index']), ['class' => 'btn btn-light']) ?>

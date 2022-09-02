@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Estatus;
 use Yii;
 use app\models\OrdenServicio;
 use app\models\OrdenServicioSearch;
@@ -57,9 +58,11 @@ class OrdenesServicioController extends BaseController {
     /**
      * Creates a new OrdenServicio model.
      * If creation is successful, the browser will be redirected to the 'view' page.
+     * @param createAnother - guardar y crear otro
+     * @param t - tipo de orden de servicio
      * @return mixed
      */
-    public function actionCreate($createAnother = 0) {
+    public function actionCreate($tipo, $createAnother = 0) {
 
         $returnToView = function ($model, $guardado = null) {
             return $this->render('create', [
@@ -68,11 +71,16 @@ class OrdenesServicioController extends BaseController {
             ]);
         };
 
-        $model = new OrdenServicio();
+        $model = new OrdenServicio([
+            'id_tipo_orden_servicio' => $tipo,
+            'id_estatus' => Estatus::ORDEN_SERVICIO_REGISTRADO
+        ]);
         
         if ($model->load(Yii::$app->request->post())) {
 
             $transaction = Yii::$app->db->beginTransaction();
+            $model->loadOrigen();
+            $model->loadDestino();
 
             try {
                 if(!$model->save()) {
@@ -119,6 +127,8 @@ class OrdenesServicioController extends BaseController {
         if ($model->load(Yii::$app->request->post()))  {
 
             $transaction = Yii::$app->db->beginTransaction();
+            $model->loadOrigen();
+            $model->loadDestino();
 
             try {
                 if(!$model->save()) {

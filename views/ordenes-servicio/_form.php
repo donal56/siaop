@@ -1,5 +1,6 @@
 <?php
 
+use app\assets\GoogleMapsAsset;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use webvimark\modules\UserManagement\models\User;
@@ -7,6 +8,9 @@ use webvimark\modules\UserManagement\models\User;
 /* @var $this yii\web\View */
 /* @var $model app\models\OrdenServicio */
 /* @var $form yii\widgets\ActiveForm */
+
+GoogleMapsAsset::register($this);
+
 ?>
 
 <div class="orden-servicio-form">
@@ -23,53 +27,41 @@ use webvimark\modules\UserManagement\models\User;
                 <?php  endif; ?>
 
                 <div class="row my-3">
-                       <?= $form->field($model, 'id_tipo_orden_servicio', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                    <?= $form->field($model, 'id_cliente', ['options' => ['class' => 'form-group col-sm-4']])
+                              ->dropDownList(\app\models\Cliente::generateDropdownData(), ['prompt' => '--Seleccione uno--', 'class' => 'form-control']) ?>
 
-                       <?= $form->field($model, 'id_cliente', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                    <?= $form->field($model, 'id_pozo', ['options' => ['class' => 'form-group col-sm-4']])
+                              ->dropDownList(\app\models\Pozo::generateDropdownData(), ['prompt' => '--Seleccione uno--', 'class' => 'form-control'])
+                              ->label('Destino') ?>
+                </div
 
-                       <?= $form->field($model, 'id_estatus', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                <h2>Seleccione un pozo de la lista o ubique manualmente: </h2>
 
-                       <?= $form->field($model, 'ruta_descripcion', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                <div class="row my-3">
+                    <?= Html::hiddenInput("OrdenServicio[origen]", $model->origen, [
+                        "id"        =>  "ordenservicio-origen",
+                        "required"  =>  true
+                    ]) ?>
+                </div>
 
-                       <?= $form->field($model, 'fecha', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                <div class="row my-3">
+                    <?= Html::hiddenInput("OrdenServicio[destino]", $model->destino, [
+                        "id"        =>  "ordenservicio-destino",
+                        "required"  =>  true
+                    ]) ?>
+                </div>
 
-                       <?= $form->field($model, 'hora_entrada', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                <div class="row my-3">
+                    <?= $form->field($model, 'fecha', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                    
+                    <?= $form->field($model, 'hora_entrada', ['options' => ['class' => 'form-group col-sm-4']]) ?>
 
-                       <?= $form->field($model, 'origen_x', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                    <?= $form->field($model, 'usuario_jefe_cuadrilla', ['options' => ['class' => 'form-group col-sm-4']]) ?>
 
-                       <?= $form->field($model, 'origen_y', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                    <?= $form->field($model, 'id_unidad_vehicular', ['options' => ['class' => 'form-group col-sm-4']]) ?>
 
-                       <?= $form->field($model, 'destino_x', ['options' => ['class' => 'form-group col-sm-4']]) ?>
-
-                       <?= $form->field($model, 'destino_y', ['options' => ['class' => 'form-group col-sm-4']]) ?>
-
-                       <?= $form->field($model, 'fecha_captura', ['options' => ['class' => 'form-group col-sm-4']]) ?>
-
-                       <?= $form->field($model, 'usuario_captura', ['options' => ['class' => 'form-group col-sm-4']]) ?>
-
-                       <?= $form->field($model, 'origen_version', ['options' => ['class' => 'form-group col-sm-4']]) ?>
-
-                       <?= $form->field($model, 'id_unidad_vehicular', ['options' => ['class' => 'form-group col-sm-4']]) ?>
-
-                       <?= $form->field($model, 'id_pozo', ['options' => ['class' => 'form-group col-sm-4']]) ?>
-
-                       <?= $form->field($model, 'usuario_jefe_cuadrilla', ['options' => ['class' => 'form-group col-sm-4']]) ?>
-
-                       <?= $form->field($model, 'usuario_cliente_solicitante', ['options' => ['class' => 'form-group col-sm-4']]) ?>
-
-                       <?= $form->field($model, 'distancia_kms', ['options' => ['class' => 'form-group col-sm-4']]) ?>
-
-                       <?= $form->field($model, 'hora_salida', ['options' => ['class' => 'form-group col-sm-4']]) ?>
-
-                       <?= $form->field($model, 'fecha_hora_llegada_real', ['options' => ['class' => 'form-group col-sm-4']]) ?>
-
-                       <?= $form->field($model, 'fecha_hora_salida_real', ['options' => ['class' => 'form-group col-sm-4']]) ?>
-
-                       <?= $form->field($model, 'fecha_hora_inicio_trabajo', ['options' => ['class' => 'form-group col-sm-4']]) ?>
-
-                       <?= $form->field($model, 'fecha_hora_final_trabajo', ['options' => ['class' => 'form-group col-sm-4']]) ?>
-
-                       <?= $form->field($model, 'combustible_aproximado_lts', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                    <?= $form->field($model, 'distancia_kms', ['options' => ['class' => 'form-group col-sm-4']]) ?>
+                    <?= $form->field($model, 'combustible_aproximado_lts', ['options' => ['class' => 'form-group col-sm-4']]) ?>
 
                 </div>
                 <br>
@@ -79,7 +71,7 @@ use webvimark\modules\UserManagement\models\User;
                     ]) ?>
                     <?php 
                         if(User::hasPermission('agregarOrdenServicio')) { 
-                            Html::button('Guardar y crear otro', ['class' => 'btn btn-primary', 'onclick' => 'saveSimpleForm("orden-servicio-form", true)']) . ' ';
+                            echo Html::button('Guardar y crear otro', ['class' => 'btn btn-primary', 'onclick' => 'saveSimpleForm("orden-servicio-form", true)']) . ' ';
                         }
                     ?>
                     <?= Html::button(Html::a('Regresar', ['index']), ['class' => 'btn btn-light']) ?>
@@ -88,3 +80,55 @@ use webvimark\modules\UserManagement\models\User;
         </div>
     </div>
 </div>
+
+
+<?php
+
+$x1 = '17.992175832504604';
+$y1 = '-92.94522720755232';
+$x2 = $x1;
+$y2 = $y1;
+
+if(isset($model->origen_x)) {
+    $x1 = $model->origen_x;
+    $y1 = $model->origen_y;
+}
+
+if(isset($model->destino_x)) {
+    $x2 = $model->destino_x;
+    $y2 = $model->destino_y;
+}
+
+$js = <<<JS
+    const pozoSelect = document.querySelector("#ordenservicio-id_pozo");
+
+    const gmapOrigen = GMap.createPinpointMap('ordenservicio-origen', '$x1', '$y1', {
+        mapStyle : 'height: 300px; width: 1000px',
+        mapType : 'roadmap',
+        zoom : 16,
+        _callback : function(marker) {
+            pozoSelect.value = "";
+        }
+    });
+
+    const gmapDestino = GMap.createPinpointMap('ordenservicio-destino', '$x2', '$y2', {
+        mapStyle : 'height: 300px; width: 1000px',
+        mapType : 'roadmap',
+        zoom : 16
+    });
+
+    pozoSelect.onchange = function(event) {
+        const id = event.target.value;
+        if(!id) return;
+
+        gmapOrigen.addOverlayMessage("Cargando...");
+
+        get("/pozos/json/" + id, null, function(model) {
+            gmapOrigen.removeOverlayMessage();
+            const ubicacion = new google.maps.LatLng(model.ubicacion_x, model.ubicacion_y);
+            google.maps.event.trigger(gmapOrigen.innerMap, 'click', { latLng : ubicacion });
+        });
+    };
+JS;
+
+$this->registerJs($js);

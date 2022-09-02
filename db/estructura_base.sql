@@ -23,7 +23,7 @@ CREATE TABLE archivos (
     INDEX ix_archivo_usuario_carga(usuario_carga) USING BTREE,
     INDEX ix_archivo_usuario_version(usuario_version) USING BTREE,
     UNIQUE INDEX ix_archivo_md5(md5) USING BTREE,
-    CONSTRAINT fk_archivo_usuario_carga FOREIGN KEY(usuario_carga) REFERENCES usuarios(id) ON DELETE RESTRICT ON UPDATE RESTRICT
+    CONSTRAINT fk_archivo_usuario_carga FOREIGN KEY(usuario_carga) REFERENCES usuarios(id) ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT fk_archivo_usuario_version FOREIGN KEY(usuario_version) REFERENCES usuarios(id) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB ROW_FORMAT = Dynamic;
 

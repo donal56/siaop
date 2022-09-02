@@ -68,8 +68,7 @@ class UnidadesMedidaController extends BaseController {
             ]);
         };
 
-        $model = new UnidadMedida();
-                $model->activo = 1;
+        $model = new UnidadMedida(['activo' => 1]);
         
         if ($model->load(Yii::$app->request->post())) {
 
@@ -87,7 +86,7 @@ class UnidadesMedidaController extends BaseController {
                     return $this->redirect(['view', 'id' => $model->id_unidad_medida]);
                 }
                 else {
-                    return $returnToView(new UnidadMedida(), $model->unidad_medida);
+                    return $returnToView(new UnidadMedida(['activo' => 1]), $model->unidad_medida);
                 }
             } 
             catch(\Exception $e) {
@@ -133,7 +132,7 @@ class UnidadesMedidaController extends BaseController {
                     return $this->redirect(['view', 'id' => $model->id_unidad_medida]);
                 }
                 else {
-                    return $returnToView(false, new UnidadMedida(), $model->unidad_medida);
+                    return $returnToView(false, new UnidadMedida(['activo' => 1]), $model->unidad_medida);
                 }
             } 
             catch(\Exception $e) {

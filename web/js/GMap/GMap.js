@@ -671,6 +671,7 @@ class GMap {
      * @param String longitud - Valor inicial para la longitud del marcador e input
      * @param String config - Configuración del mapa
      * - mapStyle : Estilo de CSS usado en el mapa. Predetermina a un tamaño de 700x350
+     * - _callback : Acción a realizar después de seleccionar un punto en el mapa
      * - ... : Paraámetros de configuración de google.maps.Map
      */
     static createPinpointMap(id, latitud, longitud, conf = {}) {
@@ -712,11 +713,14 @@ class GMap {
             });
         }
     
-        google.maps.event.addListener(map.innerMap, 'click', event => moverMarcador(event.latLng) );
+        google.maps.event.addListener(map.innerMap, 'click', event => moverMarcador(event.latLng));
 
         return map;
     
         function moverMarcador(latLng) {
+            
+            map.setCenter(latLng.lat(), latLng.lng(), map.getZoom());
+
             if(marker) {
                 marker.setPosition(latLng);
             }
@@ -730,6 +734,10 @@ class GMap {
             }
     
             $('#' + id).val(latLng.lat() + ',' + latLng.lng());
+
+            if(conf._callback) {
+                conf._callback(marker);
+            }
         }
     }
 

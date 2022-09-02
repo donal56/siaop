@@ -61,26 +61,6 @@ class SiteController extends BaseController {
         ]);
     }
 
-    public function actionSwlogin() {
-        $model = new LoginForm();
-        $model->username = Yii::$app->request->get('user');
-        $model->password = Yii::$app->request->get('pass');
-        
-        if ($model->login()) {
-            $user = Yii::$app->user->identity;
-            return json_encode([
-                'id' => $user->id, 
-                'nombre' => $user->use_nombre, 
-                'tipo' => $user->use_fktipo,
-                'rol' => "",
-                'parametros' => Parametro::recuperarParametrosDeLaEmpresa(null, true),
-            ]);
-        }
-        else{
-            return json_encode(['error' => 'Usuario y/o contraseña incorrecto']);
-        }
-    }
-
     /**
      * Logout action.
      *

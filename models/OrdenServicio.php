@@ -67,6 +67,8 @@ use webvimark\modules\UserManagement\models\User;
  */
 class OrdenServicio extends \yii\db\ActiveRecord {
 
+    public $origen, $destino;
+
     /**
      * {@inheritdoc}
      */
@@ -79,9 +81,9 @@ class OrdenServicio extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['id_tipo_orden_servicio', 'id_cliente', 'id_estatus', 'ruta_descripcion', 'fecha', 'hora_entrada', 'origen_x', 'origen_y', 'destino_x', 'destino_y', 'fecha_captura', 'usuario_captura', 'origen_version'], 'required'],
-            [['id_tipo_orden_servicio', 'id_cliente', 'id_estatus', 'id_unidad_vehicular', 'id_pozo', 'usuario_jefe_cuadrilla', 'usuario_cliente_solicitante', 'distancia_kms', 'usuario_captura', 'origen_version'], 'integer'],
-            [['hora_salida', 'fecha', 'hora_entrada', 'fecha_hora_llegada_real', 'fecha_hora_salida_real', 'fecha_hora_inicio_trabajo', 'fecha_hora_final_trabajo', 'fecha_captura'], 'safe'],
+            [['id_tipo_orden_servicio', 'id_cliente', 'id_estatus', 'ruta_descripcion', 'fecha', 'hora_entrada', 'origen', 'destino'], 'required'],
+            [['id_tipo_orden_servicio', 'id_cliente', 'id_estatus', 'id_unidad_vehicular', 'id_pozo', 'usuario_jefe_cuadrilla', 'usuario_cliente_solicitante', 'distancia_kms'], 'integer'],
+            [['hora_salida', 'fecha', 'hora_entrada', 'fecha_hora_llegada_real', 'fecha_hora_salida_real', 'fecha_hora_inicio_trabajo', 'fecha_hora_final_trabajo'], 'safe'],
             [['combustible_aproximado_lts'], 'number'],
             [['ruta_descripcion'], 'string', 'max' => 255],
             [['origen_x', 'origen_y', 'destino_x', 'destino_y'], 'string', 'max' => 64],
@@ -90,8 +92,6 @@ class OrdenServicio extends \yii\db\ActiveRecord {
             [['id_pozo'], 'exist', 'skipOnError' => true, 'targetClass' => Pozo::class, 'targetAttribute' => ['id_pozo' => 'id_pozo']],
             [['id_tipo_orden_servicio'], 'exist', 'skipOnError' => true, 'targetClass' => TipoOrdenServicio::class, 'targetAttribute' => ['id_tipo_orden_servicio' => 'id_tipo_orden_servicio']],
             [['id_unidad_vehicular'], 'exist', 'skipOnError' => true, 'targetClass' => UnidadVehicular::class, 'targetAttribute' => ['id_unidad_vehicular' => 'id_unidad_vehicular']],
-            [['origen_version'], 'exist', 'skipOnError' => true, 'targetClass' => Origen::class, 'targetAttribute' => ['origen_version' => 'id_origen']],
-            [['usuario_captura'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['usuario_captura' => 'id']],
             [['usuario_cliente_solicitante'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['usuario_cliente_solicitante' => 'id']],
             [['usuario_jefe_cuadrilla'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['usuario_jefe_cuadrilla' => 'id']],
         ];
@@ -131,6 +131,30 @@ class OrdenServicio extends \yii\db\ActiveRecord {
             'fecha_version' => 'Última fecha de modificación',
             'usuario_version' => 'Último usuario de modificación',
         ];
+    }
+
+    public function loadOrigen() {
+
+        if(isset($this->origen)) {
+            $coords = explode(",", $this->origen);
+            $this->origen_x = $coords[0];
+            $this->origen_y = $coords[1];
+        }
+        else {
+            $this->origen = $this->origen_x . "," . $this->origen_y;
+        }
+    }
+
+    public function loadDestino() {
+
+        if(isset($this->destino)) {
+            $coords = explode(",", $this->destino);
+            $this->destino_x = $coords[0];
+            $this->destino_y = $coords[1];
+        }
+        else {
+            $this->destino = $this->destino_x . "," . $this->destino_y;
+        }
     }
 
     /**
@@ -280,7 +304,14 @@ class OrdenServicio extends \yii\db\ActiveRecord {
     public function beforeSave($insert) {
         $this->fecha_version = date('Y-m-d H:i:s');
         $this->usuario_version = Yii::$app->user->identity->id;
+        $this->origen_version = ORIGEN::WEB;
         $this->id_empresa = Yii::$app->user->identity->id_empresa;
+        
+        if($insert) {
+            $this->fecha_captura = date('Y-m-d H:i:s');
+            $this->usuario_captura = Yii::$app->user->identity->id;
+        }
+
         return parent::beforeSave($insert);
     }
 }

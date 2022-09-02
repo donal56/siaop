@@ -68,8 +68,7 @@ class ClasesVehicularesController extends BaseController {
             ]);
         };
 
-        $model = new ClaseVehicular();
-                $model->activo = 1;
+        $model = new ClaseVehicular(['activo' => 1]);
         
         if ($model->load(Yii::$app->request->post())) {
 
@@ -87,7 +86,7 @@ class ClasesVehicularesController extends BaseController {
                     return $this->redirect(['view', 'id' => $model->id_clase_vehicular]);
                 }
                 else {
-                    return $returnToView(new ClaseVehicular(), $model->clase_vehicular);
+                    return $returnToView(new ClaseVehicular(['activo' => 1]), $model->clase_vehicular);
                 }
             } 
             catch(\Exception $e) {
@@ -133,7 +132,7 @@ class ClasesVehicularesController extends BaseController {
                     return $this->redirect(['view', 'id' => $model->id_clase_vehicular]);
                 }
                 else {
-                    return $returnToView(false, new ClaseVehicular(), $model->clase_vehicular);
+                    return $returnToView(false, new ClaseVehicular(['activo' => 1]), $model->clase_vehicular);
                 }
             } 
             catch(\Exception $e) {

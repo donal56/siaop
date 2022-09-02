@@ -68,8 +68,7 @@ class ActividadesController extends BaseController {
             ]);
         };
 
-        $model = new Actividad();
-                $model->activo = 1;
+        $model = new Actividad(['activo' => 1]);
         
         if ($model->load(Yii::$app->request->post())) {
 
@@ -87,7 +86,7 @@ class ActividadesController extends BaseController {
                     return $this->redirect(['view', 'id' => $model->id_actividad]);
                 }
                 else {
-                    return $returnToView(new Actividad(), $model->actividad);
+                    return $returnToView(new Actividad(['activo' => 1]), $model->actividad);
                 }
             } 
             catch(\Exception $e) {
@@ -133,7 +132,7 @@ class ActividadesController extends BaseController {
                     return $this->redirect(['view', 'id' => $model->id_actividad]);
                 }
                 else {
-                    return $returnToView(false, new Actividad(), $model->actividad);
+                    return $returnToView(false, new Actividad(['activo' => 1]), $model->actividad);
                 }
             } 
             catch(\Exception $e) {

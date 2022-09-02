@@ -17,6 +17,8 @@ use yii\helpers\ArrayHelper;
  */
 class Estatus extends \yii\db\ActiveRecord {
 
+    const ORDEN_SERVICIO_REGISTRADO = 1;
+
     /**
      * {@inheritdoc}
      */

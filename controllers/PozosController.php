@@ -8,6 +8,7 @@ use app\models\PozoSearch;
 use webvimark\components\BaseController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * PozosController implements the CRUD actions for Pozo model.
@@ -68,12 +69,12 @@ class PozosController extends BaseController {
             ]);
         };
 
-        $model = new Pozo();
-                $model->activo = 1;
+        $model = new Pozo(['activo' => 1]);
         
         if ($model->load(Yii::$app->request->post())) {
 
             $transaction = Yii::$app->db->beginTransaction();
+            $model->loadUbicacion();
 
             try {
                 if(!$model->save()) {
@@ -87,7 +88,7 @@ class PozosController extends BaseController {
                     return $this->redirect(['view', 'id' => $model->id_pozo]);
                 }
                 else {
-                    return $returnToView(new Pozo(), $model->pozo);
+                    return $returnToView(new Pozo(['activo' => 1]), $model->pozo);
                 }
             } 
             catch(\Exception $e) {
@@ -116,10 +117,12 @@ class PozosController extends BaseController {
         };
 
         $model = $this->findModel($id);
+        $model->loadUbicacion();
 
         if ($model->load(Yii::$app->request->post()))  {
 
             $transaction = Yii::$app->db->beginTransaction();
+            $model->loadUbicacion();
 
             try {
                 if(!$model->save()) {
@@ -133,7 +136,7 @@ class PozosController extends BaseController {
                     return $this->redirect(['view', 'id' => $model->id_pozo]);
                 }
                 else {
-                    return $returnToView(false, new Pozo(), $model->pozo);
+                    return $returnToView(false, new Pozo(['activo' => 1]), $model->pozo);
                 }
             } 
             catch(\Exception $e) {
@@ -155,6 +158,11 @@ class PozosController extends BaseController {
     public function actionDelete($id) {
         $this->findModel($id)->delete();
         return $this->redirect(['index']);
+    }
+
+    public function actionJson($id) {
+        $this->response->format = Response::FORMAT_JSON;
+        return $this->findModel($id);
     }
 
     /**

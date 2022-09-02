@@ -25,6 +25,8 @@ use webvimark\modules\UserManagement\models\User;
  */
 class Pozo extends \yii\db\ActiveRecord {
 
+    public $ubicacion;
+
     /**
      * {@inheritdoc}
      */
@@ -37,10 +39,9 @@ class Pozo extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['pozo', 'activo'], 'required'],
+            [['pozo', 'activo', 'ubicacion'], 'required'],
             [['activo'], 'integer'],
             [['pozo', 'ubicacion_descripcion'], 'string', 'max' => 255],
-            [['ubicacion_x', 'ubicacion_y'], 'string', 'max' => 64],
         ];
     }
 
@@ -59,6 +60,18 @@ class Pozo extends \yii\db\ActiveRecord {
             'fecha_version' => 'Última fecha de modificación',
             'usuario_version' => 'Último usuario de modificación',
         ];
+    }
+
+    public function loadUbicacion() {
+
+        if($this->isNewRecord) {
+            $coords = explode(",", $this->ubicacion);
+            $this->ubicacion_x = $coords[0];
+            $this->ubicacion_y = $coords[1];
+        }
+        else {
+            $this->ubicacion = $this->ubicacion_x . "," . $this->ubicacion_y;
+        }
     }
 
     /**

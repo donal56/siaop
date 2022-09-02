@@ -36,7 +36,7 @@ use webvimark\modules\UserManagement\models\User;
                     ]) ?>
                     <?php 
                         if(User::hasPermission('agregarProceso')) { 
-                            Html::button('Guardar y crear otro', ['class' => 'btn btn-primary', 'onclick' => 'saveSimpleForm("proceso-form", true)']) . ' ';
+                            echo Html::button('Guardar y crear otro', ['class' => 'btn btn-primary', 'onclick' => 'saveSimpleForm("proceso-form", true)']) . ' ';
                         }
                     ?>
                     <?= Html::button(Html::a('Regresar', ['index']), ['class' => 'btn btn-light']) ?>

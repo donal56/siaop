@@ -68,8 +68,7 @@ class TiposArchivosController extends BaseController {
             ]);
         };
 
-        $model = new TipoArchivo();
-                $model->activo = 1;
+        $model = new TipoArchivo(['activo' => 1]);
         
         if ($model->load(Yii::$app->request->post())) {
 
@@ -87,7 +86,7 @@ class TiposArchivosController extends BaseController {
                     return $this->redirect(['view', 'id' => $model->id_tipo_archivo]);
                 }
                 else {
-                    return $returnToView(new TipoArchivo(), $model->tipo_archivo);
+                    return $returnToView(new TipoArchivo(['activo' => 1]), $model->tipo_archivo);
                 }
             } 
             catch(\Exception $e) {
@@ -133,7 +132,7 @@ class TiposArchivosController extends BaseController {
                     return $this->redirect(['view', 'id' => $model->id_tipo_archivo]);
                 }
                 else {
-                    return $returnToView(false, new TipoArchivo(), $model->tipo_archivo);
+                    return $returnToView(false, new TipoArchivo(['activo' => 1]), $model->tipo_archivo);
                 }
             } 
             catch(\Exception $e) {

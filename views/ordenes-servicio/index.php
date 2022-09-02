@@ -19,7 +19,7 @@ $this->title = 'Ordenes servicios';
             <?php 
                 if(User::hasPermission('agregarOrdenServicio')) { 
                     echo '<div class= "btn-page">';
-                        echo Html::button(Html::a('Crear orden servicio' . '<span class="btn-icon-end"><i class="fa fa-plus"></i></span>', ['create']), ['class' => 'btn btn-success']);
+                        echo Html::button(Html::a('Crear orden servicio terrestre' . '<span class="btn-icon-end"><i class="fa fa-plus"></i></span>', ['create', 'tipo' => 1]), ['class' => 'btn btn-success']);
                     echo '</div>';
                 }
             ?>
@@ -30,46 +30,38 @@ $this->title = 'Ordenes servicios';
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'columns' => [
-                    ['class' => 'yii\grid\SerialColumn'],
-                    [
-                        'attribute' => 'id_tipo_orden_servicio',
-                        'value' => fn($model) => $model->tipoOrdenServicio->tipo_orden_servicio,
-                        'filter' => app\models\TipoOrdenServicio::generateDropdownData()                   ],
+                    'id_orden_servicio',
                     [
                         'attribute' => 'id_cliente',
                         'value' => fn($model) => $model->cliente->cliente,
-                        'filter' => app\models\Cliente::generateDropdownData()                   ],
-                    [
-                        'attribute' => 'id_estatus',
-                        'value' => fn($model) => $model->estatus->estatus,
-                        'filter' => app\models\Estatus::generateDropdownData()                   ],
-                    [
-                        'attribute' => 'id_unidad_vehicular',
-                        'value' => fn($model) => $model->unidadVehicular->unidad_vehicular,
-                        'filter' => app\models\UnidadVehicular::generateDropdownData()                   ],
+                        'filter' => app\models\Cliente::generateDropdownData()
+                    ],
                     [
                         'attribute' => 'id_pozo',
                         'value' => fn($model) => $model->pozo->pozo,
-                        'filter' => app\models\Pozo::generateDropdownData()                   ],
-                    //'usuario_jefe_cuadrilla',
-                    //'usuario_cliente_solicitante',
-                    //'hora_salida',
-                    //'distancia_kms',
-                    //'combustible_aproximado_lts',
-                    //'ruta_descripcion',
-                    //'fecha',
-                    //'hora_entrada',
-                    //'origen_x',
-                    //'origen_y',
-                    //'destino_x',
-                    //'destino_y',
-                    //'fecha_hora_llegada_real',
-                    //'fecha_hora_salida_real',
-                    //'fecha_hora_inicio_trabajo',
-                    //'fecha_hora_final_trabajo',
-                    //'fecha_captura',
-                    //'usuario_captura',
-                    //'origen_version',
+                        'filter' => app\models\Pozo::generateDropdownData()                   
+                    ],
+                    [
+                        'attribute' => 'fecha',
+                        'value' => function($model) {
+                            $fechaDateTime = DateTime::createFromFormat('Y-m-d H:i:s.u', $model->fecha);
+                            $formatter = new \IntlDateFormatter('es_MX', IntlDateFormatter::SHORT, IntlDateFormatter::SHORT);
+                            $formatter->setPattern('dd \'de\' MMMM \'de\' YYYY');
+                            return $formatter->format($fechaDateTime);
+                         }
+                    ],
+                    'hora_entrada',
+                    'usuarioJefeCuadrilla.nombreCompleto',
+                    [
+                        'attribute' => 'id_tipo_orden_servicio',
+                        'value' => fn($model) => $model->tipoOrdenServicio->tipo_orden_servicio,
+                        'filter' => app\models\TipoOrdenServicio::generateDropdownData()                   
+                    ],
+                    [
+                        'attribute' => 'id_estatus',
+                        'value' => fn($model) => $model->estatus->estatus,
+                        'filter' => app\models\Estatus::generateDropdownData()                   
+                    ],
                     ['class' => 'yii\grid\ActionColumn'],
                 ],
                 'tableOptions' => [

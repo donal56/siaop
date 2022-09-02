@@ -13,6 +13,9 @@ use yii\helpers\ArrayHelper;
  */
 class Origen extends \yii\db\ActiveRecord {
 
+    const WEB = 1;
+    const MOVIL = 2;
+
     /**
      * {@inheritdoc}
      */

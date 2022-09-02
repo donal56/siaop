@@ -68,8 +68,7 @@ class ClientesController extends BaseController {
             ]);
         };
 
-        $model = new Cliente();
-                $model->activo = 1;
+        $model = new Cliente(['activo' => 1]);
         
         if ($model->load(Yii::$app->request->post())) {
 
@@ -87,7 +86,7 @@ class ClientesController extends BaseController {
                     return $this->redirect(['view', 'id' => $model->id_cliente]);
                 }
                 else {
-                    return $returnToView(new Cliente(), $model->razon_social);
+                    return $returnToView(new Cliente(['activo' => 1]), $model->razon_social);
                 }
             } 
             catch(\Exception $e) {
@@ -133,7 +132,7 @@ class ClientesController extends BaseController {
                     return $this->redirect(['view', 'id' => $model->id_cliente]);
                 }
                 else {
-                    return $returnToView(false, new Cliente(), $model->razon_social);
+                    return $returnToView(false, new Cliente(['activo' => 1]), $model->razon_social);
                 }
             } 
             catch(\Exception $e) {

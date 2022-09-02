@@ -68,8 +68,7 @@ class UnidadesVehicularesController extends BaseController {
             ]);
         };
 
-        $model = new UnidadVehicular();
-                $model->activo = 1;
+        $model = new UnidadVehicular(['activo' => 1]);
         
         if ($model->load(Yii::$app->request->post())) {
 
@@ -87,7 +86,7 @@ class UnidadesVehicularesController extends BaseController {
                     return $this->redirect(['view', 'id' => $model->id_unidad_vehicular]);
                 }
                 else {
-                    return $returnToView(new UnidadVehicular(), $model->placa);
+                    return $returnToView(new UnidadVehicular(['activo' => 1]), $model->placa);
                 }
             } 
             catch(\Exception $e) {
@@ -133,7 +132,7 @@ class UnidadesVehicularesController extends BaseController {
                     return $this->redirect(['view', 'id' => $model->id_unidad_vehicular]);
                 }
                 else {
-                    return $returnToView(false, new UnidadVehicular(), $model->placa);
+                    return $returnToView(false, new UnidadVehicular(['activo' => 1]), $model->placa);
                 }
             } 
             catch(\Exception $e) {

@@ -68,8 +68,7 @@ class TiposCombustiblesController extends BaseController {
             ]);
         };
 
-        $model = new TipoCombustible();
-                $model->activo = 1;
+        $model = new TipoCombustible(['activo' => 1]);
         
         if ($model->load(Yii::$app->request->post())) {
 
@@ -87,7 +86,7 @@ class TiposCombustiblesController extends BaseController {
                     return $this->redirect(['view', 'id' => $model->id_tipo_combustible]);
                 }
                 else {
-                    return $returnToView(new TipoCombustible(), $model->tipo_combustible);
+                    return $returnToView(new TipoCombustible(['activo' => 1]), $model->tipo_combustible);
                 }
             } 
             catch(\Exception $e) {
@@ -133,7 +132,7 @@ class TiposCombustiblesController extends BaseController {
                     return $this->redirect(['view', 'id' => $model->id_tipo_combustible]);
                 }
                 else {
-                    return $returnToView(false, new TipoCombustible(), $model->tipo_combustible);
+                    return $returnToView(false, new TipoCombustible(['activo' => 1]), $model->tipo_combustible);
                 }
             } 
             catch(\Exception $e) {
