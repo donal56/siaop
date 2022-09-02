@@ -3,11 +3,12 @@
 namespace app\controllers;
 
 use Yii;
-use app\components\Utilidades;
+use app\components\Utils\DebugUtils;
 use app\models\Dispositivo;
 use app\models\VersionApp;
 use webvimark\components\BaseController;
 use yii\filters\auth\HttpBasicAuth;
+use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\Response;
@@ -16,7 +17,8 @@ class ApiController extends BaseController {
 
     public $enableCsrfValidation = false;
     public $transaction = null;
-    public $version = 1.0;
+    public $versionMayor = 1;
+    public $versionMenor = 1;
     
     const ID_ORIGEN_API = 3;
 
@@ -27,8 +29,17 @@ class ApiController extends BaseController {
 	public function behaviors() {
 		return [
             'authenticator' => [
-                'class' => HttpBasicAuth::class,
-                'except' => ['version-app', 'version-api']
+                'class' => HttpBasicAuth::class
+            ],
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [  
+                    'usuario' => ['POST'],
+                    'version-app' => ['GET'],
+                    'version-api' => ['GET'],
+                    'token-registrar' => ['POST'],
+                    'notificaciones-enviar' => ['POST'],
+                ]
             ]
 		];
 	}
@@ -75,11 +86,40 @@ class ApiController extends BaseController {
     }
 
     /**
+     * API que retorna información del usuario
+     * @api
+     */ 
+    public function actionUsuario() {
+        $user = ArrayHelper::toArray(Yii::$app->user->identity, [
+            "webvimark\modules\UserManagement\models\User" => [
+                "id",
+                "username",
+                "status",
+                "created_at",
+                "email",
+                "nombre",
+                "apellido_paterno",
+                "apellido_materno",
+                "telefono",
+                "curp",
+                "puesto",
+                "area",
+                "numero_interno",
+                "id_empresa"
+            ]
+        ]);
+        return $this->end($user, true);
+    }
+
+    /**
      * API que consulta la ultima versión de la app
      * @api
      */ 
     public function actionVersionApp() {
-        $version = VersionApp::find()->orderBy(['num_version' => SORT_DESC])->one();
+        $version = VersionApp::find()->orderBy([
+            'version_mayor' => SORT_DESC,
+            'version_menor' => SORT_DESC
+        ])->one();
         return $this->end($version, true);
     }
 
@@ -89,9 +129,10 @@ class ApiController extends BaseController {
      */ 
     public function actionVersionApi() {
         $version = new VersionApp();
-        $version->id_version = 0;
-        $version->num_version = $this->version;
-        $version->link = Yii::$app->params['siteName'];
+        $version->id_version_app = 0;
+        $version->version_mayor = $this->versionMayor;
+        $version->version_menor = $this->versionMenor;
+        $version->url = Yii::$app->params['siteName'];
         $version->fecha = date('Y-m-d H:i:s');
         return $this->end($version, true);
     }
@@ -99,31 +140,26 @@ class ApiController extends BaseController {
     /**
      * API que registra el token para notificaciones de la app móvil
      * @api
-     * @POST String dis_token
+     * @POST String token
      */ 
     public function actionTokenRegistrar() {
 
         $dispositivo = new Dispositivo();
-        // TODO: Cambio temporal mientras se estabiliza el uso de este servicio
-        $token = Yii::$app->request->get('dis_token', Yii::$app->request->post('dis_token'));
+        $token = Yii::$app->request->post('token');
 
         if(empty($token)) {
-            $dispositivo->addError('dis_token', 'Párametro requerido o no válido');
+            $dispositivo->addError('token', 'Párametro requerido o no válido');
             return $this->end($dispositivo);
         }
 
-        $dispositivo = Dispositivo::findOne([
-            'dis_user_id' => Yii::$app->user->identity->id,
-            'dis_id_empresa' => Yii::$app->user->getEmpresaPredeterminada()
-        ]);
+        $dispositivo = Dispositivo::findOne(['usuario' => Yii::$app->user->identity->id]);
 
         if(!isset($dispositivo)) {
             $dispositivo = new Dispositivo();
-            $dispositivo->dis_user_id = Yii::$app->user->identity->id;
-            $dispositivo->dis_id_empresa = Yii::$app->user->getEmpresaPredeterminada();
+            $dispositivo->usuario = Yii::$app->user->identity->id;
         }
 
-        $dispositivo->dis_token = $token;
+        $dispositivo->token = $token;
 
         $dispositivo->save();
         return $this->end($dispositivo);
@@ -132,23 +168,23 @@ class ApiController extends BaseController {
     /**
      * API que envia una notificacion a traves de firebase
      * @api
-     * @GET String titulo
-     * @GET String mensaje
-     * @GET int|null destinatario - Si este campo es nulo se envia a todos los administradores del socio comercial
+     * @POST String titulo
+     * @POST String mensaje
+     * @POST int destinatario
      */
-    public function actionNotificacionesEnviar($titulo, $mensaje, $destinatario = null) {
+    public function actionNotificacionesEnviar($debug = false) {
 
-        if (Utilidades::esEntornoDePruebas()) {
-            return $this->end(['dev' => 'Entorno de pruebas' ]);
+        if(DebugUtils::esEntornoDePruebas() && !$debug) {
+            return $this->end(['dev' => 'Entorno de pruebas']);
         }
 
         $apiUrl     =   'https://fcm.googleapis.com/fcm/send';
         $apiKey     =   Yii::$app->params['firebaseApiKey'];
         $headers    =   ['Authorization: key=' . $apiKey, 'Content-Type: application/json'];
 
-        $titulo  = Html::decode(Yii::$app->request->get('titulo'));
-        $mensaje = Html::decode(Yii::$app->request->get('mensaje'));
-        $destinatario = Html::decode(Yii::$app->request->get('destinatario'));
+        $titulo  = Html::decode(Yii::$app->request->post('titulo'));
+        $mensaje = Html::decode(Yii::$app->request->post('mensaje'));
+        $destinatario = Html::decode(Yii::$app->request->post('destinatario'));
 
         if(empty($titulo)) {
             return $this->end(['titulo' => 'Párametro requerido o inválido' ]);
@@ -156,6 +192,10 @@ class ApiController extends BaseController {
 
         if(empty($mensaje)) {
             return $this->end(['mensaje' => 'Párametro requerido o inválido' ]);
+        }
+
+        if(empty($destinatario)) {
+            return $this->end(['destinatario' => 'Párametro requerido o inválido' ]);
         }
 
         $notification = [ 
@@ -176,40 +216,20 @@ class ApiController extends BaseController {
             ]
         ];
 
-        if(!empty($destinatario)) {
-            $dispositivo = Dispositivo::findOne([
-                'dis_user_id' => $destinatario,
-                'dis_id_empresa' => Yii::$app->user->getEmpresaPredeterminada()
-            ]);
+        $dispositivo = Dispositivo::findOne(['usuario' => $destinatario]);
 
-            if(!isset($dispositivo)) {
-                $dispositivo = new Dispositivo();
-                $dispositivo->addError('dis_id', 'Dispositivo no registrado en el socio comercial');
-                return $this->end($dispositivo);
-            }
-            
-            if(empty($dispositivo->dis_token)) {
-                $dispositivo->addError('dis_token', 'Token no válido');
-                return $this->end($dispositivo);
-            }
-
-            $notification['to'] = $apiKey;
+        if(!isset($dispositivo)) {
+            $dispositivo = new Dispositivo();
+            $dispositivo->addError('id_dispositivo', 'Dispositivo no registrado en el socio comercial');
+            return $this->end($dispositivo);
         }
-        else {
-            $dispositivos = Dispositivo::find()
-                ->joinWith([
-                    'usuario',
-                    'usuario.usuariosCentros',
-                    'usuario.usuariosCentros.centro'
-                ])
-                ->where([
-                    'user.use_fktipo' => 1,
-                    'centros.cen_fkemp' => Yii::$app->user->getEmpresaPredeterminada()
-                ]);
-
-            $tokens = ArrayHelper::getColumn($dispositivos, 'dis_token');
-            $notification['registration_ids'] = $tokens;
+        
+        if(empty($dispositivo->token)) {
+            $dispositivo->addError('token', 'Token no válido');
+            return $this->end($dispositivo);
         }
+
+        $notification['to'] = $apiKey;
 
         $request = curl_init();
         curl_setopt($request, CURLOPT_URL, $apiUrl);
