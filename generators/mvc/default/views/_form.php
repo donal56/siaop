@@ -56,7 +56,7 @@ use webvimark\modules\UserManagement\models\User;
                     ]) ?>
                     <?="<?php \n" ?>
                         if(User::hasPermission('agregar<?= $permissionName ?>')) { 
-                            Html::button(<?= $generator->generateString('Guardar y crear otro') ?>, ['class' => 'btn btn-primary', 'onclick' => 'saveSimpleForm("<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>-form", true)']) . ' ';
+                            echo Html::button(<?= $generator->generateString('Guardar y crear otro') ?>, ['class' => 'btn btn-primary', 'onclick' => 'saveSimpleForm("<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>-form", true)']) . ' ';
                         }
                     ?>
                     <?= "<?= " ?>Html::button(Html::a(<?= $generator->generateString('Regresar') ?>, ['index']), ['class' => 'btn btn-light']) ?>

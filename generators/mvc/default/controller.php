@@ -96,10 +96,7 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
             ]);
         };
 
-        $model = new <?= $modelClass ?>();
-        <?php if($hasActivo): ?>
-        $model->activo = 1;
-        <?php endif; ?>
+        $model = new <?= $modelClass ?>(<?php if($hasActivo): ?>['activo' => 1]<?php endif; ?>);
 
         if ($model->load(Yii::$app->request->post())) {
 
@@ -117,7 +114,7 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
                     return $this->redirect(['view', <?= $urlParams ?>]);
                 }
                 else {
-                    return $returnToView(new <?= $modelClass ?>(), $model-><?= $generator->nameField ?>);
+                    return $returnToView(new <?= $modelClass ?>(<?php if($hasActivo): ?>['activo' => 1]<?php endif; ?>), $model-><?= $generator->nameField ?>);
                 }
             } 
             catch(\Exception $e) {
@@ -163,7 +160,7 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
                     return $this->redirect(['view', <?= $urlParams ?>]);
                 }
                 else {
-                    return $returnToView(false, new <?= $modelClass ?>(), $model-><?= $generator->nameField ?>);
+                    return $returnToView(false, new <?= $modelClass ?>(<?php if($hasActivo): ?>['activo' => 1]<?php endif; ?>), $model-><?= $generator->nameField ?>);
                 }
             } 
             catch(\Exception $e) {

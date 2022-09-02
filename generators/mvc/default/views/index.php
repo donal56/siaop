@@ -64,7 +64,7 @@ $this->title = '<?= StringUtils::capitalizeWord(Inflector::pluralize(Inflector::
                 echo "                    [\n";
                 echo "                        'attribute' => '" . $column->name . "',\n";
                 echo "                        'value' => fn(\$model) => \$model->" . $path . ",\n";
-                echo "                        'filter' => app\\models\\" . $relation[1] . "::generateDropdownData()";
+                echo "                        'filter' => app\\models\\" . $relation[1] . "::generateDropdownData()\n";
                 echo "                   ],\n";
             }
             else {
