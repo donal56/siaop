@@ -238,9 +238,10 @@ class ApiController extends BaseController {
         curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($request, CURLOPT_POSTFIELDS, json_encode($notification));
-        curl_exec($request);
+        
+        $content = curl_exec($request);
         curl_close($request);
 
-        return $this->end(true);
+        return $this->end($content);
     }
 }
