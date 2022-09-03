@@ -215,11 +215,11 @@ class ApiController extends BaseController {
 
         if(!isset($dispositivo)) {
             $dispositivo = new Dispositivo();
-            $dispositivo->addError('id_dispositivo', 'Dispositivo no registrado en el socio comercial');
+            $dispositivo->addError('id_dispositivo', 'El usuario no se ha registrado en la aplicación');
             return $this->end($dispositivo);
         }
         
-        $notification['to'] = $apiKey;
+        $notification['to'] = $dispositivo->token;
 
         $request = curl_init();
         curl_setopt($request, CURLOPT_URL, $apiUrl);
