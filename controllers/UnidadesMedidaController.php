@@ -74,24 +74,18 @@ class UnidadesMedidaController extends BaseController {
 
             $transaction = Yii::$app->db->beginTransaction();
 
-            try {
-                if(!$model->save()) {
-                    $transaction->rollBack();
-                    return $returnToView($model);
-                }
-                
-                $transaction->commit();
-                
-                if($createAnother == 0) {
-                    return $this->redirect(['view', 'id' => $model->id_unidad_medida]);
-                }
-                else {
-                    return $returnToView(new UnidadMedida(['activo' => 1]), $model->unidad_medida);
-                }
-            } 
-            catch(\Exception $e) {
+            if(!$model->save()) {
                 $transaction->rollBack();
-                throw $e;
+                return $returnToView($model);
+            }
+            
+            $transaction->commit();
+            
+            if($createAnother == 0) {
+                return $this->redirect(['view', 'id' => $model->id_unidad_medida]);
+            }
+            else {
+                return $returnToView(new UnidadMedida(['activo' => 1]), $model->unidad_medida);
             }
         }
 
@@ -120,24 +114,18 @@ class UnidadesMedidaController extends BaseController {
 
             $transaction = Yii::$app->db->beginTransaction();
 
-            try {
-                if(!$model->save()) {
-                    $transaction->rollBack();
-                    return $returnToView(true, $model);
-                }
-
-                $transaction->commit();
-                
-                if($createAnother == 0) {
-                    return $this->redirect(['view', 'id' => $model->id_unidad_medida]);
-                }
-                else {
-                    return $returnToView(false, new UnidadMedida(['activo' => 1]), $model->unidad_medida);
-                }
-            } 
-            catch(\Exception $e) {
+            if(!$model->save()) {
                 $transaction->rollBack();
-                throw $e;
+                return $returnToView(true, $model);
+            }
+
+            $transaction->commit();
+            
+            if($createAnother == 0) {
+                return $this->redirect(['view', 'id' => $model->id_unidad_medida]);
+            }
+            else {
+                return $returnToView(false, new UnidadMedida(['activo' => 1]), $model->unidad_medida);
             }
         }
 

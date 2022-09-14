@@ -74,24 +74,18 @@ class TiposArchivosController extends BaseController {
 
             $transaction = Yii::$app->db->beginTransaction();
 
-            try {
-                if(!$model->save()) {
-                    $transaction->rollBack();
-                    return $returnToView($model);
-                }
-                
-                $transaction->commit();
-                
-                if($createAnother == 0) {
-                    return $this->redirect(['view', 'id' => $model->id_tipo_archivo]);
-                }
-                else {
-                    return $returnToView(new TipoArchivo(['activo' => 1]), $model->tipo_archivo);
-                }
-            } 
-            catch(\Exception $e) {
+            if(!$model->save()) {
                 $transaction->rollBack();
-                throw $e;
+                return $returnToView($model);
+            }
+            
+            $transaction->commit();
+            
+            if($createAnother == 0) {
+                return $this->redirect(['view', 'id' => $model->id_tipo_archivo]);
+            }
+            else {
+                return $returnToView(new TipoArchivo(['activo' => 1]), $model->tipo_archivo);
             }
         }
 
@@ -120,24 +114,18 @@ class TiposArchivosController extends BaseController {
 
             $transaction = Yii::$app->db->beginTransaction();
 
-            try {
-                if(!$model->save()) {
-                    $transaction->rollBack();
-                    return $returnToView(true, $model);
-                }
-
-                $transaction->commit();
-                
-                if($createAnother == 0) {
-                    return $this->redirect(['view', 'id' => $model->id_tipo_archivo]);
-                }
-                else {
-                    return $returnToView(false, new TipoArchivo(['activo' => 1]), $model->tipo_archivo);
-                }
-            } 
-            catch(\Exception $e) {
+            if(!$model->save()) {
                 $transaction->rollBack();
-                throw $e;
+                return $returnToView(true, $model);
+            }
+
+            $transaction->commit();
+            
+            if($createAnother == 0) {
+                return $this->redirect(['view', 'id' => $model->id_tipo_archivo]);
+            }
+            else {
+                return $returnToView(false, new TipoArchivo(['activo' => 1]), $model->tipo_archivo);
             }
         }
 

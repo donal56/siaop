@@ -102,24 +102,18 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
 
             $transaction = Yii::$app->db->beginTransaction();
 
-            try {
-                if(!$model->save()) {
-                    $transaction->rollBack();
-                    return $returnToView($model);
-                }
-                
-                $transaction->commit();
-                
-                if($createAnother == 0) {
-                    return $this->redirect(['view', <?= $urlParams ?>]);
-                }
-                else {
-                    return $returnToView(new <?= $modelClass ?>(<?php if($hasActivo): ?>['activo' => 1]<?php endif; ?>), $model-><?= $generator->nameField ?>);
-                }
-            } 
-            catch(\Exception $e) {
+            if(!$model->save()) {
                 $transaction->rollBack();
-                throw $e;
+                return $returnToView($model);
+            }
+            
+            $transaction->commit();
+            
+            if($createAnother == 0) {
+                return $this->redirect(['view', <?= $urlParams ?>]);
+            }
+            else {
+                return $returnToView(new <?= $modelClass ?>(<?php if($hasActivo): ?>['activo' => 1]<?php endif; ?>), $model-><?= $generator->nameField ?>);
             }
         }
 
@@ -148,24 +142,18 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
 
             $transaction = Yii::$app->db->beginTransaction();
 
-            try {
-                if(!$model->save()) {
-                    $transaction->rollBack();
-                    return $returnToView(true, $model);
-                }
-
-                $transaction->commit();
-                
-                if($createAnother == 0) {
-                    return $this->redirect(['view', <?= $urlParams ?>]);
-                }
-                else {
-                    return $returnToView(false, new <?= $modelClass ?>(<?php if($hasActivo): ?>['activo' => 1]<?php endif; ?>), $model-><?= $generator->nameField ?>);
-                }
-            } 
-            catch(\Exception $e) {
+            if(!$model->save()) {
                 $transaction->rollBack();
-                throw $e;
+                return $returnToView(true, $model);
+            }
+
+            $transaction->commit();
+            
+            if($createAnother == 0) {
+                return $this->redirect(['view', <?= $urlParams ?>]);
+            }
+            else {
+                return $returnToView(false, new <?= $modelClass ?>(<?php if($hasActivo): ?>['activo' => 1]<?php endif; ?>), $model-><?= $generator->nameField ?>);
             }
         }
 

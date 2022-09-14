@@ -120,24 +120,18 @@ class MarcasController extends BaseController {
 
             $transaction = Yii::$app->db->beginTransaction();
 
-            try {
-                if(!$model->save()) {
-                    $transaction->rollBack();
-                    return $returnToView(true, $model);
-                }
-
-                $transaction->commit();
-                
-                if($createAnother == 0) {
-                    return $this->redirect(['view', 'id' => $model->id_marca]);
-                }
-                else {
-                    return $returnToView(false, new Marca(['activo' => 1]), $model->marca);
-                }
-            } 
-            catch(\Exception $e) {
+            if(!$model->save()) {
                 $transaction->rollBack();
-                throw $e;
+                return $returnToView(true, $model);
+            }
+
+            $transaction->commit();
+            
+            if($createAnother == 0) {
+                return $this->redirect(['view', 'id' => $model->id_marca]);
+            }
+            else {
+                return $returnToView(false, new Marca(['activo' => 1]), $model->marca);
             }
         }
 

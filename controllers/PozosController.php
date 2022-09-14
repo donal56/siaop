@@ -23,6 +23,7 @@ class PozosController extends BaseController {
                 'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
+                    'json' => ['GET'],
                 ]
             ]
         ];
@@ -76,24 +77,18 @@ class PozosController extends BaseController {
             $transaction = Yii::$app->db->beginTransaction();
             $model->loadUbicacion();
 
-            try {
-                if(!$model->save()) {
-                    $transaction->rollBack();
-                    return $returnToView($model);
-                }
-                
-                $transaction->commit();
-                
-                if($createAnother == 0) {
-                    return $this->redirect(['view', 'id' => $model->id_pozo]);
-                }
-                else {
-                    return $returnToView(new Pozo(['activo' => 1]), $model->pozo);
-                }
-            } 
-            catch(\Exception $e) {
+            if(!$model->save()) {
                 $transaction->rollBack();
-                throw $e;
+                return $returnToView($model);
+            }
+            
+            $transaction->commit();
+            
+            if($createAnother == 0) {
+                return $this->redirect(['view', 'id' => $model->id_pozo]);
+            }
+            else {
+                return $returnToView(new Pozo(['activo' => 1]), $model->pozo);
             }
         }
 
@@ -124,24 +119,18 @@ class PozosController extends BaseController {
             $transaction = Yii::$app->db->beginTransaction();
             $model->loadUbicacion();
 
-            try {
-                if(!$model->save()) {
-                    $transaction->rollBack();
-                    return $returnToView(true, $model);
-                }
-
-                $transaction->commit();
-                
-                if($createAnother == 0) {
-                    return $this->redirect(['view', 'id' => $model->id_pozo]);
-                }
-                else {
-                    return $returnToView(false, new Pozo(['activo' => 1]), $model->pozo);
-                }
-            } 
-            catch(\Exception $e) {
+            if(!$model->save()) {
                 $transaction->rollBack();
-                throw $e;
+                return $returnToView(true, $model);
+            }
+
+            $transaction->commit();
+            
+            if($createAnother == 0) {
+                return $this->redirect(['view', 'id' => $model->id_pozo]);
+            }
+            else {
+                return $returnToView(false, new Pozo(['activo' => 1]), $model->pozo);
             }
         }
 
@@ -173,7 +162,13 @@ class PozosController extends BaseController {
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id) {
-        if (($model = Pozo::findOne($id)) !== null) {
+        $model = Pozo::find()->where([
+                "id_pozo" => $id,
+                "id_empresa" => Yii::$app->user->identity->id_empresa
+            ])
+            ->one();
+
+        if ($model !== null) {
             return $model;
         }
         throw new NotFoundHttpException('La página no existe o no esta autorizado para verla');

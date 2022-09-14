@@ -8,6 +8,7 @@ use app\models\UnidadVehicularSearch;
 use webvimark\components\BaseController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * UnidadesVehicularesController implements the CRUD actions for UnidadVehicular model.
@@ -22,6 +23,7 @@ class UnidadesVehicularesController extends BaseController {
                 'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
+                    'json' => ['GET'],
                 ]
             ]
         ];
@@ -74,24 +76,18 @@ class UnidadesVehicularesController extends BaseController {
 
             $transaction = Yii::$app->db->beginTransaction();
 
-            try {
-                if(!$model->save()) {
-                    $transaction->rollBack();
-                    return $returnToView($model);
-                }
-                
-                $transaction->commit();
-                
-                if($createAnother == 0) {
-                    return $this->redirect(['view', 'id' => $model->id_unidad_vehicular]);
-                }
-                else {
-                    return $returnToView(new UnidadVehicular(['activo' => 1]), $model->placa);
-                }
-            } 
-            catch(\Exception $e) {
+            if(!$model->save()) {
                 $transaction->rollBack();
-                throw $e;
+                return $returnToView($model);
+            }
+            
+            $transaction->commit();
+            
+            if($createAnother == 0) {
+                return $this->redirect(['view', 'id' => $model->id_unidad_vehicular]);
+            }
+            else {
+                return $returnToView(new UnidadVehicular(['activo' => 1]), $model->placa);
             }
         }
 
@@ -120,28 +116,27 @@ class UnidadesVehicularesController extends BaseController {
 
             $transaction = Yii::$app->db->beginTransaction();
 
-            try {
-                if(!$model->save()) {
-                    $transaction->rollBack();
-                    return $returnToView(true, $model);
-                }
-
-                $transaction->commit();
-                
-                if($createAnother == 0) {
-                    return $this->redirect(['view', 'id' => $model->id_unidad_vehicular]);
-                }
-                else {
-                    return $returnToView(false, new UnidadVehicular(['activo' => 1]), $model->placa);
-                }
-            } 
-            catch(\Exception $e) {
+            if(!$model->save()) {
                 $transaction->rollBack();
-                throw $e;
+                return $returnToView(true, $model);
+            }
+
+            $transaction->commit();
+            
+            if($createAnother == 0) {
+                return $this->redirect(['view', 'id' => $model->id_unidad_vehicular]);
+            }
+            else {
+                return $returnToView(false, new UnidadVehicular(['activo' => 1]), $model->placa);
             }
         }
 
         return $returnToView(true, $model);
+    }
+
+    public function actionJson($id) {
+        $this->response->format = Response::FORMAT_JSON;
+        return $this->findModel($id);
     }
 
     /**
@@ -164,7 +159,14 @@ class UnidadesVehicularesController extends BaseController {
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id) {
-        if (($model = UnidadVehicular::findOne($id)) !== null) {
+
+        $model = UnidadVehicular::find()->where([
+                "id_unidad_vehicular" => $id,
+                "id_empresa" => Yii::$app->user->identity->id_empresa
+            ])
+            ->one();
+
+        if ($model !== null) {
             return $model;
         }
         throw new NotFoundHttpException('La página no existe o no esta autorizado para verla');
