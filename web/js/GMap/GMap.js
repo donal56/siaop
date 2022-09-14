@@ -85,7 +85,7 @@ class GMap {
      * @param {Number} lat latitud
      * @param {Number} lang longitud
      * @param {Obejct} markerOptions Opciones del marcador
-     *  - title : Titulo del marcador
+     * - title : Titulo del marcador
      * - body : Cuerpo del marcador
      * - show : Mostrar el marcador
      * - color : Color del marcador
@@ -478,7 +478,6 @@ class GMap {
         if(!start) return;
         if(!end) return;
         if(!travelMode) return;
-        if(!waypoints || waypoints.length == 0) return;
 
         this._routeSelectorCallback = _routeSelectorCallback;
 
@@ -505,7 +504,7 @@ class GMap {
             unitSystem: google.maps.UnitSystem.METRIC,
             waypoints: wayPointsRequest,
             optimizeWaypoints: options.optimizeWaypoints == undefined ? true : options.optimizeWaypoints,
-            provideRouteAlternatives: true,
+            provideRouteAlternatives: options.provideRouteAlternatives == undefined ? true : options.provideRouteAlternatives,
             avoidFerries: false,
             avoidHighways: false,
             avoidTolls: false,

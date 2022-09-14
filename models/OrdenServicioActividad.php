@@ -42,7 +42,7 @@ class OrdenServicioActividad extends \yii\db\ActiveRecord {
             [['id_orden_servicio', 'id_actividad', 'realizado'], 'integer'],
             [['cantidad'], 'number'],
             [['observacion'], 'string', 'max' => 512],
-            [['id_orden_servicio', 'id_actividad'], 'unique', 'targetAttribute' => ['id_orden_servicio', 'id_actividad']],
+            [['id_orden_servicio', 'id_actividad'], 'unique', 'targetAttribute' => ['id_orden_servicio', 'id_actividad'], 'message' => 'Actividad duplicada'],
             [['id_actividad'], 'exist', 'skipOnError' => true, 'targetClass' => Actividad::class, 'targetAttribute' => ['id_actividad' => 'id_actividad']],
             [['id_orden_servicio'], 'exist', 'skipOnError' => true, 'targetClass' => OrdenServicio::class, 'targetAttribute' => ['id_orden_servicio' => 'id_orden_servicio']],
         ];

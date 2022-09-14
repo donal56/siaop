@@ -143,5 +143,8 @@ INSERT INTO permisos_hijos(parent, child) VALUES ('consultarOrdenServicio', '/or
 INSERT INTO permisos_hijos(parent, child) VALUES ('modificarOrdenServicio', '/ordenes-servicio/update');
 INSERT INTO permisos_hijos(parent, child) VALUES ('modificarOrdenServicio', '/pozos/json');
 INSERT INTO permisos_hijos(parent, child) VALUES ('consultarOrdenServicio', '/ordenes-servicio/view');
+INSERT INTO permisos_hijos(parent, child) VALUES ('modificarOrdenServicio', '/unidades-vehiculares/json');
+INSERT INTO permisos_hijos(parent, child) VALUES ('agregarOrdenServicio', '/unidades-vehiculares/json');
+
 
 SET FOREIGN_KEY_CHECKS = 1;

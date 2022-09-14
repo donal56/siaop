@@ -81,10 +81,10 @@ class OrdenServicio extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['id_tipo_orden_servicio', 'id_cliente', 'id_estatus', 'ruta_descripcion', 'fecha', 'hora_entrada', 'origen', 'destino'], 'required'],
-            [['id_tipo_orden_servicio', 'id_cliente', 'id_estatus', 'id_unidad_vehicular', 'id_pozo', 'usuario_jefe_cuadrilla', 'usuario_cliente_solicitante', 'distancia_kms'], 'integer'],
+            [['id_tipo_orden_servicio', 'id_cliente', 'id_estatus', 'fecha', 'hora_entrada', 'origen', 'destino'], 'required'],
+            [['id_tipo_orden_servicio', 'id_cliente', 'id_estatus', 'id_unidad_vehicular', 'id_pozo', 'usuario_jefe_cuadrilla', 'usuario_cliente_solicitante'], 'integer'],
             [['hora_salida', 'fecha', 'hora_entrada', 'fecha_hora_llegada_real', 'fecha_hora_salida_real', 'fecha_hora_inicio_trabajo', 'fecha_hora_final_trabajo'], 'safe'],
-            [['combustible_aproximado_lts'], 'number'],
+            [['combustible_aproximado_lts', 'distancia_kms'], 'number'],
             [['ruta_descripcion'], 'string', 'max' => 255],
             [['origen_x', 'origen_y', 'destino_x', 'destino_y'], 'string', 'max' => 64],
             [['id_cliente'], 'exist', 'skipOnError' => true, 'targetClass' => Cliente::class, 'targetAttribute' => ['id_cliente' => 'id_cliente']],
@@ -114,7 +114,7 @@ class OrdenServicio extends \yii\db\ActiveRecord {
             'hora_salida' => 'Hora de salida',
             'distancia_kms' => 'Distancia (Kms)',
             'combustible_aproximado_lts' => 'Combustible aproximado (Lts)',
-            'ruta_descripcion' => 'Descripción de ruta',
+            'ruta_descripcion' => 'Descripción de la ruta',
             'fecha' => 'Fecha',
             'hora_entrada' => 'Hora de entrada',
             'origen_x' => 'Origen en X',

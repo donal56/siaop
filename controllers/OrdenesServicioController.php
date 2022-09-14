@@ -2,13 +2,20 @@
 
 namespace app\controllers;
 
+use app\models\Actividad;
 use app\models\Estatus;
+use app\models\Model;
 use Yii;
 use app\models\OrdenServicio;
+use app\models\OrdenServicioActividad;
 use app\models\OrdenServicioSearch;
+use app\models\UnidadVehicular;
 use webvimark\components\BaseController;
+use webvimark\modules\UserManagement\models\User;
+use yii\base\Exception;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 
 /**
  * OrdenesServicioController implements the CRUD actions for OrdenServicio model.
@@ -64,46 +71,53 @@ class OrdenesServicioController extends BaseController {
      */
     public function actionCreate($tipo, $createAnother = 0) {
 
-        $returnToView = function ($model, $guardado = null) {
-            return $this->render('create', [
-                'model' => $model,
-                'guardado' => $guardado
-            ]);
+        $returnToView = function ($model, $serviciosActividades, $guardado = null) {
+            $actividades = Actividad::findAll(['id_empresa' => Yii::$app->user->identity->id_empresa]);
+            return $this->render('create', compact('model', 'guardado', 'serviciosActividades', 'actividades'));
         };
 
         $model = new OrdenServicio([
             'id_tipo_orden_servicio' => $tipo,
             'id_estatus' => Estatus::ORDEN_SERVICIO_REGISTRADO
         ]);
+        $serviciosActividades = [new OrdenServicioActividad()];
+        $datos = Yii::$app->request->post();
         
-        if ($model->load(Yii::$app->request->post())) {
+        if($model->load($datos)) {
 
             $transaction = Yii::$app->db->beginTransaction();
             $model->loadOrigen();
             $model->loadDestino();
 
-            try {
-                if(!$model->save()) {
-                    $transaction->rollBack();
-                    return $returnToView($model);
-                }
-                
-                $transaction->commit();
-                
-                if($createAnother == 0) {
-                    return $this->redirect(['view', 'id' => $model->id_orden_servicio]);
-                }
-                else {
-                    return $returnToView(new OrdenServicio(), $model->id_orden_servicio);
-                }
-            } 
-            catch(\Exception $e) {
+            if(!$model->save()) {
                 $transaction->rollBack();
-                throw $e;
+                return $returnToView($model, $serviciosActividades);
+            }
+
+            $serviciosActividades = Model::createMultiple(OrdenServicioActividad::class);
+            Model::loadMultiple($serviciosActividades, $datos);
+
+            foreach ($serviciosActividades as $servicioActividad) {
+                $servicioActividad->id_orden_servicio = $model->id_orden_servicio;
+                $servicioActividad->realizado = 0;
+
+                if (!$servicioActividad->save()) {
+                    $transaction->rollBack();
+                    return $returnToView($model, $serviciosActividades);
+                }
+            }
+            
+            $transaction->commit();
+            
+            if($createAnother == 0) {
+                return $this->redirect(['view', 'id' => $model->id_orden_servicio]);
+            }
+            else {
+                return $returnToView(new OrdenServicio(), [new OrdenServicioActividad()], $model->id_orden_servicio);
             }
         }
 
-        return $returnToView($model);
+        return $returnToView($model, $serviciosActividades);
     }
 
     /**
@@ -115,43 +129,59 @@ class OrdenesServicioController extends BaseController {
      */
     public function actionUpdate($id, $createAnother = 0) {
 
-        $returnToView = function ($update, $model, $guardado = null) {
-            return $this->render($update ? 'update' : 'create', [
-                'model' => $model,
-                'guardado' => $guardado
-            ]);
+        $returnToView = function ($update, $model, $serviciosActividades, $guardado = null) {
+            $actividades = Actividad::findAll(['id_empresa' => Yii::$app->user->identity->id_empresa]);
+            return $this->render($update ? 'update' : 'create', compact('model', 'guardado', 'serviciosActividades', 'actividades'));
         };
 
         $model = $this->findModel($id);
+        $serviciosActividades = $model->ordenServicioActividades;
+        $datos = Yii::$app->request->post();
 
-        if ($model->load(Yii::$app->request->post()))  {
+        if($model->load($datos)) {
 
             $transaction = Yii::$app->db->beginTransaction();
             $model->loadOrigen();
             $model->loadDestino();
 
-            try {
-                if(!$model->save()) {
-                    $transaction->rollBack();
-                    return $returnToView(true, $model);
+            if(!$model->save()) {
+                $transaction->rollBack();
+                return $returnToView(true, $model, $serviciosActividades);
+            }
+
+            $pk = 'id_orden_servicio_actividad';
+            $deletedIDs = array_diff_key(ArrayHelper::getColumn($serviciosActividades, $pk), ArrayHelper::getColumn($datos['OrdenServicioActividad'], $pk));
+            $serviciosActividades = Model::createMultiple(OrdenServicioActividad::class, $serviciosActividades);
+            Model::loadMultiple($serviciosActividades, $datos);
+
+            if (!empty($deletedIDs)) {
+                OrdenServicioActividad::deleteAll(['IN', $pk, $deletedIDs]);
+            }
+
+            foreach ($serviciosActividades as $servicioActividad) {
+                $servicioActividad->id_orden_servicio = $model->id_orden_servicio;
+
+                if($servicioActividad->isNewRecord) {
+                    $servicioActividad->realizado = 0;
                 }
 
-                $transaction->commit();
-                
-                if($createAnother == 0) {
-                    return $this->redirect(['view', 'id' => $model->id_orden_servicio]);
+                if (!$servicioActividad->save()) {
+                    $transaction->rollBack();
+                    return $returnToView(true, $model, $serviciosActividades);
                 }
-                else {
-                    return $returnToView(false, new OrdenServicio(), $model->id_orden_servicio);
-                }
-            } 
-            catch(\Exception $e) {
-                $transaction->rollBack();
-                throw $e;
+            }
+
+            $transaction->commit();
+            
+            if($createAnother == 0) {
+                return $this->redirect(['view', 'id' => $model->id_orden_servicio]);
+            }
+            else {
+                return $returnToView(false, new OrdenServicio(), $serviciosActividades, $model->id_orden_servicio);
             }
         }
 
-        return $returnToView(true, $model);
+        return $returnToView(true, $model, $serviciosActividades);
     }
 
     /**

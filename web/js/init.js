@@ -414,6 +414,94 @@ $(window).on('resize', function() {
 });
 
 /**
+ * Inicialización de TempusDominus
+ */
+$(function() {
+    const datePickerConf = {
+        display: {
+            calendarWeeks: true,
+            keepOpen: false,
+            buttons: {
+                today: true,
+                clear: true,
+                close: true
+            },
+            components: {
+                useTwentyfourHour: true,
+                decades: false,
+                year: true,
+                month: true,
+                date: true,
+                hours: false,
+                minutes: false,
+                seconds: false
+            },
+            theme: 'light'
+        },
+        localization: {
+            locale: 'es',
+            startOfTheWeek: 0,
+            today: 'Hoy',
+            clear: 'Limpiar',
+            close: 'Cerrar',
+            selectMonth: 'Selecciona un mes',
+            previousMonth: 'Mes anterior',
+            nextMonth: 'Mes siguiente',
+            selectYear: 'Seleccione un año',
+            previousYear: 'Año anterior',
+            nextYear: 'Año siguiente',
+            selectDecade: 'Selecciona una década',
+            previousDecade: 'Década anterior',
+            nextDecade: 'Década siguiente',
+            pickHour: 'Selecciona la hora',
+            incrementHour: 'Aumentar hora',
+            decrementHour: 'Disminur hora',
+            pickMinute: 'Seleccione los minutos',
+            incrementMinute: 'Aumentar minutos',
+            decrementMinute: 'Disminuir minutos',
+            toggleMeridiem: 'Cambiar AM/PM',
+            selectTime: 'Selecciona la hora',
+            selectDate: 'Selecciona la fecha',
+            dayViewHeaderFormat: { month: 'long', year: 'numeric' },
+        }
+    };
+    
+    document.querySelectorAll(".datepicker input").forEach(field => {
+        new tempusDominus.TempusDominus(field, datePickerConf);
+    });
+    
+    document.querySelectorAll(".timepicker input").forEach(field => {
+        let timepicker = new tempusDominus.TempusDominus(field, datePickerConf);
+        timepicker.updateOptions({
+            display: {
+                viewMode: 'clock',
+                components: {
+                    date: false,
+                    year: false,
+                    month: false,
+                    hours: true,
+                    minutes: true,
+                    seconds: true
+                }
+            }
+        });
+    });
+    
+    document.querySelectorAll(".datetimepicker input").forEach(field => {
+        let datetimepicker = new tempusDominus.TempusDominus(field, datePickerConf);
+        datetimepicker.updateOptions({
+            display: {
+                components: {
+                    hours: true,
+                    minutes: true,
+                    seconds: true
+                }
+            }
+        });
+    });
+});
+
+/**
  * Focus correcto en Select2
  */
 setSelect2FocusBehaviour();

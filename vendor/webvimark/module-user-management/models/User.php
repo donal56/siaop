@@ -11,6 +11,7 @@ use webvimark\modules\UserManagement\components\AuthHelper;
 use webvimark\modules\UserManagement\components\UserIdentity;
 use webvimark\modules\UserManagement\models\rbacDB\Role;
 use webvimark\modules\UserManagement\models\rbacDB\Route;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "user".
@@ -60,6 +61,17 @@ class User extends UserIdentity {
      */
     function getNombreCompleto() {
         return trim($this->nombre . " " . $this->apellido_paterno . " " . ($this->apellido_materno == null ? "" : $this->apellido_materno));
+    }
+
+    /**
+     * Genera los datos de un combo
+     */
+    public static function generateDropdownData($condition = null) {
+        $usuarios =  self::find()
+            ->where($condition == null ? '1 = 1' : $condition)
+            ->orderBy(['nombre' => SORT_ASC])
+            ->all();
+        return ArrayHelper::map($usuarios, 'id', 'nombreCompleto');
     }
 
     /**

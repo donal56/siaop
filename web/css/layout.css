@@ -59,12 +59,12 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700");
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,500,700");
 @import url("https://fonts.googleapis.com/css?family=Nunito:400,600,700");
-@import url("./../icons/fontawesome-free-6.1.2-web/css/fontawesome.min.css");
-@import url("./../icons/fontawesome-free-6.1.2-web/css/solid.min.css");
-@import url(./../vendor/animate/animate.min.css);
-@import url(./../vendor/aos/css/aos.min.css);
-@import url(./perfect-scrollbar/perfect-scrollbar.css);
-@import url(./metismenu/metismenu.min.css);
+@import url("./../librerias/fontawesome/css/fontawesome.min.css");
+@import url("./../librerias/fontawesome/css/solid.min.css");
+@import url(./../librerias/animate/animate.min.css);
+@import url(./../librerias/aos/css/aos.min.css);
+@import url(./../librerias/perfect-scrollbar/perfect-scrollbar.css);
+@import url(./../librerias/metismenu/metismenu.min.css);
 
 :root {
     --primary: rgba(15, 10, 222);
@@ -30471,8 +30471,9 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
 
 .form-control:disabled,
 .form-control[readonly] {
-    background: #fff;
+    background: #f7efef;
     opacity: 1;
+    cursor: not-allowed;
 }
 
 .form-file {
@@ -37348,7 +37349,7 @@ code {
 }
 
 .picker .picker__frame .picker__box .picker__header .picker__nav--prev:after {
-    content: "\f0d9";
+    content: "<<";
 }
 
 .picker .picker__frame .picker__box .picker__header .picker__nav--next {
@@ -37356,7 +37357,7 @@ code {
 }
 
 .picker .picker__frame .picker__box .picker__header .picker__nav--next:after {
-    content: "\f0da";
+    content: ">>";
 }
 
 .picker .picker__frame .picker__box .picker__table .picker__weekday {
