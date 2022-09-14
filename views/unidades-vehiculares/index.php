@@ -1,5 +1,6 @@
 <?php
 
+use app\components\Utils\NumberUtils;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;use webvimark\modules\UserManagement\models\User;
@@ -32,43 +33,54 @@ $this->title = 'Unidades vehiculares';
                 'columns' => [
                     ['class' => 'yii\grid\SerialColumn'],
                     [
-                        'attribute' => 'id_marca',
-                        'value' => fn($model) => $model->marca->marca,
-                        'filter' => app\models\Marca::generateDropdownData()                   ],
-                    [
-                        'attribute' => 'id_tipo_unidad_vehicular',
-                        'value' => fn($model) => $model->tipoUnidadVehicular->tipo_unidad_vehicular,
-                        'filter' => app\models\TipoUnidadVehicular::generateDropdownData()                   ],
-                    [
-                        'attribute' => 'id_clase_vehicular',
-                        'value' => fn($model) => $model->claseVehicular->clase_vehicular,
-                        'filter' => app\models\ClaseVehicular::generateDropdownData()                   ],
-                    [
-                        'attribute' => 'id_tipo_combustible',
-                        'value' => fn($model) => $model->tipoCombustible->tipo_combustible,
-                        'filter' => app\models\TipoCombustible::generateDropdownData()                   ],
-                    [
-                        'attribute' => 'modelo',
+                        'attribute' => 'placa',
                         'format' => 'text',
                         'filterInputOptions' => [
                              'class' => 'form-control',
                              'placeholder' => '🔎︎',
                        ],
-                   ],
-                    //'placa',
-                    //'motor',
-                    //'tarjeta_circulacion',
-                    //'numero_identificacion_vehicular',
-                    //'poliza',
-                    //'vigencia_poliza',
-                    //'permiso_ruta_sct',
-                    //'numero_economica',
-                    //'permiso_trp',
-                    //'vigencia_trp',
-                    //'permiso_trme',
-                    //'vigencia_trme',
-                    //'rendimiento_combustible',
-                    //'activo',
+                    ],
+                    [
+                        'attribute' => 'id_marca',
+                        'value' => fn($model) => $model->marca->marca,
+                        'filter' => app\models\Marca::generateDropdownData()                   
+                    ],
+                    [
+                        'attribute' => 'id_tipo_unidad_vehicular',
+                        'label' => 'Tipo',
+                        'value' => fn($model) => $model->tipoUnidadVehicular->tipo_unidad_vehicular,
+                        'filter' => app\models\TipoUnidadVehicular::generateDropdownData()                   
+                    ],
+                    [
+                        'attribute' => 'id_clase_vehicular',
+                        'label' => 'Clase',
+                        'value' => fn($model) => $model->claseVehicular->clase_vehicular,
+                        'filter' => app\models\ClaseVehicular::generateDropdownData()                   
+                    ],
+                    [
+                        'attribute' => 'id_tipo_combustible',
+                        'label' => 'Combustible',
+                        'value' => fn($model) => $model->tipoCombustible->tipo_combustible,
+                        'filter' => app\models\TipoCombustible::generateDropdownData()                   
+                    ],
+                    [
+                        'attribute' => 'modelo',
+                        'format' => 'text',
+                        'filterInputOptions' => [
+                            'class' => 'form-control',
+                            'placeholder' => '🔎︎',
+                        ],
+                    ],
+                    [
+                        'attribute' => 'rendimiento_combustible',
+                        'label' => 'Rendimiento',
+                        'format' => 'text',
+                        'value' => fn($model) => NumberUtils::ifNanReturnZero($model->rendimiento_combustible) . " km/lt",
+                        'filterInputOptions' => [
+                            'class' => 'form-control',
+                            'placeholder' => '🔎︎',
+                        ]
+                    ],
                     ['class' => 'yii\grid\ActionColumn'],
                 ],
                 'tableOptions' => [

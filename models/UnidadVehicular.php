@@ -92,7 +92,7 @@ class UnidadVehicular extends \yii\db\ActiveRecord {
             'poliza' => 'Poliza',
             'vigencia_poliza' => 'Vigencia de poliza',
             'permiso_ruta_sct' => 'Permiso de ruta de SCT',
-            'numero_economica' => 'Numero económica',
+            'numero_economica' => 'Número económico',
             'permiso_trp' => 'Permiso de TRP',
             'vigencia_trp' => 'Vigencia de TRP',
             'permiso_trme' => 'Permiso de TRME',
@@ -159,10 +159,15 @@ class UnidadVehicular extends \yii\db\ActiveRecord {
     }
 
     public static function generateDropdownData() {
-        return ArrayHelper::map(
-            UnidadVehicular::find()->orderBy(['placa' => SORT_ASC])->all(), 
+        $vehicles = self::find()
+            ->joinWith(['marca'])
+            ->orderBy(['placa' => SORT_ASC])
+            ->all();
+
+        return ArrayHelper::map($vehicles, 
                 'id_unidad_vehicular', 
-                'placa'
+                'placa',
+                fn($model) => $model->marca->marca
             );
     }
 

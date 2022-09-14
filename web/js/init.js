@@ -52,12 +52,6 @@ function initTemplate() {
 let Jobick = function () {
     var screenWidth = $(window).width();
 
-    var handleNiceSelect = function () {
-        if ($('.default-select').length > 0) {
-            $('.default-select').niceSelect();
-        }
-    };
-
     var handlePreloader = function () {
         setTimeout(function () {
             $('#preloader').remove();
@@ -360,7 +354,6 @@ let Jobick = function () {
         };
     }
 
-    /* Function ============ */
     return {
         init: function () {
             handleMetisMenu();
@@ -388,7 +381,6 @@ let Jobick = function () {
 
         load: function () {
             handlePreloader();
-            handleNiceSelect();
         },
 
         resize: function () {

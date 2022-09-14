@@ -12,33 +12,6 @@ use yii\web\View;
 
 AppAsset::register($this);
 
-$this->registerJs("
-    $(window).on('load',function(){
-		setTimeout(function(){
-			$('.front-view-slider').owlCarousel({
-				loop: false,
-				margin: 30,
-				nav: true,
-				autoplaySpeed: 3000,
-				navSpeed: 3000,
-				autoWidth: true,
-				paginationSpeed: 3000,
-				slideSpeed: 3000,
-				smartSpeed: 3000,
-				autoplay: false,
-				animateOut: 'fadeOut',
-				dots: true,
-				navText: ['', ''],
-				responsive: {
-					0: { items: 1 },
-					480: { items: 1 },			
-					767: { items: 3 },
-					1750: { items: 3 }
-				}
-			});
-		}, 1000); 
-	});
-", View::POS_END, 'navbar');
 ?>
 
 <?php $this->beginPage() ?>

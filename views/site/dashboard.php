@@ -702,16 +702,41 @@
 
 <?php
 
-$this->registerJsFile("vendor/chart.js/Chart.bundle.min.js");
-$this->registerJsFile("vendor/apexchart/apexchart.js");
-$this->registerJsFile("vendor/chart.js/Chart.bundle.min.js");
+$this->registerJsFile("librerias/chart.js/Chart.bundle.min.js");
+$this->registerJsFile("librerias/apexchart/apexchart.js");
+$this->registerJsFile("librerias/owl-carousel/owl.carousel.js");
 
 $js = <<<JS
 
 (function($) {
-    /* "use strict" */
-	
- var dlabChartlist = function(){
+
+    $(window).on('load',function(){
+		setTimeout(function(){
+			$('.front-view-slider').owlCarousel({
+				loop: false,
+				margin: 30,
+				nav: true,
+				autoplaySpeed: 3000,
+				navSpeed: 3000,
+				autoWidth: true,
+				paginationSpeed: 3000,
+				slideSpeed: 3000,
+				smartSpeed: 3000,
+				autoplay: false,
+				animateOut: 'fadeOut',
+				dots: true,
+				navText: ['', ''],
+				responsive: {
+					0: { items: 1 },
+					480: { items: 1 },			
+					767: { items: 3 },
+					1750: { items: 3 }
+				}
+			});
+		}, 1000); 
+	});
+
+    var dlabChartlist = function(){
 	
 	var screenWidth = $(window).width();
 	let draw = Chart.controllers.line.__super__.draw; //draw shadow
