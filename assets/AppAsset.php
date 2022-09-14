@@ -22,22 +22,17 @@ class AppAsset extends AssetBundle {
     public $baseUrl = '@web';
     public $css = [
         'css/layout.css',
-
-		'vendor/owl-carousel/owl.carousel.css',
-		'vendor/jquery-nice-select/css/nice-select.css'
+        'librerias/tempus-dominus/tempus-dominus.css'
     ];
 	
     public $js = [
-        'js/bootstrap/bootstrap.bundle.min.js',
-        'js/popper/popper.min.js',
-        'js/perfect-scrollbar/perfect-scrollbar.min.js',
-        'js/metismenu/metismenu.min.js',
+        'librerias/bootstrap/bootstrap.bundle.min.js',
+        'librerias/bootstrap/popper.min.js',
+        'librerias/perfect-scrollbar/perfect-scrollbar.min.js',
+        'librerias/metismenu/metismenu.min.js',
+        "librerias/tempus-dominus/tempus-dominus.js",
         'js/init.js',
         'js/utils.js',
-		
-		'vendor/jquery-nice-select/js/jquery.nice-select.min.js',
-		'vendor/peity/jquery.peity.min.js',
-		'vendor/owl-carousel/owl.carousel.js'
     ];
 
     public $depends = [

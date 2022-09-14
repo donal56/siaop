@@ -11,7 +11,7 @@ class GoogleMapsAsset extends AssetBundle {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $jsOptions = ['position' => View::POS_HEAD];
-    public $css = ["css/gmap/gmap.css"];
+    public $css = ["js/gmap/gmap.css"];
     public $depends = ["app\assets\AppAsset", "yii\web\JqueryAsset"];
     
     public function init() {

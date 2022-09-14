@@ -11,7 +11,7 @@
 
         public $css = [];
         public $js = [
-            "js/jquery-ui/jquery-ui.js"
+            "librerias/jquery-ui/jquery-ui.js"
         ];
 
         public $depends = [

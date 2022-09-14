@@ -9,11 +9,11 @@
         public $basePath = '@webroot';
         public $baseUrl = '@web';
         public $css = [
-            "css/jquery-transfer/icon_font.css",
-            "css/jquery-transfer/jquery-transfer.css",
+            "librerias/jquery-transfer/icon_font.css",
+            "librerias/jquery-transfer/jquery-transfer.css",
         ];
         public $js = [
-        	"js/jquery-transfer/jquery.transfer0.0.2.js"
+        	"librerias/jquery-transfer/jquery.transfer0.0.2.js"
         ];
         public $depends = 
         [
