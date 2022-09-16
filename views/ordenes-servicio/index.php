@@ -33,12 +33,12 @@ $this->title = 'Ordenes servicios';
                     'id_orden_servicio',
                     [
                         'attribute' => 'id_cliente',
-                        'value' => fn($model) => $model->cliente->cliente,
+                        'value' => fn($model) => $model->cliente->razon_social,
                         'filter' => app\models\Cliente::generateDropdownData()
                     ],
                     [
                         'attribute' => 'id_pozo',
-                        'value' => fn($model) => $model->pozo->pozo,
+                        'value' => fn($model) => isset($model->pozo) ? $model->pozo->pozo : null,
                         'filter' => app\models\Pozo::generateDropdownData()                   
                     ],
                     [

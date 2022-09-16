@@ -16,6 +16,7 @@ use app\models\Actividad;
 use app\models\OrdenServicioArchivo;
 use yii\helpers\ArrayHelper;
 use webvimark\modules\UserManagement\models\User;
+use yii\web\NotFoundHttpException;
 
 /**
  * This is the model class for table "ordenes_servicio".
@@ -313,5 +314,12 @@ class OrdenServicio extends \yii\db\ActiveRecord {
         }
 
         return parent::beforeSave($insert);
+    }
+
+    public static function findModel($id) {
+        if (($model = OrdenServicio::findOne($id)) !== null) {
+            return $model;
+        }
+        throw new NotFoundHttpException('La página no existe o no esta autorizado para verla');
     }
 }

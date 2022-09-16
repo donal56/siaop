@@ -5,6 +5,9 @@ namespace app\controllers;
 use Yii;
 use app\components\Utils\DebugUtils;
 use app\models\Dispositivo;
+use app\models\OrdenServicio;
+use app\models\OrdenServicioActividadSearch;
+use app\models\OrdenServicioSearch;
 use app\models\VersionApp;
 use webvimark\components\BaseController;
 use yii\filters\auth\HttpBasicAuth;
@@ -39,6 +42,8 @@ class ApiController extends BaseController {
                     'version-api' => ['GET'],
                     'token-registrar' => ['POST'],
                     'notificaciones-enviar' => ['POST'],
+                    'ordenes-servicio-operador' => ['GET'],
+                    'ordenes-servicio-actividades' => ['GET']
                 ]
             ]
 		];
@@ -233,5 +238,41 @@ class ApiController extends BaseController {
         curl_close($request);
 
         return $this->end($content);
+    }
+
+    /**
+     * API que retorna las ordenes de servicio asignadas a un operador
+     * @api
+     */ 
+    public function actionOrdenesServicioOperador() {
+
+        $searchModel = new OrdenServicioSearch();
+        $searchParams = Yii::$app->request->queryParams;
+        $searchParams["usuario_jefe_cuadrilla"] = Yii::$app->user->identity->id;
+
+        $dataProvider = $searchModel->search($searchParams, '');
+        $dataProvider->pagination->pageSize = 20;
+        
+        $servicios = $dataProvider->getModels();
+        return $this->end($servicios);
+    }
+
+    /**
+     * API que retorna las actividades de una orden de servicio
+     * @api
+     * @GET Integer id - ID de la orden de servicio
+     */ 
+    public function actionOrdenesServicioActividades($id) {
+
+        OrdenServicio::findModel($id);
+        
+        $searchModel = new OrdenServicioActividadSearch();
+        $searchParams = ["id_orden_servicio" => $id];
+
+        $dataProvider = $searchModel->search($searchParams, '');
+        $dataProvider->pagination = false;
+        
+        $serviciosActividades = $dataProvider->getModels();
+        return $this->end($serviciosActividades);
     }
 }

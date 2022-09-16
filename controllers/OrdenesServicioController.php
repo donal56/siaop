@@ -58,7 +58,7 @@ class OrdenesServicioController extends BaseController {
      */
     public function actionView($id) {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => OrdenServicio::findModel($id),
         ]);
     }
 
@@ -134,7 +134,7 @@ class OrdenesServicioController extends BaseController {
             return $this->render($update ? 'update' : 'create', compact('model', 'guardado', 'serviciosActividades', 'actividades'));
         };
 
-        $model = $this->findModel($id);
+        $model = OrdenServicio::findModel($id);
         $serviciosActividades = $model->ordenServicioActividades;
         $datos = Yii::$app->request->post();
 
@@ -192,21 +192,7 @@ class OrdenesServicioController extends BaseController {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id) {
-        $this->findModel($id)->delete();
+        OrdenServicio::findModel($id)->delete();
         return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the OrdenServicio model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param string $id_orden_servicio
-     * @return OrdenServicio the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id) {
-        if (($model = OrdenServicio::findOne($id)) !== null) {
-            return $model;
-        }
-        throw new NotFoundHttpException('La página no existe o no esta autorizado para verla');
     }
 }

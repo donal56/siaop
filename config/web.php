@@ -151,6 +151,8 @@ $config = [
                 'api/version/api' => 'api/version-api',
                 'api/token/registrar' => 'api/token-registrar',
                 'api/notificaciones/enviar' => 'api/notificaciones-enviar',
+                'api/ordenes-servicio/operador' => 'api/ordenes-servicio-operador',
+                'api/ordenes-servicio/<id:\d+>/actividades' => 'api/ordenes-servicio-actividades',
             ],
         ],
         'authManager' => [

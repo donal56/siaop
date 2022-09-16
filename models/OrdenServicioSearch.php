@@ -35,17 +35,17 @@ class OrdenServicioSearch extends OrdenServicio {
      *
      * @return ActiveDataProvider
      */
-    public function search($params) {
+    public function search($params, $formName = null) {
         $query = OrdenServicio::find()
             ->joinWith([
-              "cliente",
-              "estatus",
-              "pozo",
-              "tipoOrdenServicio",
-              "unidadVehicular",
-              "usuarioCaptura",
-              "usuarioClienteSolicitante",
-              "usuarioJefeCuadrilla"
+                "cliente",
+                "estatus",
+                "pozo",
+                "tipoOrdenServicio",
+                "unidadVehicular",
+                "usuarioCaptura",
+                "usuarioClienteSolicitante",
+                "usuarioJefeCuadrilla"
             ]);
 
         // add conditions that should always apply here
@@ -54,7 +54,7 @@ class OrdenServicioSearch extends OrdenServicio {
             'query' => $query,
         ]);
 
-        $this->load($params);
+        $this->load($params, $formName);
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
@@ -64,36 +64,36 @@ class OrdenServicioSearch extends OrdenServicio {
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id_orden_servicio' => $this->id_orden_servicio,
-            'id_empresa' => $this->id_empresa,
-            'id_tipo_orden_servicio' => $this->id_tipo_orden_servicio,
-            'id_cliente' => $this->id_cliente,
-            'id_estatus' => $this->id_estatus,
-            'id_unidad_vehicular' => $this->id_unidad_vehicular,
-            'id_pozo' => $this->id_pozo,
-            'usuario_jefe_cuadrilla' => $this->usuario_jefe_cuadrilla,
-            'usuario_cliente_solicitante' => $this->usuario_cliente_solicitante,
-            'hora_salida' => $this->hora_salida,
-            'distancia_kms' => $this->distancia_kms,
-            'combustible_aproximado_lts' => $this->combustible_aproximado_lts,
-            'fecha' => $this->fecha,
-            'hora_entrada' => $this->hora_entrada,
-            'fecha_hora_llegada_real' => $this->fecha_hora_llegada_real,
-            'fecha_hora_salida_real' => $this->fecha_hora_salida_real,
-            'fecha_hora_inicio_trabajo' => $this->fecha_hora_inicio_trabajo,
-            'fecha_hora_final_trabajo' => $this->fecha_hora_final_trabajo,
-            'fecha_captura' => $this->fecha_captura,
-            'usuario_captura' => $this->usuario_captura,
-            'origen_version' => $this->origen_version,
-            'fecha_version' => $this->fecha_version,
-            'usuario_version' => $this->usuario_version,
+            'ordenes_servicio.id_orden_servicio' => $this->id_orden_servicio,
+            'ordenes_servicio.id_empresa' => $this->id_empresa,
+            'ordenes_servicio.id_tipo_orden_servicio' => $this->id_tipo_orden_servicio,
+            'ordenes_servicio.id_cliente' => $this->id_cliente,
+            'ordenes_servicio.id_estatus' => $this->id_estatus,
+            'ordenes_servicio.id_unidad_vehicular' => $this->id_unidad_vehicular,
+            'ordenes_servicio.id_pozo' => $this->id_pozo,
+            'ordenes_servicio.usuario_jefe_cuadrilla' => $this->usuario_jefe_cuadrilla,
+            'ordenes_servicio.usuario_cliente_solicitante' => $this->usuario_cliente_solicitante,
+            'ordenes_servicio.hora_salida' => $this->hora_salida,
+            'ordenes_servicio.distancia_kms' => $this->distancia_kms,
+            'ordenes_servicio.combustible_aproximado_lts' => $this->combustible_aproximado_lts,
+            'ordenes_servicio.fecha' => $this->fecha,
+            'ordenes_servicio.hora_entrada' => $this->hora_entrada,
+            'ordenes_servicio.fecha_hora_llegada_real' => $this->fecha_hora_llegada_real,
+            'ordenes_servicio.fecha_hora_salida_real' => $this->fecha_hora_salida_real,
+            'ordenes_servicio.fecha_hora_inicio_trabajo' => $this->fecha_hora_inicio_trabajo,
+            'ordenes_servicio.fecha_hora_final_trabajo' => $this->fecha_hora_final_trabajo,
+            'ordenes_servicio.fecha_captura' => $this->fecha_captura,
+            'ordenes_servicio.usuario_captura' => $this->usuario_captura,
+            'ordenes_servicio.origen_version' => $this->origen_version,
+            'ordenes_servicio.fecha_version' => $this->fecha_version,
+            'ordenes_servicio.usuario_version' => $this->usuario_version,
         ]);
 
-        $query->andFilterWhere(['like', 'ruta_descripcion', $this->ruta_descripcion])
-            ->andFilterWhere(['like', 'origen_x', $this->origen_x])
-            ->andFilterWhere(['like', 'origen_y', $this->origen_y])
-            ->andFilterWhere(['like', 'destino_x', $this->destino_x])
-            ->andFilterWhere(['like', 'destino_y', $this->destino_y]);
+        $query->andFilterWhere(['like', 'ordenes_servicio.ruta_descripcion', $this->ruta_descripcion])
+            ->andFilterWhere(['like', 'ordenes_servicio.origen_x', $this->origen_x])
+            ->andFilterWhere(['like', 'ordenes_servicio.origen_y', $this->origen_y])
+            ->andFilterWhere(['like', 'ordenes_servicio.destino_x', $this->destino_x])
+            ->andFilterWhere(['like', 'ordenes_servicio.destino_y', $this->destino_y]);
 
         return $dataProvider;
     }
