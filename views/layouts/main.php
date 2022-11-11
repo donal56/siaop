@@ -5,8 +5,8 @@
 
 use yii\helpers\Html;
 use app\assets\AppAsset;
-use app\components\Utils\DebugUtils;
-use app\components\Utils\StringUtils;
+use app\components\utils\DebugUtils;
+use app\components\utils\StringUtils;
 use app\models\Menu;
 use yii\web\View;
 

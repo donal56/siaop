@@ -1,6 +1,6 @@
 <?php
 
-namespace app\components\CustomGrid;
+namespace app\components\customGrid;
 
 use Yii;
 use webvimark\components\StatusColumn;

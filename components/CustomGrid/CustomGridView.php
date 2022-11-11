@@ -1,6 +1,6 @@
 <?php
 
-namespace app\components\CustomGrid;
+namespace app\components\customGrid;
 
 use app\assets\CustomGridAsset;
 use app\components\JsonRecordColumn;

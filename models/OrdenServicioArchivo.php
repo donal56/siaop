@@ -45,6 +45,7 @@ class OrdenServicioArchivo extends \yii\db\ActiveRecord {
             [['id_orden_servicio', 'id_archivo', 'id_tipo_archivo'], 'required'],
             [['id_orden_servicio', 'id_archivo', 'id_tipo_archivo', 'validado', 'usuario_validacion'], 'integer'],
             [['fecha_validacion'], 'safe'],
+            ['id_archivo', 'unique', 'targetAttribute' => ['id_orden_servicio', 'id_archivo', 'id_tipo_archivo'], 'message' => 'Evidencia duplicada'],
             [['id_archivo'], 'exist', 'skipOnError' => true, 'targetClass' => Archivo::class, 'targetAttribute' => ['id_archivo' => 'id_archivo']],
             [['id_orden_servicio'], 'exist', 'skipOnError' => true, 'targetClass' => OrdenServicio::class, 'targetAttribute' => ['id_orden_servicio' => 'id_orden_servicio']],
             [['id_tipo_archivo'], 'exist', 'skipOnError' => true, 'targetClass' => TipoArchivo::class, 'targetAttribute' => ['id_tipo_archivo' => 'id_tipo_archivo']],

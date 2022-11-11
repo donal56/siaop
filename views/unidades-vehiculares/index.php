@@ -1,6 +1,6 @@
 <?php
 
-use app\components\Utils\NumberUtils;
+use app\components\utils\NumberUtils;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;use webvimark\modules\UserManagement\models\User;

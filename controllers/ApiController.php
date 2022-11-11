@@ -2,12 +2,20 @@
 
 namespace app\controllers;
 
+use app\components\FirebaseManager;
 use Yii;
-use app\components\Utils\DebugUtils;
+use app\components\utils\DebugUtils;
+use app\components\utils\FirebaseFileUtils;
+use app\components\utils\StringUtils;
+use app\models\Archivo;
 use app\models\Dispositivo;
 use app\models\OrdenServicio;
+use app\models\OrdenServicioActividad;
 use app\models\OrdenServicioActividadSearch;
+use app\models\OrdenServicioArchivo;
+use app\models\OrdenServicioArchivoSearch;
 use app\models\OrdenServicioSearch;
+use app\models\TipoArchivo;
 use app\models\VersionApp;
 use webvimark\components\BaseController;
 use yii\filters\auth\HttpBasicAuth;
@@ -43,7 +51,13 @@ class ApiController extends BaseController {
                     'token-registrar' => ['POST'],
                     'notificaciones-enviar' => ['POST'],
                     'ordenes-servicio-operador' => ['GET'],
-                    'ordenes-servicio-actividades' => ['GET']
+                    'ordenes-servicio-actividades' => ['GET'],
+                    'ordenes-servicio-actividades-insert' => ['POST'],
+                    'ordenes-servicio-actividades-update' => ['PUT'],
+                    'ordenes-servicio-actividades-delete' => ['DELETE'],
+                    'ordenes-servicio-evidencias-insert' => ['POST'],
+                    'ordenes-servicio-evidencias-delete' => ['DELETE'],
+                    'ordenes-servicio-evidencias' => ['GET']
                 ]
             ]
 		];
@@ -61,7 +75,7 @@ class ApiController extends BaseController {
         $this->transaction = Yii::$app->db->beginTransaction();
     }
 
-    public function end($model, $returnModel = false) {
+    public function end(mixed $model, bool $returnModel = false, $returnInstead = null) {
 
         if(is_a($model, 'yii\db\ActiveRecord') && $errors = $model->getErrors()) {
             $result = $errors;
@@ -80,7 +94,7 @@ class ApiController extends BaseController {
                 $returnModel = true;
             }
             
-            $result = $returnModel ? $model : $model->$primaryKey;
+            $result = $returnModel ? $model : (isset($returnInstead) ? $returnInstead : $model->$primaryKey);
             $this->response->statusCode = 200;
 
             if(isset($this->transaction))  
@@ -177,7 +191,7 @@ class ApiController extends BaseController {
      * @POST String mensaje
      * @POST int destinatario
      */
-    public function actionNotificacionesEnviar($debug = false) {
+    public function actionNotificacionesEnviar(bool $debug = false) {
 
         if(DebugUtils::esEntornoDePruebas() && !$debug) {
             return $this->end(['dev' => 'Entorno de pruebas']);
@@ -260,19 +274,255 @@ class ApiController extends BaseController {
     /**
      * API que retorna las actividades de una orden de servicio
      * @api
-     * @GET Integer id - ID de la orden de servicio
+     * @param Integer idOrdenServicio - ID de la orden de servicio
      */ 
-    public function actionOrdenesServicioActividades($id) {
+    public function actionOrdenesServicioActividades(int $idOrdenServicio) {
 
-        OrdenServicio::findModel($id);
+        if(OrdenServicio::findOne($idOrdenServicio) == null) {
+            $ordenServicio = new OrdenServicio();
+            $ordenServicio->addError('id_orden_servicio', 'Servicio inexistente');
+            return $this->end($ordenServicio);
+        }
         
         $searchModel = new OrdenServicioActividadSearch();
-        $searchParams = ["id_orden_servicio" => $id];
+        $searchParams = ["id_orden_servicio" => $idOrdenServicio];
 
         $dataProvider = $searchModel->search($searchParams, '');
         $dataProvider->pagination = false;
         
         $serviciosActividades = $dataProvider->getModels();
         return $this->end($serviciosActividades);
+    }
+
+    /**
+     * API que registra una actividad asignada a una orden de servicio
+     * @api
+     */ 
+    public function actionOrdenesServicioActividadesInsert() {
+
+        $ordenServicioActividad = new OrdenServicioActividad();
+        $ordenServicioActividad->load(Yii::$app->request->getBodyParams(), '');
+
+        $ordenServicioActividad->id_orden_servicio_actividad = null;
+        $ordenServicioActividad->insert();
+
+        return $this->end($ordenServicioActividad);
+    }
+
+    /**
+     * API que actualiza una actividad asignada a una orden de servicio
+     * @api
+     * @param idOrdenServicioActidad - ID del servicio-actividad
+     */ 
+    public function actionOrdenesServicioActividadesUpdate(int $idOrdenServicioActidad) {
+
+        $ordenServicioActividad = OrdenServicioActividad::findOne($idOrdenServicioActidad);
+        
+        if($ordenServicioActividad == null) {
+            $ordenServicioActividad = new OrdenServicioActividad();
+            $ordenServicioActividad->addError('id_orden_servicio_actividad', 'Actividad-Servicio inexistente');
+            return $this->end($ordenServicioActividad);
+        }
+        
+        $ordenServicioActividad->load(Yii::$app->request->getBodyParams(), '');
+        $ordenServicioActividad->id_orden_servicio_actividad = $idOrdenServicioActidad;
+        $ordenServicioActividad->update();
+
+        return $this->end($ordenServicioActividad);
+    }
+
+    /**
+     * API que desvincula una actividad asignada a una orden de servicio
+     * @api
+     * @param idOrdenServicioActidad - ID del servicio-actividad
+     */ 
+    public function actionOrdenesServicioActividadesDelete(int $idOrdenServicioActidad) {
+
+        $ordenServicioActividad = OrdenServicioActividad::findOne($idOrdenServicioActidad);
+        
+        if($ordenServicioActividad == null) {
+            $ordenServicioActividad = new OrdenServicioActividad();
+            $ordenServicioActividad->addError('id_orden_servicio_actividad', 'Actividad-Servicio inexistente');
+            return $this->end($ordenServicioActividad);
+        }
+        
+        $ordenServicioActividad->delete();
+
+        return $this->end($ordenServicioActividad);
+    }
+
+    /**
+     * API que agrega una evidencia a una orden de servicio
+     * @api
+     */ 
+    public function actionOrdenesServicioEvidenciasInsert() {
+
+        // Configuración del entorno
+        ini_set('upload_max_filesize', '10M');
+        ini_set('post_max_size', '10M');
+        ini_set('max_input_time', 120);
+        ini_set('max_execution_time', 120);
+
+        $maxSize = 1024 * 1024 * 2;
+
+        // Entidades
+        $archivo = new Archivo();
+        $ordenServicioArchivo = new OrdenServicioArchivo();
+
+        // Parámetros
+        $idOrdenServicio = Yii::$app->request->post("id_orden_servicio");
+        $idTipoArchivo = Yii::$app->request->post("id_tipo_archivo");
+        $ubicacionX = Yii::$app->request->post("ubicacion_x");
+        $ubicacionY = Yii::$app->request->post("ubicacion_y");
+        $observacion = Yii::$app->request->post("observacion");
+        $fileData = $_FILES["evidencia"];
+
+        // Validaciones
+        if(empty($idOrdenServicio)) {
+            $ordenServicioArchivo->addError('id_orden_servicio', 'Párametro requerido');
+            return $this->end($ordenServicioArchivo);
+        }
+        
+        if(empty($idTipoArchivo)) {
+            $ordenServicioArchivo->addError('id_tipo_archivo', 'Párametro requerido');
+            return $this->end($ordenServicioArchivo);
+        }
+        
+        if(empty($fileData) || $fileData["error"] !== 0) {
+            $archivo->addError('id_archivo', 'No se ha cargado un archivo/fichero');
+            return $this->end($archivo);
+        }
+        
+        if(!StringUtils::startsWith($fileData["type"], "image/")) {
+            $archivo->addError('mime', 'El archivo no es una imagen');
+            return $this->end($archivo);
+        }
+        
+        if($fileData["size"] > $maxSize) {
+            $archivo->addError('tamanio', 'No se ha cargado un archivo/fichero');
+            return $this->end($archivo);
+        }
+
+        $this->begin();
+        
+        // Buscar duplicados
+        $url = null;
+        $md5 = md5_file($fileData["tmp_name"]);
+        $duplicado = Archivo::findOne(["md5" => $md5]);
+
+        if(!isset($duplicado)) {
+            
+            // Cargar archivo
+            FirebaseFileUtils::uploadByModelFields($archivo, ['evidencia' => 'url'], "reporte_$idOrdenServicio" );
+          
+            $archivo->md5 = $md5;
+            $archivo->nombre = pathinfo($fileData["name"], PATHINFO_FILENAME);
+            $archivo->extension = pathinfo($fileData["name"], PATHINFO_EXTENSION);
+            $archivo->tamanio = $fileData["size"];
+            $archivo->mime = $fileData["type"];
+            $archivo->ubicacion_x = $ubicacionX;
+            $archivo->ubicacion_y = $ubicacionY;
+            $archivo->observacion = $observacion;
+            $archivo->ip = Yii::$app->request->remoteIP;
+            
+            if(!$archivo->save()) {
+                FirebaseManager::delete($archivo->url);
+                return $this->end($archivo);
+            }
+
+            $ordenServicioArchivo->id_archivo = $archivo->id_archivo;
+            $url = $archivo->url;
+        }
+        else {
+            $ordenServicioArchivo->id_archivo = $duplicado->id_archivo;
+            $url = $duplicado->url;
+        }
+
+        // Relacionar con la orden de servicio
+        $ordenServicioArchivo->id_orden_servicio = $idOrdenServicio;
+        $ordenServicioArchivo->id_tipo_archivo = $idTipoArchivo;
+        $ordenServicioArchivo->save();
+
+        return $this->end($ordenServicioArchivo, false, [
+            'id' => $ordenServicioArchivo->id_orden_servicio_archivo,
+            'url' => $url
+        ]);
+    }
+
+    /**
+     * API que desvincula una evidencia a una orden de servicio y la elimina
+     * @api
+     * @param idOrdenServicioArchivo - ID del servicio-archivo
+     */ 
+    public function actionOrdenesServicioEvidenciasDelete(int $idOrdenServicioArchivo) {
+
+        $ordenServicioArchivo = OrdenServicioArchivo::findOne($idOrdenServicioArchivo);
+        
+        if($ordenServicioArchivo == null) {
+            $ordenServicioArchivo = new OrdenServicioArchivo();
+            $ordenServicioArchivo->addError('id_orden_servicio_archivo', 'Actividad-Archivo inexistente');
+            return $this->end($ordenServicioArchivo);
+        }
+        
+        $archivo = $ordenServicioArchivo->archivo;
+        $ordenServicioArchivo->delete();
+
+        // El archivo es usado en otra relación
+        $eliminarArchivo = !OrdenServicioArchivo::find()->where(['id_archivo' => $archivo->id_archivo])->exists();
+
+        if($eliminarArchivo) {
+            $archivo->delete();
+            FirebaseManager::delete($archivo->url);
+        }
+
+        return $this->end($ordenServicioArchivo);
+    }
+
+    /**
+     * API que retorna las evidencias de cierto tipo de una orden de servicio
+     * @api
+     * @param Integer idOrdenServicio - ID de la orden de servicio
+     * @param Integer idTipoArchivo - ID del tipo de evidencia
+     */ 
+    public function actionOrdenesServicioEvidencias(int $idOrdenServicio, int $idTipoArchivo) {
+
+        if(OrdenServicio::findOne($idOrdenServicio) == null) {
+            $ordenServicio = new OrdenServicio();
+            $ordenServicio->addError('id_orden_servicio', 'Servicio inexistente');
+            return $this->end($ordenServicio);
+        }
+
+        if(TipoArchivo::findOne($idTipoArchivo) == null) {
+            $tipoArchivo = new TipoArchivo();
+            $tipoArchivo->addError('id_tipo_archivo', 'Tipo de archivo inexistente');
+            return $this->end($tipoArchivo);
+        }
+        
+        $searchModel = new OrdenServicioArchivoSearch();
+        $searchParams = [
+            "id_orden_servicio" => $idOrdenServicio,
+            "id_tipo_archivo" => $idTipoArchivo
+        ];
+
+        $dataProvider = $searchModel->search($searchParams, '');
+        $dataProvider->pagination = false;
+        
+        $serviciosArchivos = ArrayHelper::toArray($dataProvider->getModels(), [
+            "app\models\OrdenServicioArchivo" => [
+                "id_orden_servicio_archivo",
+                "id_orden_servicio",
+                "id_archivo",
+                "id_tipo_archivo",
+                "validado",
+                "usuario_validacion",
+                "fecha_validacion",
+                "fecha_version",
+                "usuario_version",
+                "archivo" => function($model) {
+                    return $model->archivo;
+                }
+            ]
+        ]);
+        return $this->end($serviciosArchivos);
     }
 }

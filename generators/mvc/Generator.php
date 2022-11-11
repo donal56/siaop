@@ -3,8 +3,8 @@
 namespace app\generators\mvc;
 
 use Yii;
-use app\components\Utils\ArrayUtils;
-use app\components\Utils\StringUtils;
+use app\components\utils\ArrayUtils;
+use app\components\utils\StringUtils;
 use yii\base\NotSupportedException;
 use yii\db\Connection;
 use yii\db\Schema;

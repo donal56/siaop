@@ -1,6 +1,6 @@
 <?php
 
-namespace app\components\CustomGrid;
+namespace app\components\customGrid;
 
 use yii\grid\Column;
 use yii\grid\DataColumn;

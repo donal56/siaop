@@ -112,7 +112,7 @@ class GMap {
             },
             icon: {
                 //Lista parcial de los iconos viejos: https://stackoverflow.com/questions/31197596/google-map-api-marker-icon-url
-                url: "/js/GMap/icons/" + (markerOptions.iconName == null ? (markerOptions.color || 'red') + '-dot' : markerOptions.iconName) + ".png",
+                url: "/js/gmap/icons/" + (markerOptions.iconName == null ? (markerOptions.color || 'red') + '-dot' : markerOptions.iconName) + ".png",
                 scaledSize: new google.maps.Size(markerOptions.height || 32, markerOptions.width || 32),
                 labelOrigin: new google.maps.Point((markerOptions.height || 32) / 2, (markerOptions.width || 32) + 7),
             }
@@ -319,7 +319,7 @@ class GMap {
                         currentMarker = new google.maps.Marker({
                             map: innerMap,
                             icon: {
-                               url: "/js/GMap/icons/pin.png",
+                               url: "/js/gmap/icons/pin.png",
                                size: new google.maps.Size(85, 85),
                                origin: new google.maps.Point(0, 0),
                                anchor: new google.maps.Point(17, 34),

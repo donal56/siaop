@@ -8,9 +8,9 @@ class FirebaseManager {
     // El primer bucket es el activo
     private static $buckets = [
         [
-            'bucketName' => 'digitalcenterreportes-c822f.appspot.com',
-            'keyFilePath' => 'DigitalCenterReportes-7f81cc43e1fa.json',
-            'projectId' => 'digitalcenterreportes-c822f',
+            'bucketName' => 'siaop-e20f1.appspot.com',
+            'keyFilePath' => 'siaop-e20f1-c5ef38105926.json',
+            'projectId' => 'siaop-e20f1',
         ]
     ];
     private static $urlPrefix = 'https://storage.googleapis.com/';

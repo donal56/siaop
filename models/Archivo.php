@@ -2,6 +2,8 @@
 
 namespace app\models;
 
+use app\components\validators\LatitudValidator;
+use app\components\validators\LongitudValidator;
 use Yii;
 use yii\helpers\ArrayHelper;
 use webvimark\modules\UserManagement\models\User;
@@ -10,6 +12,7 @@ use webvimark\modules\UserManagement\models\User;
  * This is the model class for table "archivos".
  *
  * @property int $id_archivo
+ * @property string $url
  * @property string $nombre
  * @property string $extension
  * @property string $mime
@@ -40,13 +43,16 @@ class Archivo extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['nombre', 'extension', 'mime', 'tamanio', 'md5', 'ip', 'ubicacion_x', 'ubicacion_y', 'fecha_carga', 'usuario_carga'], 'required'],
+            [['nombre', 'extension', 'mime', 'tamanio', 'md5', 'ip', 'url'], 'required'],
             [['tamanio', 'usuario_carga'], 'integer'],
             [['fecha_carga'], 'safe'],
             [['nombre', 'mime'], 'string', 'max' => 255],
+            [['url'], 'string', 'max' => 512],
             [['extension'], 'string', 'max' => 4],
             [['md5'], 'string', 'max' => 32],
             [['ip', 'ubicacion_x', 'ubicacion_y'], 'string', 'max' => 64],
+            ['ubicacion_x', LongitudValidator::class],
+            ['ubicacion_y', LatitudValidator::class],
             [['observacion'], 'string', 'max' => 512],
             [['md5'], 'unique'],
             [['usuario_carga'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['usuario_carga' => 'id']],
@@ -59,6 +65,7 @@ class Archivo extends \yii\db\ActiveRecord {
     public function attributeLabels() {
         return [
             'id_archivo' => 'ID',
+            'url' => 'URL',
             'nombre' => 'Nombre',
             'extension' => 'Extensión',
             'mime' => 'Mime',
@@ -93,8 +100,15 @@ class Archivo extends \yii\db\ActiveRecord {
     }
 
     public function beforeSave($insert) {
+
         $this->fecha_version = date('Y-m-d H:i:s');
         $this->usuario_version = Yii::$app->user->identity->id;
+        
+        if($insert) {
+            $this->fecha_carga = date('Y-m-d H:i:s');
+            $this->usuario_carga = Yii::$app->user->identity->id;
+        }   
+
         return parent::beforeSave($insert);
     }
 }

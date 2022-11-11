@@ -96,7 +96,7 @@ GoogleMapsAsset::register($this);
                     ],
                     [
                         'attribute' => 'usuarioJefeCuadrilla.username',
-                        'label' => 'Jefe de cuadrilla'
+                        'label' => 'Operador'
                     ],
                     [
                         'attribute' => 'usuarioClienteSolicitante.username',

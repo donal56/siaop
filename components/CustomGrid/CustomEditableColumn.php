@@ -1,5 +1,5 @@
 <?php
-    namespace app\components\CustomGrid;
+    namespace app\components\customGrid;
 
     use yii\grid\DataColumn;
     use yii\helpers\ArrayHelper;

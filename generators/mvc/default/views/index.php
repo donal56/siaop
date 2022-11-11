@@ -1,7 +1,7 @@
 <?php
 
-use app\components\Utils\ArrayUtils;
-use app\components\Utils\StringUtils;
+use app\components\utils\ArrayUtils;
+use app\components\utils\StringUtils;
 use Prophecy\Util\StringUtil;
 use yii\helpers\Inflector;
 use yii\helpers\StringHelper;

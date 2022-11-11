@@ -11,8 +11,8 @@ class FirebaseFileUtils {
      * @param Model $model - Modelo
      * @param Array $data - Arreglo con  nombres de los parametros @code $_FILES como llaves y atributos del modelo como valores
      *      Si el valor termina en '[]' se interpreta como un arreglo
+     * @param String baseFolder - Carpeta de guardado
      * @param Integer|null $index - Indice de la subida en caso de subir varios archivos
-     * @param Integer|null $index2 - Indice de la subida en caso de subir varios arreglos de archivos
      * @return Array - Arreglo con los campos y su estado (1 = Subido, 0 = Sin modificar, -1 = Eliminado)
      */
     public static function uploadByModelFields($model, $data, $baseFolder, $index = null) {
@@ -66,7 +66,7 @@ class FirebaseFileUtils {
      */
     public static function rotateTempFile($name, $grados = 0, $esPng = false) {
 
-        self::debugMode();
+        DebugUtils::debugMode();
 
         if(empty($name)) return;
         if(is_nan($grados)) return;
@@ -167,7 +167,7 @@ class FirebaseFileUtils {
         $baseFileName = '';
         $error = 0;
         $file = false;
-        $date = Utilidades::getDate("ymdHisu");
+        $date = DateUtils::getCurrentDate("ymdHisu");
 
         /**
          * Determinar información del archivo.
@@ -278,8 +278,8 @@ class FirebaseFileUtils {
                     'tempName' => $tempName,
                 ]);
                 
-                $esPng = Utilidades::endsWith($originalFileName, ".png");
-                Utilidades::rotateTempFile($tempName, intval($accion), $esPng);
+                $esPng = StringUtils::endsWith($originalFileName, ".png");
+                self::rotateTempFile($tempName, intval($accion), $esPng);
                 
                 if(!empty($ogFile->tempName)) {
                     $fileObj = fopen($ogFile->tempName, 'r');
@@ -292,9 +292,9 @@ class FirebaseFileUtils {
             return false;
         }
         else {
-            $esPng = Utilidades::endsWith($fileName, ".png");
+            $esPng = StringUtils::endsWith($fileName, ".png");
             $extension = $esPng ? "png" : "jpg";
-            Utilidades::rotateTempFile($tempName, intval($accion), $esPng);
+            self::rotateTempFile($tempName, intval($accion), $esPng);
             return FirebaseManager::upload("{$baseFolder}/{$modelName}/{$date}-{$baseFileName}.{$extension}", $file);
         }
     }

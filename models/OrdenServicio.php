@@ -110,7 +110,7 @@ class OrdenServicio extends \yii\db\ActiveRecord {
             'id_estatus' => 'Estatus',
             'id_unidad_vehicular' => 'Unidad vehicular',
             'id_pozo' => 'Pozo',
-            'usuario_jefe_cuadrilla' => 'Jefe de cuadrilla',
+            'usuario_jefe_cuadrilla' => 'Operador',
             'usuario_cliente_solicitante' => 'Cliente solicitante',
             'hora_salida' => 'Hora de salida',
             'distancia_kms' => 'Distancia (Kms)',

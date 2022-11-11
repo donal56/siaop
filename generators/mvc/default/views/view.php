@@ -1,6 +1,6 @@
 <?php
 
-use app\components\Utils\ArrayUtils;
+use app\components\utils\ArrayUtils;
 use yii\helpers\Inflector;
 use yii\helpers\StringHelper;
 

@@ -7,14 +7,15 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS archivos;
 CREATE TABLE archivos (
     id_archivo INT(11) PRIMARY KEY AUTO_INCREMENT,
+    url VARCHAR NOT NULL,
     nombre VARCHAR(255) NOT NULL,
     extension VARCHAR(4) NOT NULL,
     mime VARCHAR(255) NOT NULL,
     tamanio INT(32) NOT NULL,
     md5 VARCHAR(32) NOT NULL,
     ip VARCHAR(64) NOT NULL,
-    ubicacion_x VARCHAR(64) NOT NULL,
-    ubicacion_y VARCHAR(64) NOT NULL,
+    ubicacion_x VARCHAR(64),
+    ubicacion_y VARCHAR(64),
     observacion VARCHAR(512),
     fecha_carga TIMESTAMP(6) NOT NULL,
     usuario_carga INT(11) NOT NULL,

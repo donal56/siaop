@@ -3,7 +3,7 @@
  * This is the template for generating CRUD search class of the specified model.
  */
 
-use app\components\Utils\ArrayUtils;
+use app\components\utils\ArrayUtils;
 use yii\helpers\StringHelper;
 
 
