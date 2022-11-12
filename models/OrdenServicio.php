@@ -82,7 +82,11 @@ class OrdenServicio extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['id_tipo_orden_servicio', 'id_cliente', 'id_estatus', 'fecha', 'hora_entrada', 'origen', 'destino'], 'required'],
+            [['id_tipo_orden_servicio', 'id_cliente', 'id_estatus', 'fecha', 'hora_entrada'], 'required'],
+            
+            // TODO: Mejorar usando un escenario, esta regla debe aplicarse mientras se llame desde la api
+            [['origen', 'destino'], 'required', 'when' => fn($model) => $model->isNewRecord], 
+            
             [['id_tipo_orden_servicio', 'id_cliente', 'id_estatus', 'id_unidad_vehicular', 'id_pozo', 'usuario_jefe_cuadrilla', 'usuario_cliente_solicitante'], 'integer'],
             [['hora_salida', 'fecha', 'hora_entrada', 'fecha_hora_llegada_real', 'fecha_hora_salida_real', 'fecha_hora_inicio_trabajo', 'fecha_hora_final_trabajo'], 'safe'],
             [['combustible_aproximado_lts', 'distancia_kms'], 'number'],
@@ -306,11 +310,11 @@ class OrdenServicio extends \yii\db\ActiveRecord {
         $this->fecha_version = date('Y-m-d H:i:s');
         $this->usuario_version = Yii::$app->user->identity->id;
         $this->origen_version = ORIGEN::WEB;
-        $this->id_empresa = Yii::$app->user->identity->id_empresa;
         
         if($insert) {
             $this->fecha_captura = date('Y-m-d H:i:s');
             $this->usuario_captura = Yii::$app->user->identity->id;
+            $this->id_empresa = Yii::$app->user->identity->id_empresa;
         }
 
         return parent::beforeSave($insert);

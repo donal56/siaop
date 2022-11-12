@@ -159,6 +159,8 @@ $config = [
                 'api/ordenes-servicio/evidencias/save' => 'api/ordenes-servicio-evidencias-insert',
                 'api/ordenes-servicio/evidencias/delete/<idOrdenServicioArchivo:\d+>' => 'api/ordenes-servicio-evidencias-delete',
                 'api/ordenes-servicio/<idOrdenServicio:\d+>/evidencias/<idTipoArchivo:\d+>' => 'api/ordenes-servicio-evidencias',
+                'api/ordenes-servicio/estatus/save' => 'api/ordenes-servicio-estatus-save',
+                'api/seguimiento/save' => 'api/seguimiento-save'
             ],
         ],
         'authManager' => [

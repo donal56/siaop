@@ -395,6 +395,20 @@ CREATE TABLE rubricas_respuestas (
 ) ENGINE = InnoDB ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Estructura de la tabla <seguimientos>
+-- ----------------------------
+DROP TABLE IF EXISTS seguimientos;
+CREATE TABLE seguimientos  (
+    id_seguimiento INT(11) PRIMARY KEY AUTO_INCREMENT,
+    fecha TIMESTAMP(6) NOT NULL,
+    latitud VARCHAR(64) NOT NULL,
+    longitud VARCHAR(64) NOT NULL,
+    id_usuario int(11) NOT NULL,
+    INDEX ix_seguimiento_id_usuario(id_usuario) USING BTREE,
+    CONSTRAINT fk_seguimiento_id_usuario FOREIGN KEY(id_usuario) REFERENCES usuarios(id) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Estructura de la tabla <tipos_archivos>
 -- ----------------------------
 DROP TABLE IF EXISTS tipos_archivos;

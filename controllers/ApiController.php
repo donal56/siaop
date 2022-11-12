@@ -15,6 +15,7 @@ use app\models\OrdenServicioActividadSearch;
 use app\models\OrdenServicioArchivo;
 use app\models\OrdenServicioArchivoSearch;
 use app\models\OrdenServicioSearch;
+use app\models\Seguimiento;
 use app\models\TipoArchivo;
 use app\models\VersionApp;
 use webvimark\components\BaseController;
@@ -57,7 +58,9 @@ class ApiController extends BaseController {
                     'ordenes-servicio-actividades-delete' => ['DELETE'],
                     'ordenes-servicio-evidencias-insert' => ['POST'],
                     'ordenes-servicio-evidencias-delete' => ['DELETE'],
-                    'ordenes-servicio-evidencias' => ['GET']
+                    'ordenes-servicio-evidencias' => ['GET'],
+                    'ordenes-servicio-estatus-save' => ['PUT'],
+                    'seguimiento-save' => ['POST']
                 ]
             ]
 		];
@@ -524,5 +527,54 @@ class ApiController extends BaseController {
             ]
         ]);
         return $this->end($serviciosArchivos);
+    }
+
+    /**
+     * API que guarda el seguimiento a un usuario
+     * @api
+     */  
+    public function actionSeguimientoSave() {
+        $this->begin();
+        $seguimiento = new Seguimiento();
+        $seguimiento->load(Yii::$app->request->getBodyParams(), '');
+        $seguimiento->insert();
+        return $this->end($seguimiento);
+    }
+
+    /**
+     * API que actualiza el estatus de una orden de servicio
+     * @api
+     */  
+    public function actionOrdenesServicioEstatusSave() {
+
+        // Parámetros
+        $idOrdenServicio = Yii::$app->request->getBodyParam("id_orden_servicio");
+        $idEstatus = Yii::$app->request->getBodyParam("id_estatus");
+
+        // Validaciones
+        if(empty($idOrdenServicio)) {
+            $ordenServicio = new OrdenServicio();
+            $ordenServicio->addError('id_orden_servicio', 'Párametro requerido');
+            return $this->end($ordenServicio);
+        }
+        
+        if(empty($idEstatus)) {
+            $ordenServicio = new OrdenServicio();
+            $ordenServicio->addError('id_estatus', 'Párametro requerido');
+            return $this->end($ordenServicio);
+        }
+
+        $ordenServicio = OrdenServicio::findOne($idOrdenServicio);
+
+        
+        if($ordenServicio == null) {
+            $ordenServicio = new OrdenServicio();
+            $ordenServicio->addError('id_orden_servicio', 'Servicio inexistente');
+            return $this->end($ordenServicio);
+        }
+        $this->begin();
+        $ordenServicio->id_estatus = $idEstatus;
+        $ordenServicio->save();
+        return $this->end($ordenServicio);
     }
 }
