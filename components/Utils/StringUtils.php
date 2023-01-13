@@ -1,5 +1,5 @@
 <?php 
-namespace app\components\Utils;
+namespace app\components\utils;
 
 class StringUtils {
 

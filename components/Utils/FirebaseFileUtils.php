@@ -1,5 +1,5 @@
 <?php 
-namespace app\components\Utils;
+namespace app\components\utils;
 
 use app\components\FirebaseManager;
 use yii\web\UploadedFile;
